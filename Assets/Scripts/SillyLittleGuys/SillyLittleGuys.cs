@@ -28,7 +28,7 @@ public class SillyLittleGuys : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        state = States.FOLLOW;
+        state = States.IDLE;
         slgManager = GameObject.FindObjectOfType<SLGManager>();
         slgManager.AddSLG(this);
     }
@@ -59,6 +59,18 @@ public class SillyLittleGuys : MonoBehaviour
         }
     }
 
+    public States GetState()
+    {
+        return state;
+    }
+
+    // --- IDLE State --- 
+
+    public void EnterIdleState()
+    {
+        state = States.IDLE;
+    }
+
     public void UpdateIdleState()
     {
         // Listen for whistle
@@ -66,9 +78,34 @@ public class SillyLittleGuys : MonoBehaviour
         // Look for something to carry
     }
 
+    public void ExitIdleState()
+    {
+
+    }
+
+    // --- FOLLOW State --- 
+
+    public void EnterFollowState()
+    {
+        state = States.FOLLOW;
+    }
+
     public void UpdateFollowState()
     {
         agent.SetDestination(target.transform.position);
+    }
+
+
+    public void ExitFollowState()
+    {
+
+    }
+
+    // --- HELD State --- 
+
+    public void EnterHeldState()
+    {
+
     }
 
     public void UpdateHeldState()
@@ -79,13 +116,49 @@ public class SillyLittleGuys : MonoBehaviour
         // Go to thrown
     }
 
+    public void ExitHeldState()
+    {
+
+    }
+
+    // --- THROWN State --- 
+
+    public void EnterThrownState()
+    {
+
+    }
+
     public void UpdateThrownState()
     {
         // Move to cursor point
         // Go back to idle
     }
 
+    public void ExitThrownState()
+    {
+
+    }
+
+    // --- ATTACK State --- 
+
+    public void EnterAttackState()
+    {
+
+    }
+
     public void UpdateAttackState()
+    {
+
+    }
+
+    public void ExitAttackState()
+    {
+
+    }
+
+    // --- CARRY State --- 
+
+    public void EnterCarryState()
     {
 
     }
@@ -95,23 +168,15 @@ public class SillyLittleGuys : MonoBehaviour
 
     }
 
-    public void EnterFollowState()
+    public void ExitCarryState()
     {
 
     }
 
-    public void ExitFollowState()
+    // --- Command Calls ---
+
+    public void OnWhistleCall()
     {
-
-    }
-
-    public void EnterIdleState()
-    {
-
-    }
-
-    public void ExitIdleState()
-    {
-
+        EnterFollowState();
     }
 }

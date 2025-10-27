@@ -7,10 +7,9 @@ public class SLGManager : MonoBehaviour
 
     public List<SillyLittleGuys> SLGList;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        SLGList = new List<SillyLittleGuys>();    
+        SLGList = new List<SillyLittleGuys>();
     }
 
     public void AddSLG(SillyLittleGuys slg)
