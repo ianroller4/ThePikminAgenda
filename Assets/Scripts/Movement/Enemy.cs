@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
@@ -16,13 +17,21 @@ public class Enemy : MonoBehaviour
 
     private EnemyState currentState;
 
-    // --- Component References ---
+    private NavMeshAgent agent;
+
+    // --- References ---
     private Rigidbody2D rigid;
+    private Transform player;
+    [SerializeField]
+    private GameObject target;
+
 
     // --- Variables ---
     private Vector3 startPos;
     private Vector3 targetPos;
-    private float speed;
+    private float speed = 1f;
+    [SerializeField]
+    private float chaseDistance = 1f;
 
     // --- Timers ---
     private float idleTimer = 0f;
@@ -30,7 +39,17 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        if(player == null)
+        {
+            Debug.LogWarning("player is NULL");
+        }
+
         rigid = GetComponent<Rigidbody2D>();
+
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
 
         startPos = transform.position;
 
@@ -66,6 +85,8 @@ public class Enemy : MonoBehaviour
                 Dead();
                 break;
         }
+
+        Debug.Log(currentState);
     }
 
     private void Idle()
@@ -89,8 +110,18 @@ public class Enemy : MonoBehaviour
             targetPos = startPos;
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * 1f);
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * speed);
         idleTimer -= Time.deltaTime;
+
+        // check if the player is closed enough to chase
+        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+
+        if (distanceToPlayer <= chaseDistance)
+        {
+            currentState = EnemyState.Chase;
+        }
+
+        Debug.Log("Distance to Player: " + distanceToPlayer);
     }
 
     private void Sleep()
@@ -105,7 +136,7 @@ public class Enemy : MonoBehaviour
 
     private void Chase()
     {
-
+        agent.SetDestination(target.transform.position);
     }
 
     private void Attack()
