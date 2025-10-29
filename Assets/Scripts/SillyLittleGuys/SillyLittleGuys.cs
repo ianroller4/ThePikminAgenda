@@ -5,11 +5,15 @@ using UnityEngine.AI;
 
 public class SillyLittleGuys : MonoBehaviour
 {
-    public GameObject target;
-
     private NavMeshAgent agent;
 
     private SLGManager slgManager;
+
+    public Vector3 moveToTarget;
+
+    private Vector3 thrownTarget;
+
+    private GameObject player;
 
     public enum States
     {
@@ -17,6 +21,7 @@ public class SillyLittleGuys : MonoBehaviour
         FOLLOW,
         HELD,
         THROWN,
+        DISMISS,
         ATTACK,
         CARRY
     }
@@ -28,9 +33,12 @@ public class SillyLittleGuys : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        agent.enabled = true;
         state = States.IDLE;
         slgManager = GameObject.FindObjectOfType<SLGManager>();
         slgManager.AddSLG(this);
+        moveToTarget = transform.position;
+        player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -49,6 +57,9 @@ public class SillyLittleGuys : MonoBehaviour
                 break;
             case States.THROWN:
                 UpdateThrownState();
+                break;
+            case States.DISMISS:
+                UpdateDismissState();
                 break;
             case States.ATTACK:
                 UpdateAttackState();
@@ -69,6 +80,7 @@ public class SillyLittleGuys : MonoBehaviour
     public void EnterIdleState()
     {
         state = States.IDLE;
+        Debug.Log("In Idle State");
     }
 
     public void UpdateIdleState()
@@ -88,11 +100,12 @@ public class SillyLittleGuys : MonoBehaviour
     public void EnterFollowState()
     {
         state = States.FOLLOW;
+        slgManager.AddFollowingSLG(this);
     }
 
     public void UpdateFollowState()
     {
-        agent.SetDestination(target.transform.position);
+        agent.SetDestination(moveToTarget);
     }
 
 
@@ -105,45 +118,77 @@ public class SillyLittleGuys : MonoBehaviour
 
     public void EnterHeldState()
     {
-
+        state = States.HELD;
+        slgManager.RemoveFollowingSLG(this);
     }
 
     public void UpdateHeldState()
     {
-        // Disable collision
-        // Disable movement
-        // Move to point close to player
-        // Go to thrown
+        GetComponent<Collider2D>().enabled = false;
+        agent.enabled = false;
+        transform.position = player.transform.position + Vector3.right;
     }
 
     public void ExitHeldState()
     {
-
+        state = States.FOLLOW;
+        GetComponent<Collider2D>().enabled = true;
+        agent.enabled = true;
+        slgManager.AddFollowingSLG(this);
     }
 
     // --- THROWN State --- 
 
-    public void EnterThrownState()
+    public void EnterThrownState(Vector3 target)
     {
-
+        state = States.THROWN;
+        thrownTarget = target;
     }
 
     public void UpdateThrownState()
     {
-        // Move to cursor point
-        // Go back to idle
+        // Add throw movement
+        transform.position = thrownTarget;
+        if (transform.position == thrownTarget)
+        {
+            ExitThrownState();
+        }
     }
 
     public void ExitThrownState()
     {
+        state = States.IDLE;
+        agent.enabled = true;
+        GetComponent<Collider2D>().enabled = true;
+    }
 
+    // --- DISMISS State ---
+
+    public void EnterDismissState(Vector3 dismissSpot)
+    {
+        state = States.DISMISS;
+        moveToTarget = dismissSpot;
+        agent.SetDestination(moveToTarget);
+    }
+
+    public void UpdateDismissState()
+    {
+        if (transform.position == moveToTarget)
+        {
+            ExitDismissState();
+        }
+    }
+
+    public void ExitDismissState()
+    {
+        state = States.IDLE;
     }
 
     // --- ATTACK State --- 
 
     public void EnterAttackState()
     {
-
+        state = States.ATTACK;
     }
 
     public void UpdateAttackState()
@@ -153,14 +198,14 @@ public class SillyLittleGuys : MonoBehaviour
 
     public void ExitAttackState()
     {
-
+        state = States.IDLE;
     }
 
     // --- CARRY State --- 
 
     public void EnterCarryState()
     {
-
+        state = States.CARRY;
     }
 
     public void UpdateCarryState()
@@ -170,7 +215,7 @@ public class SillyLittleGuys : MonoBehaviour
 
     public void ExitCarryState()
     {
-
+        state = States.IDLE;
     }
 
     // --- Command Calls ---
@@ -178,5 +223,10 @@ public class SillyLittleGuys : MonoBehaviour
     public void OnWhistleCall()
     {
         EnterFollowState();
+    }
+
+    public void Dismiss(Vector3 target)
+    {
+        
     }
 }
