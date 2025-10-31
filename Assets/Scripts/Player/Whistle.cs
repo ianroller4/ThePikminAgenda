@@ -13,14 +13,14 @@ public class Whistle : MonoBehaviour
     private float currentWhistleRadius;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         slgManager = GameObject.FindObjectOfType<SLGManager>();
         currentWhistleRadius = whistleRadiusStart;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         UpdatePosition();
         ListenForInput();
