@@ -101,7 +101,9 @@ public class Enemy : MonoBehaviour
 
             Vector2 randomDir = Random.insideUnitCircle.normalized;
 
-            targetPos = transform.position + (Vector3)(randomDir * 0.5f);
+            float randomDist = Random.Range(0.5f, 2f);
+
+            targetPos = transform.position + (Vector3)(randomDir * randomDist);
 
             idleTimer = Random.Range(1f, 2f);
         }
@@ -110,7 +112,8 @@ public class Enemy : MonoBehaviour
             targetPos = startPos;
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * speed);
+        float randomSpeed = Random.Range(0.5f, 2f);
+        transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * randomSpeed);
         idleTimer -= Time.deltaTime;
 
         // check if the player is closed enough to chase
