@@ -30,7 +30,11 @@ public class Enemy : MonoBehaviour
     private Vector3 startPos;
     private Vector3 targetPos;
     [SerializeField]
+    private float detectRadius = 2f;
+    [SerializeField]
     private float chaseDistance = 4f;
+    [SerializeField]
+    private float returnSpeed = 3f;
     private bool isReturning = false;
     private bool isOnAttackCooldown = false;
     private Color originalColor;
@@ -103,7 +107,7 @@ public class Enemy : MonoBehaviour
 
     private void Idle()
     {
-        // Search SLGs to chase.
+        // Search SLGs to chase
         GameObject SLG = searchSLG();
 
         if (SLG != null)
@@ -113,7 +117,7 @@ public class Enemy : MonoBehaviour
             currentState = EnemyState.Chase;
         }
 
-
+        // setting the random movement (the direction and the movement distance)
         if (idleTimer <= 0f && !isReturning)
         {
             targetPos = transform.position;
@@ -143,13 +147,15 @@ public class Enemy : MonoBehaviour
 
         if (!isReturning)
         {
+            // apply the random movement
             float randomSpeed = Random.Range(0.5f, 2f);
             transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * randomSpeed);
             idleTimer -= Time.deltaTime;
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, startPos, Time.deltaTime * 3f);
+            // return to the start position.
+            transform.position = Vector3.MoveTowards(transform.position, startPos, Time.deltaTime * returnSpeed);
         }
         
     }
@@ -237,7 +243,6 @@ public class Enemy : MonoBehaviour
 
     private GameObject searchSLG()
     {
-        float detectRadius = 2f;
         Vector2 currentPos = transform.position;
         int layerMask = 1 << LayerMask.NameToLayer("SLG");
 
