@@ -21,32 +21,32 @@ public class Enemy : MonoBehaviour
 
     // --- References ---
     private Rigidbody2D rigid;
-    private Transform player;
     [SerializeField]
     private GameObject target;
-
+    [SerializeField]
+    private SpriteRenderer sr;
 
     // --- Variables ---
     private Vector3 startPos;
     private Vector3 targetPos;
-    private float speed = 1f;
     [SerializeField]
-    private float chaseDistance = 1f;
+    private float chaseDistance = 4f;
+    private bool isReturning = false;
+    private bool isOnAttackCooldown = false;
+    private Color originalColor;
+    private float targetUpdateInterval = 0.5f;
 
     // --- Timers ---
     private float idleTimer = 0f;
+    private float targetUpdateTimer = 0f;
+    private float returnTimer = 0f;
+    private float attackTimer = 0f;
+    private float attackCooldownTimer = 0f;
 
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        if(player == null)
-        {
-            Debug.LogWarning("player is NULL");
-        }
-
         rigid = GetComponent<Rigidbody2D>();
-
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -54,6 +54,8 @@ public class Enemy : MonoBehaviour
         startPos = transform.position;
 
         currentState = EnemyState.Idle;
+
+        originalColor = Color.gray;
     }
 
     // Update is called once per frame
@@ -86,17 +88,34 @@ public class Enemy : MonoBehaviour
                 break;
         }
 
+        if(isOnAttackCooldown)
+        {
+            attackCooldownTimer += Time.deltaTime;
+
+            if(attackCooldownTimer >= 2f)
+            {
+                isOnAttackCooldown = false;
+            }
+        }
+
         Debug.Log(currentState);
     }
 
     private void Idle()
-    { 
-        float dist = Vector2.Distance(transform.position, startPos);
+    {
+        // Search SLGs to chase.
+        GameObject SLG = searchSLG();
 
-        // limit the monster's movement range to within 50 units
-        if (dist < 50 && idleTimer <= 0f)
+        if (SLG != null)
         {
+            Debug.Log("Closest SLG: " + SLG.name);
+            target = SLG;
+            currentState = EnemyState.Chase;
+        }
 
+
+        if (idleTimer <= 0f && !isReturning)
+        {
             targetPos = transform.position;
 
             Vector2 randomDir = Random.insideUnitCircle.normalized;
@@ -105,26 +124,34 @@ public class Enemy : MonoBehaviour
 
             targetPos = transform.position + (Vector3)(randomDir * randomDist);
 
-            idleTimer = Random.Range(1f, 2f);
+            idleTimer = Random.Range(3f, 6f);
         }
-        else if(dist >= 50)
+
+        if (isReturning)
         {
-            targetPos = startPos;
+            float dist = Vector2.Distance(transform.position, startPos);
+
+            if (dist < 1f)
+            {
+                returnTimer += Time.deltaTime;
+                if (returnTimer >= 2f)
+                {
+                    isReturning = false;
+                }
+            }
         }
 
-        float randomSpeed = Random.Range(0.5f, 2f);
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * randomSpeed);
-        idleTimer -= Time.deltaTime;
-
-        // check if the player is closed enough to chase
-        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
-
-        if (distanceToPlayer <= chaseDistance)
+        if (!isReturning)
         {
-            currentState = EnemyState.Chase;
+            float randomSpeed = Random.Range(0.5f, 2f);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * randomSpeed);
+            idleTimer -= Time.deltaTime;
         }
-
-        Debug.Log("Distance to Player: " + distanceToPlayer);
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, startPos, Time.deltaTime * 3f);
+        }
+        
     }
 
     private void Sleep()
@@ -139,12 +166,68 @@ public class Enemy : MonoBehaviour
 
     private void Chase()
     {
+        targetUpdateTimer += Time.deltaTime;
+
+        if (targetUpdateTimer >= targetUpdateInterval)
+        {
+            targetUpdateTimer = 0f;
+
+            GameObject SLG = searchSLG();
+
+            if (SLG != null)
+            {
+                Debug.Log("Closest SLG: " + SLG.name);
+                target = SLG;
+            }
+        }
+
+        sr.color = Color.green;
+
         agent.SetDestination(target.transform.position);
+
+        float dist = Vector2.Distance(transform.position, target.transform.position);
+
+        // stop moving if any SLGs gets within 0.8units
+        if (dist < 0.8f)
+        {
+            agent.isStopped = true;
+            if (!isOnAttackCooldown)
+            {
+                currentState = EnemyState.Attack;
+            }
+        }
+        else
+        {
+            agent.isStopped = false;
+        }
+
+        if (dist > chaseDistance)
+        {
+            target = null;
+            currentState = EnemyState.Idle;
+            agent.ResetPath();
+            isReturning = true;
+            returnTimer = 0f;
+            sr.color = originalColor;
+        }
     }
 
     private void Attack()
-    {
+    { 
+        attackTimer += Time.deltaTime;
+        sr.color = Color.yellow;
 
+        // attack time 0.5secs
+        if (attackTimer >= 0.5f)
+        {
+            attackTimer = 0f;
+            target = null;
+            agent.ResetPath();
+            currentState = EnemyState.Idle;
+            sr.color = originalColor;
+            isOnAttackCooldown = true;
+            attackCooldownTimer = 0f;
+        }
     }
 
     private void Dead()
@@ -152,4 +235,29 @@ public class Enemy : MonoBehaviour
 
     }
 
+    private GameObject searchSLG()
+    {
+        float detectRadius = 2f;
+        Vector2 currentPos = transform.position;
+        int layerMask = 1 << LayerMask.NameToLayer("SLG");
+
+        Collider2D[] cols = Physics2D.OverlapCircleAll(currentPos, detectRadius, layerMask);
+
+        GameObject closest = null;
+        float minDist = 999f;
+
+        for (int i = 0; i < cols.Length; i++)
+        {
+            Collider2D col = cols[i];
+
+            float dist = Vector2.Distance(currentPos, col.transform.position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                closest = col.gameObject;
+            }
+        }
+
+        return closest;
+    }
 }
