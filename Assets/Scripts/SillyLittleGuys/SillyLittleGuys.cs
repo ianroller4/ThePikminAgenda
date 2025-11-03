@@ -7,7 +7,10 @@ public class SillyLittleGuys : MonoBehaviour
 {
     private NavMeshAgent agent;
 
+    // --- Managers ---
     private SLGManager slgManager;
+    private CarryObjectManager coManager;
+    private EnemyManager enemyManager;
 
     public Vector3 moveToTarget;
 
@@ -34,8 +37,12 @@ public class SillyLittleGuys : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.enabled = true;
-        state = States.IDLE;
+        EnterIdleState();
+
         slgManager = GameObject.FindObjectOfType<SLGManager>();
+        coManager = GameObject.FindObjectOfType<CarryObjectManager>();
+        enemyManager = GameObject.FindObjectOfType<EnemyManager>();
+
         slgManager.AddSLG(this);
         moveToTarget = transform.position;
         player = GameObject.Find("Player");
@@ -80,7 +87,6 @@ public class SillyLittleGuys : MonoBehaviour
     public void EnterIdleState()
     {
         state = States.IDLE;
-        Debug.Log("In Idle State");
     }
 
     public void UpdateIdleState()
