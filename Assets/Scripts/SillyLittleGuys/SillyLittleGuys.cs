@@ -18,6 +18,10 @@ public class SillyLittleGuys : MonoBehaviour
 
     private GameObject player;
 
+    public float idleSearchRange = 2;
+
+    private CarryableObject carryObject = null;
+
     public enum States
     {
         IDLE,
@@ -91,9 +95,26 @@ public class SillyLittleGuys : MonoBehaviour
 
     public void UpdateIdleState()
     {
-        // Listen for whistle
         // Look for something to attack
+        for (int i = 0; i < enemyManager.enemies.Count; i++)
+        {
+            if (Vector3.Distance(transform.position, enemyManager.enemies[i].transform.position) < idleSearchRange)
+            {
+
+            }
+        }
         // Look for something to carry
+        for (int i = 0; i < coManager.carryObjects.Count; i++)
+        {
+            if (Vector3.Distance(transform.position, coManager.carryObjects[i].transform.position) < idleSearchRange)
+            {
+                coManager.carryObjects[i].AddCarrier(this);
+                carryObject = coManager.carryObjects[i];
+                EnterCarryState();
+                Debug.Log("I will Carry this!");
+                break;
+            }
+        }
     }
 
     public void ExitIdleState()
@@ -216,7 +237,7 @@ public class SillyLittleGuys : MonoBehaviour
 
     public void UpdateCarryState()
     {
-
+        agent.SetDestination(moveToTarget);
     }
 
     public void ExitCarryState()
@@ -228,6 +249,11 @@ public class SillyLittleGuys : MonoBehaviour
 
     public void OnWhistleCall()
     {
+        if (carryObject != null)
+        {
+            carryObject.RemoveCarrier(this);
+            carryObject = null;
+        }
         EnterFollowState();
     }
 
