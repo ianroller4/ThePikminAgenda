@@ -10,6 +10,7 @@ public class CarryableObject : MonoBehaviour
 {
     // --- Reference Variables ---
     private SLGManager slgManager;
+    private CarryObjectManager coManager;
     private NavMeshAgent agent;
 
     // --- Variables ---
@@ -20,24 +21,40 @@ public class CarryableObject : MonoBehaviour
 
     private bool canMove = false;
 
+    private List<Vector3> carryPositions;
+
     // Start is called before the first frame update
     private void Start()
     {
         slgManager = GameObject.FindObjectOfType<SLGManager>();
+        coManager = GameObject.FindObjectOfType<CarryObjectManager>();
+        coManager.carryObjects.Add(this);
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.enabled = false;
 
         carriers = new List<SillyLittleGuys>();
+        carryPositions = new List<Vector3>();
     }
 
     private void Update()
     {
+        BuildCarryPositions();
+        AssignCarryPositions();
         HasEnoughCarriers();
         if (canMove)
         {
             agent.SetDestination(target);
+            if (ReachedTarget())
+            {
+                Debug.Log("Reached target");
+                for (int i = 0; i < carriers.Count; i++)
+                {
+                    carriers[i].EnterIdleState();
+                }
+                carriers.Clear();
+            }
         }
     }
 
@@ -59,12 +76,19 @@ public class CarryableObject : MonoBehaviour
 
     public bool ReachedTarget()
     {
-        return transform.position == target;
+        bool result = false;
+        if (Vector3.Distance(transform.position, target) == 0)
+        {
+            result = true;
+        }
+        Debug.Log("Reached target: " + result);
+        Debug.Log("Distance to target: " + Vector3.Distance(transform.position, target));
+        return result;
     }
 
     public void HasEnoughCarriers()
     {
-        if (carriers.Count > slgNeededForCarry)
+        if (carriers.Count >= slgNeededForCarry)
         {
             canMove = true;
             agent.enabled = true;
@@ -78,11 +102,31 @@ public class CarryableObject : MonoBehaviour
 
     private void AssignCarryPositions()
     {
-        
+        for (int i = 0; i < carriers.Count; i++)
+        {
+            carriers[i].moveToTarget = carryPositions[i];
+        }
     }
 
     private void BuildCarryPositions()
     {
+        carryPositions.Clear();
 
+        float angle;
+        Vector3 dir;
+        Vector3 position;
+
+        for (int i = 0; i < slgCarriersMax; i++)
+        {
+            angle = i * (360f / slgCarriersMax);
+            dir = ApplyRotationToVector(Vector3.right, angle);
+            position = transform.position + dir;
+            carryPositions.Add(position);
+        }
+    }
+
+    private Vector3 ApplyRotationToVector(Vector3 v, float angle)
+    {
+        return Quaternion.Euler(0, 0, angle) * v;
     }
 }
