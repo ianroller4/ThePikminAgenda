@@ -3068,6 +3068,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4147491609298266772, guid: 4ab5fbc4d95adb84caf9d31f6ec54a5e, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147491609298266772, guid: 4ab5fbc4d95adb84caf9d31f6ec54a5e, type: 3}
+      propertyPath: AttackHitboxPrefab
+      value: 
+      objectReference: {fileID: 2835671219922042496, guid: c76387e42b5248d4abfa39ba747abd4f, type: 3}
     - target: {fileID: 6990656836481202058, guid: 4ab5fbc4d95adb84caf9d31f6ec54a5e, type: 3}
       propertyPath: m_Name
       value: Enemy

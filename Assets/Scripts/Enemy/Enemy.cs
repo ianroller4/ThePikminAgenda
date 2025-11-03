@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
     private GameObject target;
     [SerializeField]
     private SpriteRenderer sr;
+    [SerializeField]
+    private GameObject AttackHitboxPrefab;
 
     // --- Variables ---
     private Vector3 startPos;
@@ -207,7 +209,9 @@ public class Enemy : MonoBehaviour
             agent.isStopped = false;
         }
 
-        if (dist > chaseDistance)
+        float distFromStart = Vector2.Distance(transform.position, startPos);
+
+        if (dist > chaseDistance || distFromStart >= 5f)
         {
             target = null;
             currentState = EnemyState.Idle;
@@ -223,6 +227,8 @@ public class Enemy : MonoBehaviour
         attackTimer += Time.deltaTime;
         sr.color = Color.yellow;
 
+        //GameObject go = Instantiate(AttackHitboxPrefab, , Quaternion.identity);
+
         // attack time 0.5secs
         if (attackTimer >= 0.5f)
         {
@@ -233,6 +239,7 @@ public class Enemy : MonoBehaviour
             sr.color = originalColor;
             isOnAttackCooldown = true;
             attackCooldownTimer = 0f;
+            //Destroy(go);
         }
     }
 
