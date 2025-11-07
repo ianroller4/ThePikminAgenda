@@ -34,7 +34,11 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float detectRadius = 2f;
     [SerializeField]
-    private float chaseDistance = 4f;
+    [Tooltip("The maximum distance between the enemy and the SLG before the enemy stops chasing.")]
+    private float chaseStopDistance = 4f;
+    [SerializeField]
+    [Tooltip("If the enemy moves farther than this distance from its start position, it will return.")]
+    private float maxLeashDistance = 5f;
     [SerializeField]
     private float returnSpeed = 3f;
     private bool isReturning = false;
@@ -109,14 +113,17 @@ public class Enemy : MonoBehaviour
 
     private void Idle()
     {
-        // Search SLGs to chase
-        GameObject SLG = searchSLG();
-
-        if (SLG != null)
+        if (!isReturning)
         {
-            Debug.Log("Closest SLG: " + SLG.name);
-            target = SLG;
-            currentState = EnemyState.Chase;
+            // Search SLGs to chase
+            GameObject SLG = searchSLG();
+
+            if (SLG != null)
+            {
+                Debug.Log("Closest SLG: " + SLG.name);
+                target = SLG;
+                currentState = EnemyState.Chase;
+            }
         }
 
         // setting the random movement (the direction and the movement distance)
@@ -211,7 +218,7 @@ public class Enemy : MonoBehaviour
 
         float distFromStart = Vector2.Distance(transform.position, startPos);
 
-        if (dist > chaseDistance || distFromStart >= 5f)
+        if (dist > chaseStopDistance || distFromStart >= maxLeashDistance)
         {
             target = null;
             currentState = EnemyState.Idle;
@@ -224,13 +231,20 @@ public class Enemy : MonoBehaviour
 
     private void Attack()
     { 
-        attackTimer += Time.deltaTime;
+        
         sr.color = Color.yellow;
 
-        //GameObject go = Instantiate(AttackHitboxPrefab, , Quaternion.identity);
+        if (attackTimer == 0f && target != null)
+        {
+            Vector3 attackPos = target.transform.position;
 
-        // attack time 0.5secs
-        if (attackTimer >= 0.5f)
+            Instantiate(AttackHitboxPrefab, attackPos, Quaternion.identity);
+        }
+
+        attackTimer += Time.deltaTime;
+
+        // attack time 0.2secs
+        if (attackTimer >= 0.2f)
         {
             attackTimer = 0f;
             target = null;
@@ -239,7 +253,7 @@ public class Enemy : MonoBehaviour
             sr.color = originalColor;
             isOnAttackCooldown = true;
             attackCooldownTimer = 0f;
-            //Destroy(go);
+
         }
     }
 
