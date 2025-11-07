@@ -77,7 +77,7 @@ public class CarryableObject : MonoBehaviour
     public bool ReachedTarget()
     {
         bool result = false;
-        if (Vector3.Distance(transform.position, target) == 0)
+        if (Vector3.Distance(transform.position, target) < 0.6)
         {
             result = true;
         }
