@@ -41,6 +41,8 @@ public class Enemy : MonoBehaviour
     private float maxLeashDistance = 5f;
     [SerializeField]
     private float returnSpeed = 3f;
+    [SerializeField]
+    private float attackRange = 1f;
     private bool isReturning = false;
     private bool isOnAttackCooldown = false;
     private Color originalColor;
@@ -202,8 +204,8 @@ public class Enemy : MonoBehaviour
 
         float dist = Vector2.Distance(transform.position, target.transform.position);
 
-        // stop moving if any SLGs gets within 0.8units
-        if (dist < 0.8f)
+        // stop moving if any SLGs gets within Attack range
+        if (dist < attackRange)
         {
             agent.isStopped = true;
             if (!isOnAttackCooldown)
