@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 6519171125787290306}
   - component: {fileID: 5428665875868516620}
   - component: {fileID: 9121214928536914980}
+  - component: {fileID: -9155858503195892301}
   m_Layer: 6
   m_Name: SillyLittleGuy
   m_TagString: Untagged
@@ -218,3 +219,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveToTarget: {x: 0, y: 0, z: 0}
   state: 0
+--- !u!114 &-9155858503195892301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658478146284457526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d88ff83ef5c3104f83c4566ecd8616d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHP: 0
+  maxHP: 1
