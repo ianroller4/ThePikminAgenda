@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackHitbox : MonoBehaviour
+public class SLGAttackHitbox : MonoBehaviour
 {
     [SerializeField]
     private float damage = 1f;
@@ -15,7 +15,7 @@ public class AttackHitbox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.layer == LayerMask.NameToLayer("SLG"))
+        if (col.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             col.gameObject.GetComponent<Health>().TakeDamage(damage);
             Debug.Log(col.name + " hit!");
