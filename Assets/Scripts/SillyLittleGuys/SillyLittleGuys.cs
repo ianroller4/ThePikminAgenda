@@ -268,6 +268,7 @@ public class SillyLittleGuys : MonoBehaviour
         }
         else
         {
+            agent.isStopped = false;
             state = States.IDLE;
         }
     }
