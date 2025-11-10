@@ -92,6 +92,7 @@ public class CarryableObject : MonoBehaviour
         {
             canMove = true;
             agent.enabled = true;
+            agent.speed = Mathf.Lerp(1, 2, (carriers.Count - slgNeededForCarry) / (slgCarriersMax - slgNeededForCarry));
         }
         else
         {
@@ -115,18 +116,31 @@ public class CarryableObject : MonoBehaviour
         float angle;
         Vector3 dir;
         Vector3 position;
-
-        for (int i = 0; i < slgCarriersMax; i++)
+        if (carriers.Count > 0)
         {
-            angle = i * (360f / slgCarriersMax);
-            dir = ApplyRotationToVector(Vector3.right, angle);
-            position = transform.position + dir;
-            carryPositions.Add(position);
+            for (int i = 0; i < slgCarriersMax; i++)
+            {
+                angle = i * (360f / carriers.Count);
+                dir = ApplyRotationToVector(Vector3.right, angle);
+                position = transform.position + dir * transform.localScale.x;
+                carryPositions.Add(position);
+            }
         }
     }
 
     private Vector3 ApplyRotationToVector(Vector3 v, float angle)
     {
         return Quaternion.Euler(0, 0, angle) * v;
+    }
+
+    public void Destroy()
+    {
+        for (int i = 0; i < carriers.Count; i++)
+        {
+            carriers[i].EnterIdleState();
+        }
+        carriers.Clear();
+        coManager.RemoveObject(this);
+        Destroy(gameObject);
     }
 }
