@@ -22,7 +22,7 @@ public class SimpleCameraFollow : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
         // Cache the location of the object to follow by accessing its Transform Component
         followObjectLocation = followThisObject.transform.position;
