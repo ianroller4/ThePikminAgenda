@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class SillyLittleGuys : MonoBehaviour
 {
@@ -12,6 +13,19 @@ public class SillyLittleGuys : MonoBehaviour
     private CarryObjectManager coManager;
     private EnemyManager enemyManager;
 
+    [SerializeField]
+    private GameObject AttackHitboxPrefab;
+
+    [SerializeField]
+    private float attackRange = 1f;
+
+    [SerializeField]
+    private float attackCooldown = 2f;
+
+    private float originalCooldown;
+
+    private bool isOnAttackCooldown = false;
+
     public Vector3 moveToTarget;
 
     private Vector3 thrownTarget;
@@ -21,6 +35,8 @@ public class SillyLittleGuys : MonoBehaviour
     public float idleSearchRange = 2;
 
     private CarryableObject carryObject = null;
+
+    private Enemy targetEnemy;
 
     public enum States
     {
@@ -50,6 +66,8 @@ public class SillyLittleGuys : MonoBehaviour
         slgManager.AddSLG(this);
         moveToTarget = transform.position;
         player = GameObject.Find("Player");
+
+        originalCooldown = attackCooldown;
     }
 
     // Update is called once per frame
@@ -100,7 +118,8 @@ public class SillyLittleGuys : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, enemyManager.enemies[i].transform.position) < idleSearchRange)
             {
-
+                targetEnemy = enemyManager.enemies[i];
+                EnterAttackState();
             }
         }
         // Look for something to carry
@@ -220,7 +239,37 @@ public class SillyLittleGuys : MonoBehaviour
 
     public void UpdateAttackState()
     {
+        if (targetEnemy != null)
+        {
+            if (!isOnAttackCooldown)
+            {
+                if (Vector3.Distance(transform.position, targetEnemy.transform.position) <= attackRange)
+                {
+                    isOnAttackCooldown = true;
+                    agent.isStopped = true;
+                    attackCooldown = originalCooldown;
+                    Instantiate(AttackHitboxPrefab, targetEnemy.transform.position, Quaternion.identity);
 
+                }
+                else
+                {
+                    agent.isStopped = false;
+                    agent.SetDestination(targetEnemy.transform.position);
+                }
+            }
+            else
+            {
+                attackCooldown -= Time.deltaTime;
+                if (attackCooldown < 0)
+                {
+                    isOnAttackCooldown = false;
+                }
+            }
+        }
+        else
+        {
+            state = States.IDLE;
+        }
     }
 
     public void ExitAttackState()
@@ -249,6 +298,11 @@ public class SillyLittleGuys : MonoBehaviour
 
     public void OnWhistleCall()
     {
+        if(state == States.ATTACK)
+        {
+            agent.isStopped = false;
+        }
+
         if (carryObject != null)
         {
             carryObject.RemoveCarrier(this);
@@ -261,4 +315,5 @@ public class SillyLittleGuys : MonoBehaviour
     {
         
     }
+
 }

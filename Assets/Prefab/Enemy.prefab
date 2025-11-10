@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 2392738867500967577}
   - component: {fileID: 4147491609298266772}
   - component: {fileID: 8478129400221037383}
-  m_Layer: 0
+  - component: {fileID: -6628561718188171093}
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +85,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   sr: {fileID: 1142236747940940495}
-  chaseDistance: 4
+  AttackHitboxPrefab: {fileID: 0}
+  detectRadius: 2
+  chaseStopDistance: 4
+  maxLeashDistance: 5
+  returnSpeed: 3
+  attackRange: 1
 --- !u!195 &8478129400221037383
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -107,6 +113,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-6628561718188171093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6990656836481202058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d88ff83ef5c3104f83c4566ecd8616d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHP: 0
+  maxHP: 100
 --- !u!1 &8391558939202087989
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,7 +137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2672285879561609335}
   - component: {fileID: 1142236747940940495}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Art
   m_TagString: Untagged
   m_Icon: {fileID: 0}

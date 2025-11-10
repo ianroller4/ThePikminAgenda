@@ -9,11 +9,18 @@ public class Health : MonoBehaviour
     private float currentHP = 0f; // current HP
     [SerializeField]
     private float maxHP = 100f; // Maximum HP
+    private EnemyManager enemyManager;
+    private SLGManager slgManager;
+
 
     // initialize references and set current HP to max
     void Start()
     {
         currentHP = maxHP;
+
+        enemyManager = GameObject.FindObjectOfType<EnemyManager>();
+        slgManager = GameObject.FindObjectOfType<SLGManager>();
+
     }
 
     public bool TakeDamage(float damage)
@@ -34,6 +41,19 @@ public class Health : MonoBehaviour
 
     private void DeathFromDamage()
     {
-        Debug.Log(gameObject.name + "is dead");
+        if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            Enemy enemy = gameObject.GetComponent<Enemy>();
+            enemyManager.RemoveEnemy(enemy);
+            Destroy(gameObject);
+            Debug.Log(gameObject.name + "is dead");
+        }
+        else if (gameObject.layer == LayerMask.NameToLayer("SLG"))
+        {
+            SillyLittleGuys slg = gameObject.GetComponent<SillyLittleGuys>();
+            slgManager.RemoveSLG(slg);
+            Destroy(gameObject);
+            Debug.Log(gameObject.name + "is dead");
+        }
     }
 }

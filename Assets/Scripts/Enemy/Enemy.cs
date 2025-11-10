@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer sr;
     [SerializeField]
     private GameObject AttackHitboxPrefab;
+    private EnemyManager enemyManager;
 
     // --- Variables ---
     private Vector3 startPos;
@@ -62,6 +63,10 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+
+        enemyManager = GameObject.FindObjectOfType<EnemyManager>();
+
+        enemyManager.AddEnemy(this);
 
         startPos = transform.position;
 
@@ -255,7 +260,6 @@ public class Enemy : MonoBehaviour
             sr.color = originalColor;
             isOnAttackCooldown = true;
             attackCooldownTimer = 0f;
-
         }
     }
 
