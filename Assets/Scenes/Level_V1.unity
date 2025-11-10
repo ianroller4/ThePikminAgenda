@@ -130,6 +130,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 941205248296202417, guid: a2d0dd391b278884c9dff36a94e78d48, type: 3}
+      propertyPath: m_Text
+      value: "To Crush\n      2"
+      objectReference: {fileID: 0}
     - target: {fileID: 5577397461448853178, guid: a2d0dd391b278884c9dff36a94e78d48, type: 3}
       propertyPath: m_Name
       value: Weight
@@ -10259,6 +10263,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SLGHome
       objectReference: {fileID: 0}
+    - target: {fileID: 8371498819751679375, guid: c3c81e5bd9e471043bda2317f2638dae, type: 3}
+      propertyPath: slgPrefab
+      value: 
+      objectReference: {fileID: 7658478146284457526, guid: c2ddee446faac57459a79e14c8bb8ebc, type: 3}
+    - target: {fileID: 8371498819751679375, guid: c3c81e5bd9e471043bda2317f2638dae, type: 3}
+      propertyPath: spawnCooldown
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10491,6 +10503,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 941205248296202417, guid: a2d0dd391b278884c9dff36a94e78d48, type: 3}
+      propertyPath: m_Text
+      value: "To Crush\n      10"
+      objectReference: {fileID: 0}
     - target: {fileID: 5577397461448853178, guid: a2d0dd391b278884c9dff36a94e78d48, type: 3}
       propertyPath: m_Name
       value: Weight (1)
@@ -10600,13 +10616,18 @@ MonoBehaviour:
   - 0.75
   - 1.5
   - 2.25
-  followPositionsInRings: 050000000a00000014000000
+  - 3
+  - 3.75
+  followPositionsInRings: 050000000a000000140000002800000050000000
   dismissPositions: []
   dismissRingRadii:
   - 0.5
   - 1
   - 1.5
-  dismissPositionsInRings: 050000000a00000014000000
+  - 2
+  - 2.5
+  - 3
+  dismissPositionsInRings: 050000000a000000140000001e0000002800000032000000
 --- !u!1 &1102681424
 GameObject:
   m_ObjectHideFlags: 0
@@ -30981,6 +31002,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 941205248296202417, guid: a2d0dd391b278884c9dff36a94e78d48, type: 3}
+      propertyPath: m_Text
+      value: "To Crush\n      5"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099915802864842096, guid: a2d0dd391b278884c9dff36a94e78d48, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.157
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099915802864842096, guid: a2d0dd391b278884c9dff36a94e78d48, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.284
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099915802864842096, guid: a2d0dd391b278884c9dff36a94e78d48, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099915802864842096, guid: a2d0dd391b278884c9dff36a94e78d48, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4099915802864842096, guid: a2d0dd391b278884c9dff36a94e78d48, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
     - target: {fileID: 5577397461448853178, guid: a2d0dd391b278884c9dff36a94e78d48, type: 3}
       propertyPath: m_Name
       value: Weight (2)

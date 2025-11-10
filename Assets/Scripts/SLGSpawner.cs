@@ -13,7 +13,7 @@ public class SLGSpawner : MonoBehaviour
     private bool canSpawn = false;
 
     private float timer = 0f;
-    public float spawnCooldown = 2f;
+    public float spawnCooldown = 1f;
 
     private void Update()
     {
