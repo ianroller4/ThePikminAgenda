@@ -85,7 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   sr: {fileID: 1142236747940940495}
-  AttackHitboxPrefab: {fileID: 0}
+  AttackHitboxPrefab: {fileID: 2835671219922042496, guid: c76387e42b5248d4abfa39ba747abd4f, type: 3}
   detectRadius: 2
   chaseStopDistance: 4
   maxLeashDistance: 5
