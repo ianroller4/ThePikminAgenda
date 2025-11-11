@@ -50,9 +50,16 @@ public class SillyLittleGuys : MonoBehaviour
     }
     public States state;
 
+    // --- Animator ---
+    private Animator animator;
+    private Vector3 lastDir = Vector3.zero;
+    private Vector3 currentDir = Vector3.zero;
+    private Vector3 prevPosition = Vector3.zero;
+
     // Start is called before the first frame update
     private void Start()
     {
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -68,6 +75,7 @@ public class SillyLittleGuys : MonoBehaviour
         player = GameObject.Find("Player");
 
         originalCooldown = attackCooldown;
+        prevPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -109,6 +117,10 @@ public class SillyLittleGuys : MonoBehaviour
     public void EnterIdleState()
     {
         state = States.IDLE;
+        animator.SetBool("idle", true);
+        animator.SetBool("attack", false);
+        animator.SetFloat("x", lastDir.x);
+        animator.SetFloat("y", lastDir.y);
     }
 
     public void UpdateIdleState()
@@ -120,6 +132,7 @@ public class SillyLittleGuys : MonoBehaviour
             {
                 targetEnemy = enemyManager.enemies[i];
                 EnterAttackState();
+                break;
             }
         }
         // Look for something to carry
@@ -130,15 +143,9 @@ public class SillyLittleGuys : MonoBehaviour
                 coManager.carryObjects[i].AddCarrier(this);
                 carryObject = coManager.carryObjects[i];
                 EnterCarryState();
-                Debug.Log("I will Carry this!");
                 break;
             }
         }
-    }
-
-    public void ExitIdleState()
-    {
-
     }
 
     // --- FOLLOW State --- 
@@ -147,17 +154,25 @@ public class SillyLittleGuys : MonoBehaviour
     {
         state = States.FOLLOW;
         slgManager.AddFollowingSLG(this);
+        animator.SetBool("attack", false);
     }
 
     public void UpdateFollowState()
     {
         agent.SetDestination(moveToTarget);
-    }
-
-
-    public void ExitFollowState()
-    {
-
+        bool result = UpdateDirVector();
+        if (result)
+        {
+            animator.SetBool("idle", false);
+            animator.SetFloat("x", currentDir.x);
+            animator.SetFloat("y", currentDir.y);
+        }
+        else
+        {
+            animator.SetBool("idle", true);
+            animator.SetFloat("x", lastDir.x);
+            animator.SetFloat("y", lastDir.y);
+        }
     }
 
     // --- HELD State --- 
@@ -215,19 +230,28 @@ public class SillyLittleGuys : MonoBehaviour
         state = States.DISMISS;
         moveToTarget = dismissSpot;
         agent.SetDestination(moveToTarget);
+        animator.SetBool("idle", false);
     }
 
     public void UpdateDismissState()
     {
-        if (transform.position == moveToTarget)
+        if (Vector3.Distance(moveToTarget, transform.position) < 0.2)
         {
+            Debug.Log("Ended dismiss");
             ExitDismissState();
+            animator.SetBool("idle", true);
+        }
+        else
+        {
+            UpdateDirVector();
+            animator.SetFloat("x", currentDir.x);
+            animator.SetFloat("y", currentDir.y);
         }
     }
 
     public void ExitDismissState()
     {
-        state = States.IDLE;
+        EnterIdleState();
     }
 
     // --- ATTACK State --- 
@@ -235,6 +259,8 @@ public class SillyLittleGuys : MonoBehaviour
     public void EnterAttackState()
     {
         state = States.ATTACK;
+        slgManager.RemoveFollowingSLG(this);
+        animator.SetBool("idle", false);
     }
 
     public void UpdateAttackState()
@@ -245,14 +271,21 @@ public class SillyLittleGuys : MonoBehaviour
             {
                 if (Vector3.Distance(transform.position, targetEnemy.transform.position) <= attackRange)
                 {
+                    animator.SetBool("attack", true);
+                    Vector3 attackDir = targetEnemy.transform.position - transform.position;
+                    animator.SetFloat("x", attackDir.x);
+                    animator.SetFloat("y", attackDir.y);
                     isOnAttackCooldown = true;
                     agent.isStopped = true;
                     attackCooldown = originalCooldown;
                     Instantiate(AttackHitboxPrefab, targetEnemy.transform.position, Quaternion.identity);
-
                 }
                 else
                 {
+                    animator.SetBool("attack", false);
+                    UpdateDirVector();
+                    animator.SetFloat("x", currentDir.x);
+                    animator.SetFloat("y", currentDir.y);
                     agent.isStopped = false;
                     agent.SetDestination(targetEnemy.transform.position);
                 }
@@ -269,7 +302,8 @@ public class SillyLittleGuys : MonoBehaviour
         else
         {
             agent.isStopped = false;
-            state = States.IDLE;
+            EnterIdleState();
+            Debug.Log("Exiting Attack");
         }
     }
 
@@ -311,10 +345,16 @@ public class SillyLittleGuys : MonoBehaviour
         }
         EnterFollowState();
     }
-
-    public void Dismiss(Vector3 target)
+    private bool UpdateDirVector()
     {
-        
+        bool result = false;
+        if (transform.position.x != prevPosition.x || transform.position.y != prevPosition.y)
+        {
+            currentDir = (transform.position - prevPosition).normalized;
+            lastDir = currentDir;
+            prevPosition = transform.position;
+            result = true;
+        }
+        return result;
     }
-
 }
