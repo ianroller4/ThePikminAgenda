@@ -64,7 +64,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &6519171125787290306
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -134,10 +134,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b22d72377b8834dbdfcf9051b5703b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveToTarget: {x: 0, y: 0, z: 0}
   AttackHitboxPrefab: {fileID: 2835671219922042496, guid: 2989366685b216b4d89132ddb84f6468, type: 3}
   attackRange: 1
   attackCooldown: 2
-  moveToTarget: {x: 0, y: 0, z: 0}
   idleSearchRange: 2
   state: 0
 --- !u!114 &-9155858503195892301
