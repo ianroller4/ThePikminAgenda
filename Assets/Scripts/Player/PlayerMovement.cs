@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* PlayerMovement
+ * 
+ * Controls the player movement
+ * 
+ */
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
@@ -16,25 +21,52 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private Vector2 lastDir = Vector2.zero;
 
-    // Start is called before the first frame update
+    /* Start
+     * 
+     * Called once before the first frame of update
+     * 
+     * Parameters: None
+     * 
+     * Return: None
+     * 
+     */
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
+    /* Update
+     * 
+     * Called once per frame
+     * 
+     * Parameters: None
+     * 
+     * Return: None
+     * 
+     */
     void Update()
     {
         ListenForInput();
         Move();
     }
 
+    /* ListenForInput
+     * 
+     * Listens for keyboard input from the player and based on input animates the character
+     * 
+     * Parameters: None
+     * 
+     * Return: None
+     * 
+     */
     private void ListenForInput()
     {
+        // Get input
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
         input = input.normalized;
+        // Player moving so move animation
         if (input != Vector2.zero)
         {
             animator.SetBool("idle", false);
@@ -42,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("x", input.x);
             animator.SetFloat("y", input.y);
         }
-        else
+        else // Player not moving so idle animation
         {
             animator.SetBool("idle", true);
             animator.SetFloat("x", lastDir.x);
@@ -50,6 +82,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /* Move
+     * 
+     * Moves the player by changing the velocity of the rigidbody based on input and speed
+     * 
+     * Parameters: None
+     * 
+     * Return: None
+     * 
+     */
     private void Move()
     {
         rb.velocity = input * speed;
