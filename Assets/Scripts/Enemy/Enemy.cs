@@ -24,8 +24,6 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject target;
     [SerializeField]
-    private SpriteRenderer sr;
-    [SerializeField]
     private GameObject AttackHitboxPrefab;
     private EnemyManager enemyManager;
 
@@ -46,7 +44,6 @@ public class Enemy : MonoBehaviour
     private float attackRange = 1f;
     private bool isReturning = false;
     private bool isOnAttackCooldown = false;
-    private Color originalColor;
     private float targetUpdateInterval = 0.5f;
 
     // --- Timers ---
@@ -56,6 +53,11 @@ public class Enemy : MonoBehaviour
     private float attackTimer = 0f;
     private float attackCooldownTimer = 0f;
 
+    // --- Animation ---
+    private Animator animator;
+    private Vector3 lastDir = Vector3.zero;
+    private Vector3 currDir = Vector3.zero;
+    private Vector3 prevPosition;
 
     void Start()
     {
@@ -72,7 +74,8 @@ public class Enemy : MonoBehaviour
 
         currentState = EnemyState.Idle;
 
-        originalColor = Color.gray;
+        animator = GetComponent<Animator>();
+        prevPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -167,11 +170,23 @@ public class Enemy : MonoBehaviour
             float randomSpeed = Random.Range(0.5f, 2f);
             transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * randomSpeed);
             idleTimer -= Time.deltaTime;
+            UpdateDirVectors();
+            animator.SetBool("attack", false);
+            animator.SetBool("idle", false);
+            animator.SetBool("move", true);
+            animator.SetFloat("x", currDir.x);
+            animator.SetFloat("y", currDir.y);
         }
         else
         {
             // return to the start position.
             transform.position = Vector3.MoveTowards(transform.position, startPos, Time.deltaTime * returnSpeed);
+            UpdateDirVectors();
+            animator.SetBool("attack", false);
+            animator.SetBool("idle", false);
+            animator.SetBool("move", true);
+            animator.SetFloat("x", currDir.x);
+            animator.SetFloat("y", currDir.y);
         }
         
     }
@@ -203,9 +218,13 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        sr.color = Color.green;
-
         agent.SetDestination(target.transform.position);
+        UpdateDirVectors();
+        animator.SetBool("attack", false);
+        animator.SetBool("idle", false);
+        animator.SetBool("move", true);
+        animator.SetFloat("x", currDir.x);
+        animator.SetFloat("y", currDir.y);
 
         float dist = Vector2.Distance(transform.position, target.transform.position);
 
@@ -232,14 +251,16 @@ public class Enemy : MonoBehaviour
             agent.ResetPath();
             isReturning = true;
             returnTimer = 0f;
-            sr.color = originalColor;
         }
     }
 
     private void Attack()
     { 
-        
-        sr.color = Color.yellow;
+        Vector3 attackDir = target.transform.position - transform.position;
+        animator.SetBool("attack", true);
+        animator.SetBool("idle", false);
+        animator.SetFloat("x", attackDir.x);
+        animator.SetFloat("y", attackDir.y);
 
         if (attackTimer == 0f && target != null)
         {
@@ -257,7 +278,6 @@ public class Enemy : MonoBehaviour
             target = null;
             agent.ResetPath();
             currentState = EnemyState.Idle;
-            sr.color = originalColor;
             isOnAttackCooldown = true;
             attackCooldownTimer = 0f;
         }
@@ -291,5 +311,18 @@ public class Enemy : MonoBehaviour
         }
 
         return closest;
+    }
+
+    private bool UpdateDirVectors()
+    {
+        bool result = false;
+        if (transform.position != prevPosition)
+        {
+            currDir = (transform.position - prevPosition).normalized;
+            lastDir = currDir;
+            prevPosition = transform.position;
+            result = true;
+        }
+        return result;
     }
 }

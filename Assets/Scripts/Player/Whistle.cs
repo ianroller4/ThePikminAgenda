@@ -17,6 +17,13 @@ public class Whistle : MonoBehaviour
     public float whistleRadiusMax = 2.5f;
     private float currentWhistleRadius;
 
+    public GameObject outerCircle;
+    public GameObject innerCircle;
+
+    private int baseRotationSpeed = 20;
+    private int fastRotationSpeed = 60;
+    private int rotationSpeed;
+
     /* Start
      * 
      * Called once before the first frame of update
@@ -30,6 +37,7 @@ public class Whistle : MonoBehaviour
     {
         slgManager = GameObject.FindObjectOfType<SLGManager>();
         currentWhistleRadius = whistleRadiusStart;
+        rotationSpeed = baseRotationSpeed;
     }
 
     /* Update
@@ -46,6 +54,7 @@ public class Whistle : MonoBehaviour
         UpdatePosition();
         ListenForInput();
         WhistleForSLG();
+        Rotate();
     }
 
     /* UpdatePosition
@@ -106,11 +115,20 @@ public class Whistle : MonoBehaviour
                     slg.OnWhistleCall();
                 }
             }
+            rotationSpeed = fastRotationSpeed;
         }
         else
         {
             currentWhistleRadius = whistleRadiusStart;
             transform.localScale = new Vector3(currentWhistleRadius * 2, currentWhistleRadius * 2, 1);
+            rotationSpeed = baseRotationSpeed;
         }
+    }
+
+    private void Rotate()
+    {
+        Vector3 rotate = new Vector3(0, 0, rotationSpeed * Time.deltaTime);
+        outerCircle.transform.Rotate(rotate);
+        innerCircle.transform.Rotate(-rotate);
     }
 }
