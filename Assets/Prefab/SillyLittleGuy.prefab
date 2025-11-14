@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHP: 0
-  maxHP: 20
+  maxHP: 10
   deathEffectPrefab: {fileID: 8844045522599308070, guid: 421c5ed117b9f4b4db3ebc19d863b3dc, type: 3}
 --- !u!114 &-8006131881593797963
 MonoBehaviour:
