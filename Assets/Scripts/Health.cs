@@ -46,6 +46,8 @@ public class Health : MonoBehaviour
         if (gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             Enemy enemy = gameObject.GetComponent<Enemy>();
+            GameObject deathFX = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(deathFX, 2.3f);
             enemyManager.RemoveEnemy(enemy);
             Destroy(gameObject);
             Debug.Log(gameObject.name + "is dead");
@@ -63,6 +65,7 @@ public class Health : MonoBehaviour
             Destroy(deathFX,1.5f);
 
             slgManager.RemoveSLG(slg);
+            slgManager.RemoveFollowingSLG(slg);
             Destroy(gameObject);
             Debug.Log(gameObject.name + "is dead");
 
