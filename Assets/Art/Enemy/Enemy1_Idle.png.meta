@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7eea4933bb24f9b4d9fca3364bf05a60
+guid: ca7baac4b676eb44aa566eb1a1001d49
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,11 +93,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Enemy1_WalkFront1
+      name: Enemy1_IdleFront1
       rect:
         serializedVersion: 2
         x: 0
@@ -105,20 +118,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ffec457a5a704bd47aee320f1b8dad22
-      internalID: 223845908
+      spriteID: ec061e570e8bace41bd1abbc26351438
+      internalID: -1285194367
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkFront2
+      name: Enemy1_IdleFront2
       rect:
         serializedVersion: 2
         x: 32
@@ -126,20 +139,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4a19f96db172d74bafa620e6a9316c7
-      internalID: 426761291
+      spriteID: fb0cdaba5e31a0347a92bb4c2d52b8f8
+      internalID: 1271310199
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkFront3
+      name: Enemy1_IdleFront3
       rect:
         serializedVersion: 2
         x: 64
@@ -147,20 +160,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 725dfb4b91bcd9944bc4f3bd1b5fa58f
-      internalID: 1136113735
+      spriteID: ff3c0708aa8866241bc1f0cc0c573633
+      internalID: -976084124
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkFront4
+      name: Enemy1_IdleFront4
       rect:
         serializedVersion: 2
         x: 96
@@ -168,20 +181,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9d06fc14a9af5048ba3595eaab113de
-      internalID: -967540441
+      spriteID: 8d582f04db455a6449fbd1f7e2f7cd83
+      internalID: -1028724929
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkFront5
+      name: Enemy1_IdleFront5
       rect:
         serializedVersion: 2
         x: 128
@@ -189,20 +202,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f0f9f3f533d437e47a53d5492c4d18db
-      internalID: 892733545
+      spriteID: 282294ac340aeda4c8bbb62f348c8087
+      internalID: -1195605578
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkFront6
+      name: Enemy1_IdleFront6
       rect:
         serializedVersion: 2
         x: 160
@@ -210,20 +223,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5265ab6b49730b74b98e171c494c1c1d
-      internalID: 1603420150
+      spriteID: ada6cb7a8bcb12f4cb2424cf453a7afc
+      internalID: 1971279058
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkFront7
+      name: Enemy1_IdleFront7
       rect:
         serializedVersion: 2
         x: 192
@@ -231,83 +244,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aad837d3160732f4093ece48582f6946
-      internalID: 1351768718
+      spriteID: 41008c6dec264eb44991526c04eeb416
+      internalID: -649087842
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkFront8
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 96
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7ef875a129fc8e74eabdeba24e7c1d91
-      internalID: 25920283
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy1_WalkFront9
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 96
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3fc726706ec4fd24a80e4e4b62e652c0
-      internalID: 1305182637
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy1_WalkFront10
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 96
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b60a1536317bfc3458f5492b16999793
-      internalID: -203543212
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy1_WalkBack1
+      name: Enemy1_IdleBack1
       rect:
         serializedVersion: 2
         x: 0
@@ -315,20 +265,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b91fa8d3900a4345ac3e346dbb9cfdc
-      internalID: -1269333756
+      spriteID: 4124af0d8990184488fbc23abe8794af
+      internalID: -632595969
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkBack2
+      name: Enemy1_IdleBack2
       rect:
         serializedVersion: 2
         x: 32
@@ -336,20 +286,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3c7e15ad3a4b5c46b0a6cd53a7cdd56
-      internalID: 920091116
+      spriteID: e26a992636c1c164984c78dbd1939df9
+      internalID: -1681269435
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkBack3
+      name: Enemy1_IdleBack3
       rect:
         serializedVersion: 2
         x: 64
@@ -357,20 +307,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea3cdc23fec9d374eb4e32eb32b3dd1c
-      internalID: 600734908
+      spriteID: 0cb1c607a134a7147846f126f28f86a6
+      internalID: -1840803778
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkBack4
+      name: Enemy1_IdleBack4
       rect:
         serializedVersion: 2
         x: 96
@@ -378,20 +328,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec60a1db11f72664080b56205f26ec0e
-      internalID: 1206649482
+      spriteID: dabf384d65f95dd49a8c79e8e97bdf36
+      internalID: 1385470956
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkBack5
+      name: Enemy1_IdleBack5
       rect:
         serializedVersion: 2
         x: 128
@@ -399,20 +349,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c1b868374303aba4eae833a0424ef9eb
-      internalID: -679044102
+      spriteID: 273b8583ea68d834f9e469e6db124a59
+      internalID: 315778098
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkBack6
+      name: Enemy1_IdleBack6
       rect:
         serializedVersion: 2
         x: 160
@@ -420,20 +370,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e2708e0b5cee3544bb27d6b4a753a36b
-      internalID: 37612454
+      spriteID: 85c36bfb32b3ede41b0f6c5c8efe175e
+      internalID: -860954050
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkBack7
+      name: Enemy1_IdleBack7
       rect:
         serializedVersion: 2
         x: 192
@@ -441,83 +391,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ddf39a4d6b7d47e418c20195523ab30f
-      internalID: -1736455425
+      spriteID: a3b00f372da1feb44a3f82d88971a6c3
+      internalID: -2004321876
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkBack8
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b22d79bab3acf604186daed3a1145dcc
-      internalID: -1114732069
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy1_WalkBack9
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0373d6007eb1fbd4aaeea08276907da0
-      internalID: -1160300694
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy1_WalkBack10
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e06f4b8caf85f6e449c8f4ea9ad035af
-      internalID: -112223743
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy1_WalkLeft1
+      name: Enemy1_IdleLeft1
       rect:
         serializedVersion: 2
         x: 0
@@ -525,20 +412,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 306b16dbb7377e54db99aee44496dfb2
-      internalID: 1982580377
+      spriteID: ec237ab85bfb2d747b0933979d5e792b
+      internalID: 91171657
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkLeft2
+      name: Enemy1_IdleLeft2
       rect:
         serializedVersion: 2
         x: 32
@@ -546,20 +433,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a51879fbd0c240f499950e7a272c1c47
-      internalID: 588199152
+      spriteID: 66b6a14902e2f804e98feb95a11f86d4
+      internalID: 435544850
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkLeft3
+      name: Enemy1_IdleLeft3
       rect:
         serializedVersion: 2
         x: 64
@@ -567,20 +454,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b039b4c886ba00f4b8159b4bd5468372
-      internalID: -509152979
+      spriteID: f46a1d2a86f8c634a8af9816f79fdc3e
+      internalID: 1746920798
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkLeft4
+      name: Enemy1_IdleLeft4
       rect:
         serializedVersion: 2
         x: 96
@@ -588,20 +475,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3fce8881221d1f54bbbaa8902396c8eb
-      internalID: 875304176
+      spriteID: d30b94616b498b24e90f6d30b16724e3
+      internalID: 240915906
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkLeft5
+      name: Enemy1_IdleLeft5
       rect:
         serializedVersion: 2
         x: 128
@@ -609,20 +496,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 53931321d8dbcc64dbbc609b037f09b3
-      internalID: 1861293773
+      spriteID: 28fc1c9abaf1174459719fe3cfe1ff47
+      internalID: -885936972
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkLeft6
+      name: Enemy1_IdleLeft6
       rect:
         serializedVersion: 2
         x: 160
@@ -630,20 +517,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c81f0072c1035c645842a1331d2619ad
-      internalID: -1818430832
+      spriteID: 9259b7c71d99aa24ea91622bf8340084
+      internalID: 1633054365
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkLeft7
+      name: Enemy1_IdleLeft7
       rect:
         serializedVersion: 2
         x: 192
@@ -651,83 +538,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 57a6a26299533ad44bdd60f210a5a832
-      internalID: -890644915
+      spriteID: 73f4700e8fd409644971be0d21752221
+      internalID: 1791252149
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkLeft8
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 988d558e5982a3941acd577d88325ada
-      internalID: -2143788603
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy1_WalkLeft9
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 47f4f502377f16e4aaacafb00d5b0437
-      internalID: 1136301277
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy1_WalkLeft10
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 75dc00f999454c445b2b6b84468ba1d3
-      internalID: -145324649
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy1_WalkRight1
+      name: Enemy1_IdleRight1
       rect:
         serializedVersion: 2
         x: 0
@@ -735,20 +559,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 707f00db427b3af43afc1706e1126334
-      internalID: -433855090
+      spriteID: d05464cc16f41d14cb204ab6e6befb51
+      internalID: 1472933226
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkRight2
+      name: Enemy1_IdleRight2
       rect:
         serializedVersion: 2
         x: 32
@@ -756,20 +580,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6c87b4a41a3883847b27db0c16bedf51
-      internalID: -666525019
+      spriteID: b41d85a9e0166ac4a8f8944165b65c4a
+      internalID: 958932557
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkRight3
+      name: Enemy1_IdleRight3
       rect:
         serializedVersion: 2
         x: 64
@@ -777,20 +601,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7f355bcfc441e454184c6213429269c0
-      internalID: 2061550582
+      spriteID: ead17083d9342bd4b9adf2f854628afc
+      internalID: 951684481
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkRight4
+      name: Enemy1_IdleRight4
       rect:
         serializedVersion: 2
         x: 96
@@ -798,20 +622,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0128bca6df8f5da45a6e1844b66f993f
-      internalID: 202334743
+      spriteID: 8f8e1ad27a0aab744b712f2e94e7bc0e
+      internalID: -1980412270
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkRight5
+      name: Enemy1_IdleRight5
       rect:
         serializedVersion: 2
         x: 128
@@ -819,20 +643,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d55e2a4b1a6d504da3f18efe19b8812
-      internalID: -337149757
+      spriteID: 2fae1cd52e3d39445a6831b00b1a7eba
+      internalID: -1487969159
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkRight6
+      name: Enemy1_IdleRight6
       rect:
         serializedVersion: 2
         x: 160
@@ -840,20 +664,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02b5d5dfeb4fa994ebfe6556ee03cd1c
-      internalID: 145321782
+      spriteID: 43194aba310ecc749b3b344e56855dea
+      internalID: 1732387759
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy1_WalkRight7
+      name: Enemy1_IdleRight7
       rect:
         serializedVersion: 2
         x: 192
@@ -861,77 +685,14 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69354c35a64ae1948ab88bf10e331499
-      internalID: -1714932292
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy1_WalkRight8
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d7d75a871f926674983e7db160efba5c
-      internalID: -1366657013
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy1_WalkRight9
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d2dc31fb6f7a41f48ba3bbd96b0815a2
-      internalID: 2117176761
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy1_WalkRight10
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e298b0c86ce6f6244990a058b36f49b3
-      internalID: -2120525361
+      spriteID: 96ca9d63cb01bcb46b1e613b99e30d6c
+      internalID: 539099166
       vertices: []
       indices: 
       edges: []
@@ -947,46 +708,34 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Enemy1_WalkBack1: -1269333756
-      Enemy1_WalkBack10: -112223743
-      Enemy1_WalkBack2: 920091116
-      Enemy1_WalkBack3: 600734908
-      Enemy1_WalkBack4: 1206649482
-      Enemy1_WalkBack5: -679044102
-      Enemy1_WalkBack6: 37612454
-      Enemy1_WalkBack7: -1736455425
-      Enemy1_WalkBack8: -1114732069
-      Enemy1_WalkBack9: -1160300694
-      Enemy1_WalkFront1: 223845908
-      Enemy1_WalkFront10: -203543212
-      Enemy1_WalkFront2: 426761291
-      Enemy1_WalkFront3: 1136113735
-      Enemy1_WalkFront4: -967540441
-      Enemy1_WalkFront5: 892733545
-      Enemy1_WalkFront6: 1603420150
-      Enemy1_WalkFront7: 1351768718
-      Enemy1_WalkFront8: 25920283
-      Enemy1_WalkFront9: 1305182637
-      Enemy1_WalkLeft1: 1982580377
-      Enemy1_WalkLeft10: -145324649
-      Enemy1_WalkLeft2: 588199152
-      Enemy1_WalkLeft3: -509152979
-      Enemy1_WalkLeft4: 875304176
-      Enemy1_WalkLeft5: 1861293773
-      Enemy1_WalkLeft6: -1818430832
-      Enemy1_WalkLeft7: -890644915
-      Enemy1_WalkLeft8: -2143788603
-      Enemy1_WalkLeft9: 1136301277
-      Enemy1_WalkRight1: -433855090
-      Enemy1_WalkRight10: -2120525361
-      Enemy1_WalkRight2: -666525019
-      Enemy1_WalkRight3: 2061550582
-      Enemy1_WalkRight4: 202334743
-      Enemy1_WalkRight5: -337149757
-      Enemy1_WalkRight6: 145321782
-      Enemy1_WalkRight7: -1714932292
-      Enemy1_WalkRight8: -1366657013
-      Enemy1_WalkRight9: 2117176761
+      Enemy1_IdleBack1: -632595969
+      Enemy1_IdleBack2: -1681269435
+      Enemy1_IdleBack3: -1840803778
+      Enemy1_IdleBack4: 1385470956
+      Enemy1_IdleBack5: 315778098
+      Enemy1_IdleBack6: -860954050
+      Enemy1_IdleBack7: -2004321876
+      Enemy1_IdleFront1: -1285194367
+      Enemy1_IdleFront2: 1271310199
+      Enemy1_IdleFront3: -976084124
+      Enemy1_IdleFront4: -1028724929
+      Enemy1_IdleFront5: -1195605578
+      Enemy1_IdleFront6: 1971279058
+      Enemy1_IdleFront7: -649087842
+      Enemy1_IdleLeft1: 91171657
+      Enemy1_IdleLeft2: 435544850
+      Enemy1_IdleLeft3: 1746920798
+      Enemy1_IdleLeft4: 240915906
+      Enemy1_IdleLeft5: -885936972
+      Enemy1_IdleLeft6: 1633054365
+      Enemy1_IdleLeft7: 1791252149
+      Enemy1_IdleRight1: 1472933226
+      Enemy1_IdleRight2: 958932557
+      Enemy1_IdleRight3: 951684481
+      Enemy1_IdleRight4: -1980412270
+      Enemy1_IdleRight5: -1487969159
+      Enemy1_IdleRight6: 1732387759
+      Enemy1_IdleRight7: 539099166
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

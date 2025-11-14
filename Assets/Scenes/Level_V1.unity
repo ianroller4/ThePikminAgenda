@@ -130,6 +130,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6628561718188171093, guid: 4ab5fbc4d95adb84caf9d31f6ec54a5e, type: 3}
+      propertyPath: deathEffectPrefab
+      value: 
+      objectReference: {fileID: 7114705447371042515, guid: dddbfb514e7bc974caa9c7f0bf718269, type: 3}
     - target: {fileID: 2909760922092488897, guid: 4ab5fbc4d95adb84caf9d31f6ec54a5e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.2
