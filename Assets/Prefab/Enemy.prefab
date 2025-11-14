@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2909760922092488897}
   - component: {fileID: 4147491609298266772}
-  - component: {fileID: 8478129400221037383}
-  - component: {fileID: 5050499213982288751}
   - component: {fileID: -6628561718188171093}
+  - component: {fileID: 5050499213982288751}
+  - component: {fileID: 8478129400221037383}
   - component: {fileID: 4506808165109333005}
   - component: {fileID: 1810147453486614907}
   - component: {fileID: 5907081777625067058}
@@ -58,6 +58,35 @@ MonoBehaviour:
   chaseStopDistance: 4
   maxLeashDistance: 5
   attackRange: 1
+--- !u!114 &-6628561718188171093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6990656836481202058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d88ff83ef5c3104f83c4566ecd8616d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHP: 0
+  maxHP: 100
+  deathEffectPrefab: {fileID: 7114705447371042515, guid: dddbfb514e7bc974caa9c7f0bf718269, type: 3}
+--- !u!114 &5050499213982288751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6990656836481202058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eab92b23d646a94580fcb8c747c4be5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yOffset: -0.47
+  sortingActive: 1
 --- !u!195 &8478129400221037383
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -80,35 +109,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5050499213982288751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6990656836481202058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eab92b23d646a94580fcb8c747c4be5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  yOffset: -0.47
-  sortingActive: 1
---- !u!114 &-6628561718188171093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6990656836481202058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d88ff83ef5c3104f83c4566ecd8616d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentHP: 0
-  maxHP: 100
-  deathEffectPrefab: {fileID: 0}
 --- !u!95 &4506808165109333005
 Animator:
   serializedVersion: 5

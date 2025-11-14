@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2286071560638519074}
   - component: {fileID: 6941774186398198008}
   - component: {fileID: 4240704638491562072}
+  - component: {fileID: -5220159288402300849}
   m_Layer: 0
   m_Name: EnemyDeathPrefab
   m_TagString: Untagged
@@ -106,3 +107,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-5220159288402300849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7114705447371042515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eab92b23d646a94580fcb8c747c4be5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yOffset: -0.47
+  sortingActive: 1
