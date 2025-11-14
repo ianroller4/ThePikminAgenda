@@ -26,12 +26,8 @@ public class SillyLittleGuys : MonoBehaviour
     [SerializeField]
     private float attackRange = 1f;
 
-    [SerializeField]
-    private float attackCooldown = 2f;
-
-    private float originalCooldown;
-
-    private bool isOnAttackCooldown = false;
+    private float attackTimer = 0f;
+    private bool hasAttacked = false;
 
     private Vector3 thrownTarget;
 
@@ -60,7 +56,7 @@ public class SillyLittleGuys : MonoBehaviour
 
     // --- Animator ---
     private Animator animator;
-    private Vector3 lastDir = Vector3.zero;
+    public Vector3 lastDir = Vector3.zero;
     private Vector3 currentDir = Vector3.zero;
     private Vector3 prevPosition = Vector3.zero;
 
@@ -90,7 +86,6 @@ public class SillyLittleGuys : MonoBehaviour
         moveToTarget = transform.position;
         player = GameObject.Find("Player");
 
-        originalCooldown = attackCooldown;
         prevPosition = transform.position;
     }
 
@@ -417,6 +412,8 @@ public class SillyLittleGuys : MonoBehaviour
         state = States.ATTACK;
         slgManager.RemoveFollowingSLG(this);
         animator.SetBool("idle", false);
+        hasAttacked = false;
+        attackTimer = 0f;
     }
 
     /* UpdateAttackState
@@ -433,52 +430,45 @@ public class SillyLittleGuys : MonoBehaviour
         // If there's a target
         if (targetEnemy != null)
         {
-            // if attack is not on cooldown
-            if (!isOnAttackCooldown)
+            // If there a enemy within SLG's attack range
+            if (Vector3.Distance(transform.position, targetEnemy.transform.position) <= attackRange)
             {
-                // If there a enemy within SLG's attack range
-                if (Vector3.Distance(transform.position, targetEnemy.transform.position) <= attackRange)
+                // Animation update
+                animator.SetBool("attack", true);
+                Vector3 attackDir = targetEnemy.transform.position - transform.position;
+                animator.SetFloat("x", attackDir.x);
+                animator.SetFloat("y", attackDir.y);
+
+                // Process attack
+                agent.isStopped = true; // Stop moving
+                attackTimer += Time.deltaTime;
+                if (attackTimer >= 1f)
                 {
-                    // Animation update
-                    animator.SetBool("attack", true);
-                    Vector3 attackDir = targetEnemy.transform.position - transform.position;
-                    animator.SetFloat("x", attackDir.x);
-                    animator.SetFloat("y", attackDir.y);
-
-                    // Process attack
-                    isOnAttackCooldown = true; 
-                    agent.isStopped = true; // Stop moving
-                    attackCooldown = originalCooldown;
-
-                    // Create attack hitbox prefab on enemy position
-                    Instantiate(AttackHitboxPrefab, targetEnemy.transform.position, Quaternion.identity);
-                }
-                else // If an enemy is not close enough
-                {
-                    animator.SetBool("attack", false);
-                    UpdateDirVector();
-                    animator.SetFloat("x", currentDir.x);
-                    animator.SetFloat("y", currentDir.y);
-
-                    // Keep chashing
-                    agent.isStopped = false;
-                    agent.SetDestination(targetEnemy.transform.position);
+                    attackTimer = 0f;
+                    hasAttacked = false;
                 }
             }
-            else
+            else // If an enemy is not close enough
             {
-                // If the attack is on cooldown
-                attackCooldown -= Time.deltaTime;
-                // Wait until the cooldown ends
-                if (attackCooldown < 0)
-                {
-                    isOnAttackCooldown = false;
-                }
+                animator.SetBool("attack", false);
+                UpdateDirVector();
+                animator.SetFloat("x", currentDir.x);
+                animator.SetFloat("y", currentDir.y);
+
+                // Keep chashing
+                agent.isStopped = false;
+                agent.SetDestination(targetEnemy.transform.position);
+                attackTimer = 0f;
+                hasAttacked = false;
             }
+            
         }
         else // If there's no target, switch to IdleState
         {
+            agent.SetDestination(transform.position);
             agent.isStopped = false;
+            attackTimer = 0f;
+            hasAttacked = false;
             EnterIdleState();
             Debug.Log("Exiting Attack");
         }
@@ -599,5 +589,31 @@ public class SillyLittleGuys : MonoBehaviour
             result = true;
         }
         return result;
+    }
+
+    /* SpawnAttackHitbox
+     * 
+     * Create attack hitbox prefab on enemy position in sync with the attack timing.
+     * 
+     * Parameters: None
+     * 
+     * Return: None
+     * 
+     */
+    public void SpawnAttackHitbox()
+    {
+        if (targetEnemy == null)
+            return;
+
+        // To make sure creating one hitbox prefab for one attack
+        if (hasAttacked)
+        {
+            return;
+        }
+
+        hasAttacked = true;
+
+        // Create attack hitbox prefab on enemy position
+        Instantiate(AttackHitboxPrefab, targetEnemy.transform.position, Quaternion.identity);
     }
 }

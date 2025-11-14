@@ -5,12 +5,12 @@ using UnityEngine;
 public class EnemyAttackHitbox : MonoBehaviour
 {
     [SerializeField]
-    private float damage = 1f;
+    private float damage = 10f;
 
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, 0.2f);
+        Destroy(gameObject, 0.1f);
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -19,6 +19,8 @@ public class EnemyAttackHitbox : MonoBehaviour
         {
             col.gameObject.GetComponent<Health>().TakeDamage(damage);
             Debug.Log(col.name + " hit!");
+            Destroy(gameObject);
+
         }
     }
 }
