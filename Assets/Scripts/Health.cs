@@ -11,6 +11,9 @@ public class Health : MonoBehaviour
     private float maxHP = 100f; // Maximum HP
     private EnemyManager enemyManager;
     private SLGManager slgManager;
+    [SerializeField]
+    private GameObject deathEffectPrefab;
+
 
 
     // initialize references and set current HP to max
@@ -20,7 +23,6 @@ public class Health : MonoBehaviour
 
         enemyManager = GameObject.FindObjectOfType<EnemyManager>();
         slgManager = GameObject.FindObjectOfType<SLGManager>();
-
     }
 
     public bool TakeDamage(float damage)
@@ -51,9 +53,20 @@ public class Health : MonoBehaviour
         else if (gameObject.layer == LayerMask.NameToLayer("SLG"))
         {
             SillyLittleGuys slg = gameObject.GetComponent<SillyLittleGuys>();
+
+            GameObject deathFX = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+
+            Animator fxAnim = deathFX.GetComponent<Animator>();
+            fxAnim.SetFloat("x", slg.lastDir.x);
+            fxAnim.SetFloat("y", slg.lastDir.y);
+
+            Destroy(deathFX,1.5f);
+
             slgManager.RemoveSLG(slg);
             Destroy(gameObject);
             Debug.Log(gameObject.name + "is dead");
+
         }
     }
+
 }

@@ -8,8 +8,7 @@ public class Enemy : MonoBehaviour
     private enum EnemyState
     {
         Idle,
-        Sleep,
-        WakeUp,
+        Return,
         Chase,
         Attack,
         Dead
@@ -28,12 +27,13 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject AttackHitboxPrefab;
     private EnemyManager enemyManager;
+    private Animator animator;
 
     // --- Variables ---
     private Vector3 startPos;
     private Vector3 targetPos;
     [SerializeField]
-    private float detectRadius = 2f;
+    private float detectRadius = 3f;
     [SerializeField]
     [Tooltip("The maximum distance between the enemy and the SLG before the enemy stops chasing.")]
     private float chaseStopDistance = 4f;
@@ -41,25 +41,25 @@ public class Enemy : MonoBehaviour
     [Tooltip("If the enemy moves farther than this distance from its start position, it will return.")]
     private float maxLeashDistance = 5f;
     [SerializeField]
-    private float returnSpeed = 3f;
-    [SerializeField]
     private float attackRange = 1f;
-    private bool isReturning = false;
-    private bool isOnAttackCooldown = false;
-    private Color originalColor;
     private float targetUpdateInterval = 0.5f;
+    private Vector3 attackPos;
+    private bool hasAttacked;
 
     // --- Timers ---
-    private float idleTimer = 0f;
     private float targetUpdateTimer = 0f;
-    private float returnTimer = 0f;
     private float attackTimer = 0f;
-    private float attackCooldownTimer = 0f;
+
+    // --- Animation ---
+    private Vector3 lastPos;
+    private Vector3 moveDir;
+    private Vector2 lastLookDir;
 
 
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour
 
         currentState = EnemyState.Idle;
 
-        originalColor = Color.gray;
+        lastPos = transform.position;
     }
 
     // Update is called once per frame
@@ -84,12 +84,8 @@ public class Enemy : MonoBehaviour
                 Idle();
                 break;
 
-            case EnemyState.Sleep:
-                Sleep();
-                break;
-
-            case EnemyState.WakeUp:
-                WakeUp();
+            case EnemyState.Return:
+                Return();
                 break;
 
             case EnemyState.Chase:
@@ -105,89 +101,55 @@ public class Enemy : MonoBehaviour
                 break;
         }
 
-        if(isOnAttackCooldown)
-        {
-            attackCooldownTimer += Time.deltaTime;
-
-            if(attackCooldownTimer >= 2f)
-            {
-                isOnAttackCooldown = false;
-            }
-        }
-
         Debug.Log(currentState);
     }
 
     private void Idle()
     {
-        if (!isReturning)
-        {
-            // Search SLGs to chase
-            GameObject SLG = searchSLG();
+        animator.SetBool("isAttack", false);
+        animator.SetBool("isIdle", true);
+        animator.SetBool("isWalk", false);
 
-            if (SLG != null)
-            {
-                Debug.Log("Closest SLG: " + SLG.name);
-                target = SLG;
-                currentState = EnemyState.Chase;
-            }
+        // Search SLGs to chase
+        GameObject SLG = searchSLG();
+
+        if (SLG != null)
+        {
+            Debug.Log("Closest SLG: " + SLG.name);
+            target = SLG;
+            animator.SetBool("isIdle", false);
+            currentState = EnemyState.Chase;
         }
 
-        // setting the random movement (the direction and the movement distance)
-        if (idleTimer <= 0f && !isReturning)
-        {
-            targetPos = transform.position;
-
-            Vector2 randomDir = Random.insideUnitCircle.normalized;
-
-            float randomDist = Random.Range(0.5f, 2f);
-
-            targetPos = transform.position + (Vector3)(randomDir * randomDist);
-
-            idleTimer = Random.Range(3f, 6f);
-        }
-
-        if (isReturning)
-        {
-            float dist = Vector2.Distance(transform.position, startPos);
-
-            if (dist < 1f)
-            {
-                returnTimer += Time.deltaTime;
-                if (returnTimer >= 2f)
-                {
-                    isReturning = false;
-                }
-            }
-        }
-
-        if (!isReturning)
-        {
-            // apply the random movement
-            float randomSpeed = Random.Range(0.5f, 2f);
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * randomSpeed);
-            idleTimer -= Time.deltaTime;
-        }
-        else
-        {
-            // return to the start position.
-            transform.position = Vector3.MoveTowards(transform.position, startPos, Time.deltaTime * returnSpeed);
-        }
-        
+        animator.SetFloat("x", lastLookDir.x);
+        animator.SetFloat("y", lastLookDir.y);
     }
 
-    private void Sleep()
+    private void Return()
     {
+        animator.SetBool("isAttack", false);
+        animator.SetBool("isIdle", false);
+        animator.SetBool("isWalk", true);
 
-    }
+        agent.SetDestination(startPos);
 
-    private void WakeUp()
-    {
+        float dist = Vector2.Distance(transform.position, startPos);
 
+        if (dist < 0.01f)
+        {
+            agent.isStopped = true;
+            currentState = EnemyState.Idle;
+        }
+
+        UpdateMovementDirection();
     }
 
     private void Chase()
     {
+        animator.SetBool("isAttack", false);
+        animator.SetBool("isIdle", false);
+        animator.SetBool("isWalk", true);
+
         targetUpdateTimer += Time.deltaTime;
 
         if (targetUpdateTimer >= targetUpdateInterval)
@@ -202,9 +164,6 @@ public class Enemy : MonoBehaviour
                 target = SLG;
             }
         }
-
-        sr.color = Color.green;
-
         agent.SetDestination(target.transform.position);
 
         float dist = Vector2.Distance(transform.position, target.transform.position);
@@ -213,10 +172,8 @@ public class Enemy : MonoBehaviour
         if (dist < attackRange)
         {
             agent.isStopped = true;
-            if (!isOnAttackCooldown)
-            {
-                currentState = EnemyState.Attack;
-            }
+            animator.SetBool("isWalk", false);
+            currentState = EnemyState.Attack;
         }
         else
         {
@@ -228,39 +185,41 @@ public class Enemy : MonoBehaviour
         if (dist > chaseStopDistance || distFromStart >= maxLeashDistance)
         {
             target = null;
-            currentState = EnemyState.Idle;
+            currentState = EnemyState.Return;
             agent.ResetPath();
-            isReturning = true;
-            returnTimer = 0f;
-            sr.color = originalColor;
         }
+
+        UpdateMovementDirection();
     }
 
     private void Attack()
-    { 
-        
-        sr.color = Color.yellow;
+    {
+        animator.SetBool("isAttack", true);
+        animator.SetBool("isIdle", false);
+        animator.SetBool("isWalk", false);
 
         if (attackTimer == 0f && target != null)
         {
-            Vector3 attackPos = target.transform.position;
+            hasAttacked = false;
+            attackPos = target.transform.position;
+            Vector3 dir = (target.transform.position - transform.position).normalized;
+            animator.SetFloat("x", dir.x);
+            animator.SetFloat("y", dir.y);
 
-            Instantiate(AttackHitboxPrefab, attackPos, Quaternion.identity);
+            lastLookDir = new Vector2(dir.x, dir.y);
         }
 
         attackTimer += Time.deltaTime;
 
-        // attack time 0.2secs
-        if (attackTimer >= 0.2f)
+        if (attackTimer >= 1.1f)
         {
             attackTimer = 0f;
             target = null;
             agent.ResetPath();
+            animator.SetBool("isAttack", false);
             currentState = EnemyState.Idle;
-            sr.color = originalColor;
-            isOnAttackCooldown = true;
-            attackCooldownTimer = 0f;
         }
+
     }
 
     private void Dead()
@@ -291,5 +250,31 @@ public class Enemy : MonoBehaviour
         }
 
         return closest;
+    }
+
+    private void UpdateMovementDirection()
+    {
+        moveDir = (transform.position - lastPos).normalized;
+        lastPos = transform.position;
+
+        animator.SetFloat("x", moveDir.x);
+        animator.SetFloat("y", moveDir.y);
+
+        if (moveDir.sqrMagnitude > 0.0001f)
+        {
+            lastLookDir = new Vector2(moveDir.x, moveDir.y);
+        }
+    }
+
+    public void SpawnAttackHitbox()
+    {
+        // To make sure creating one hitbox prefab for one attack
+        if (hasAttacked)
+        {
+            return;
+        }
+
+        hasAttacked = true;
+        Instantiate(AttackHitboxPrefab, attackPos, Quaternion.identity);
     }
 }

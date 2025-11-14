@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5428665875868516620}
   - component: {fileID: 9121214928536914980}
   - component: {fileID: -9155858503195892301}
+  - component: {fileID: -8006131881593797963}
   - component: {fileID: 9145107822758546609}
   - component: {fileID: 6364465797377613957}
   m_Layer: 6
@@ -137,9 +138,9 @@ MonoBehaviour:
   moveToTarget: {x: 0, y: 0, z: 0}
   AttackHitboxPrefab: {fileID: 2835671219922042496, guid: 2989366685b216b4d89132ddb84f6468, type: 3}
   attackRange: 1
-  attackCooldown: 2
   idleSearchRange: 2
   state: 0
+  lastDir: {x: 0, y: 0, z: 0}
 --- !u!114 &-9155858503195892301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +154,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHP: 0
-  maxHP: 1
+  maxHP: 20
+  deathEffectPrefab: {fileID: 8844045522599308070, guid: 421c5ed117b9f4b4db3ebc19d863b3dc, type: 3}
+--- !u!114 &-8006131881593797963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658478146284457526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eab92b23d646a94580fcb8c747c4be5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yOffset: -0.19
+  sortingActive: 1
 --- !u!212 &9145107822758546609
 SpriteRenderer:
   m_ObjectHideFlags: 0
