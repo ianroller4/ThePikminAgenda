@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/*
+ * Enemy AI controller for top-down movement and combat.
+ * Handles state transitions (Idle, Chase, Return, Attack),
+ * movement via NavMeshAgent, target searching, and animation updates.
+ */
 public class Enemy : MonoBehaviour
 {
+    // --- States ---
     private enum EnemyState
     {
         Idle,
@@ -13,25 +19,31 @@ public class Enemy : MonoBehaviour
         Attack,
         Dead
     }
-
     private EnemyState currentState;
 
+    // --- Components ---
+    private Rigidbody2D rigid;
     private NavMeshAgent agent;
+    private EnemyManager enemyManager;
+    private Animator animator;
 
     // --- References ---
-    private Rigidbody2D rigid;
     [SerializeField]
     private GameObject target;
     [SerializeField]
     private SpriteRenderer sr;
     [SerializeField]
     private GameObject AttackHitboxPrefab;
-    private EnemyManager enemyManager;
-    private Animator animator;
+    
 
     // --- Variables ---
     private Vector3 startPos;
     private Vector3 targetPos;
+    private Vector3 attackPos;
+    private float targetUpdateInterval = 0.5f;
+    private bool hasAttacked;
+
+    // --- Settings ---
     [SerializeField]
     private float detectRadius = 3f;
     [SerializeField]
@@ -42,20 +54,17 @@ public class Enemy : MonoBehaviour
     private float maxLeashDistance = 5f;
     [SerializeField]
     private float attackRange = 1f;
-    private float targetUpdateInterval = 0.5f;
-    private Vector3 attackPos;
-    private bool hasAttacked;
 
     // --- Timers ---
     private float targetUpdateTimer = 0f;
     private float attackTimer = 0f;
 
-    // --- Animation ---
+    // --- Animation related valuable ---
     private Vector3 lastPos;
     private Vector3 moveDir;
     private Vector2 lastLookDir;
 
-
+    // initialize references
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -75,7 +84,7 @@ public class Enemy : MonoBehaviour
         lastPos = transform.position;
     }
 
-    // Update is called once per frame
+    // update enemy state
     void Update()
     {
         switch (currentState)
@@ -95,15 +104,20 @@ public class Enemy : MonoBehaviour
             case EnemyState.Attack:
                 Attack();
                 break;
-
-            case EnemyState.Dead:
-                Dead();
-                break;
         }
 
         Debug.Log(currentState);
     }
 
+    /* Idle
+     * 
+     * Waits in place and searches for nearby SLGs
+     * 
+     * Parameters: None
+     * 
+     * Return: None
+     * 
+     */
     private void Idle()
     {
         animator.SetBool("isAttack", false);
@@ -144,6 +158,17 @@ public class Enemy : MonoBehaviour
         UpdateMovementDirection();
     }
 
+    /* Chase
+     * 
+     * Continuously moves toward the target SLG
+     * 
+     * When the SLG is close enough, starts an attack
+     * 
+     * Parameters: None
+     * 
+     * Return: None
+     * 
+     */
     private void Chase()
     {
         animator.SetBool("isAttack", false);
@@ -182,6 +207,7 @@ public class Enemy : MonoBehaviour
 
         float distFromStart = Vector2.Distance(transform.position, startPos);
 
+        // Return to the start position if it goes too far
         if (dist > chaseStopDistance || distFromStart >= maxLeashDistance)
         {
             target = null;
@@ -192,6 +218,15 @@ public class Enemy : MonoBehaviour
         UpdateMovementDirection();
     }
 
+    /* Attack
+     * 
+     * Saves the attack position and plays the attack animation
+     * 
+     * Parameters: None
+     * 
+     * Return: None
+     * 
+     */
     private void Attack()
     {
         animator.SetBool("isAttack", true);
@@ -201,7 +236,7 @@ public class Enemy : MonoBehaviour
         if (attackTimer == 0f && target != null)
         {
             hasAttacked = false;
-            attackPos = target.transform.position;
+            attackPos = target.transform.position; // saves the attack position
             Vector3 dir = (target.transform.position - transform.position).normalized;
             animator.SetFloat("x", dir.x);
             animator.SetFloat("y", dir.y);
@@ -211,7 +246,7 @@ public class Enemy : MonoBehaviour
 
         attackTimer += Time.deltaTime;
 
-        if (attackTimer >= 1.1f)
+        if (attackTimer >= 1.1f) // attack time 1.1secs
         {
             attackTimer = 0f;
             target = null;
@@ -222,11 +257,15 @@ public class Enemy : MonoBehaviour
 
     }
 
-    private void Dead()
-    {
-
-    }
-
+    /* searchSLG
+     *
+     * Searches for SLGs within the detection radius and returns the closest one.
+     *
+     * Parameters: None
+     *
+     * Return: GameObject (closest SLG) or Null
+     * 
+     */
     private GameObject searchSLG()
     {
         Vector2 currentPos = transform.position;
@@ -252,6 +291,15 @@ public class Enemy : MonoBehaviour
         return closest;
     }
 
+    /* UpdateMovementDirection
+     *
+     * Calculates movement direction and updates animation parameters
+     *
+     * Parameters: None
+     *
+     * Return: None
+     * 
+     */
     private void UpdateMovementDirection()
     {
         moveDir = (transform.position - lastPos).normalized;
@@ -266,6 +314,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /* SpawnAttackHitbox
+     *
+     * Spawns a hitbox at the attack position once per attack.
+     *
+     * Parameters: None
+     *
+     * Return: None
+     * 
+     */
     public void SpawnAttackHitbox()
     {
         // To make sure creating one hitbox prefab for one attack
@@ -273,8 +330,8 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-
         hasAttacked = true;
+
         Instantiate(AttackHitboxPrefab, attackPos, Quaternion.identity);
     }
 }

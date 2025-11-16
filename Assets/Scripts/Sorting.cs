@@ -2,29 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* 
+ * Sorting class handles Y-based sprite layering for top-down objects.
+ * It updates the sprite's sorting order based on its Y-position
+ * It also uses a small threshold to avoid unnecessary updates.
+ */
 [RequireComponent(typeof(SpriteRenderer))]
-public class Sortable : MonoBehaviour
+public class Sorting : MonoBehaviour
 {
-    public float yOffset = 0f;
+    // --- References ---
+    private SpriteRenderer sorted;
 
-    SpriteRenderer sorted;
-    public bool sortingActive = true; // Allows us to deactivate this on certain objects.
-    public const float MIN_DISTANCE = 0.2f; // Minimum distance before the sorting value updates.
-    int lastSortOrder = 0;
+    // --- Settings ---
+    [SerializeField]
+    private bool sortingActive = true; // To deactivate this on certain objects.
+    [SerializeField]
+    private float yOffset = 0f; // Adjusts the sorting pivot when the sprite's pivot is not aligned to the feet
+    [SerializeField]
+    private float minDistance = 0.2f; // Minimum distance before the sorting value updates.
+
+    private int lastSortOrder = 0;
 
     // Start is called before the first frame update
-    protected virtual void Start()
+    void Start()
     {
         sorted = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
-    protected virtual void LateUpdate()
+    void LateUpdate()
     {
-        if (!sorted || !sortingActive) return;
+        if (!sorted || !sortingActive)
+        {
+            return;
+        }
 
         float sortY = transform.position.y + yOffset;
-        int newSortOrder = (int)(-sortY / MIN_DISTANCE);
+        int newSortOrder = (int)(-sortY / minDistance);
         if (lastSortOrder != newSortOrder)
         {
             lastSortOrder = sorted.sortingOrder;
