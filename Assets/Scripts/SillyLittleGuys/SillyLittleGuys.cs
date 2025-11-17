@@ -60,6 +60,14 @@ public class SillyLittleGuys : MonoBehaviour
     private Vector3 currentDir = Vector3.zero;
     private Vector3 prevPosition = Vector3.zero;
 
+    // --- Throw ---
+    private Vector3 direction = Vector3.zero;
+    private Vector3 throwStart;
+    public float speed = 3f;
+    public float height = 3f;
+    private float throwLerp = 0f;
+
+
     /* Start
      * 
      * Called once before the first frame of update
@@ -295,7 +303,10 @@ public class SillyLittleGuys : MonoBehaviour
     public void EnterThrownState(Vector3 target)
     {
         state = States.THROWN;
+        throwStart = transform.position;
         thrownTarget = target;
+        direction = (thrownTarget - transform.position).normalized;
+        throwLerp = 0;
     }
 
     /* UpdateThrownState
@@ -310,12 +321,31 @@ public class SillyLittleGuys : MonoBehaviour
      */
     public void UpdateThrownState()
     {
-        // Add throw movement
-        transform.position = thrownTarget;
-        if (transform.position == thrownTarget)
+        if (throwLerp < 1)
         {
+            transform.position = CalculateTrajectory();
+            throwLerp += speed * Time.deltaTime;
+        }
+        else
+        {
+            transform.position = thrownTarget;
             ExitThrownState();
         }
+
+        ////transform.position = thrownTarget;
+        //if (Vector3.Distance(transform.position, thrownTarget) < 0.3)
+        //{
+        //    transform.position = thrownTarget;
+        //    ExitThrownState();
+        //}
+    }
+
+    private Vector3 CalculateTrajectory()
+    {
+        Vector3 linearProgress = Vector3.Lerp(throwStart, thrownTarget, throwLerp);
+        float offset = Mathf.Sin(throwLerp * Mathf.PI) * height;
+
+        return linearProgress + (Vector3.up * offset);
     }
 
     /* ExitThrownState
