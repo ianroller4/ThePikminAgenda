@@ -14,7 +14,7 @@ public class Health : MonoBehaviour
     [SerializeField]
     private GameObject deathEffectPrefab;
 
-
+    private bool isHitWithin5secs = false;
 
     // initialize references and set current HP to max
     void Start()
@@ -25,9 +25,21 @@ public class Health : MonoBehaviour
         slgManager = GameObject.FindObjectOfType<SLGManager>();
     }
 
+    public float GetCurrentHP()
+    {
+        return currentHP;
+    }
+    
+    public bool IsHit()
+    {
+        return isHitWithin5secs;
+    }
+
     public bool TakeDamage(float damage)
     {
         currentHP -= damage;
+        isHitWithin5secs = true;
+        StartCoroutine(Hit());
 
         // check if HP dropped to zero or below
         if (currentHP <= 0)
@@ -70,6 +82,13 @@ public class Health : MonoBehaviour
             Debug.Log(gameObject.name + "is dead");
 
         }
+    }
+
+    IEnumerator Hit()
+    {
+        yield return new WaitForSeconds(5f);
+
+        isHitWithin5secs = false;
     }
 
 }
