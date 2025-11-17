@@ -196,8 +196,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eab92b23d646a94580fcb8c747c4be5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yOffset: -0.38
   sortingActive: 1
+  yOffset: -0.38
+  minDistance: 0.2
 --- !u!50 &7303069850333095068
 Rigidbody2D:
   serializedVersion: 4
@@ -282,6 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc8c8ee314dc2984aa8e2031e32924e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursor: {fileID: 4592936886925867395}
 --- !u!114 &5845796369005443641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,6 +434,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c51b89c49887304aa82afd276b51186, type: 3}
+--- !u!1 &4592936886925867395 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8214612581896135874, guid: 4c51b89c49887304aa82afd276b51186, type: 3}
+  m_PrefabInstance: {fileID: 5601714177084136769}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4683487075168199405 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 955431568973119404, guid: 4c51b89c49887304aa82afd276b51186, type: 3}

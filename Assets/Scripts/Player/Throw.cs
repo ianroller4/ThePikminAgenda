@@ -17,6 +17,8 @@ public class Throw : MonoBehaviour
 
     private bool canceledThrow = false;
 
+    public GameObject cursor;
+
     /* Start
      * 
      * Called once before the first frame of update
@@ -99,11 +101,8 @@ public class Throw : MonoBehaviour
     {
         if (heldSLG != null)
         {
-            // Get mouse position
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = 0;
             // Set SLG to thrown state
-            heldSLG.EnterThrownState(mousePosition);
+            heldSLG.EnterThrownState(cursor.transform.position);
             heldSLG = null;
             throwing = false;
         }
