@@ -18,12 +18,17 @@ public class Whistle : MonoBehaviour
     private float currentWhistleRadius;
     public float whistleRadiusIncreaseSpeed = 2f;
 
+    public float maxCursorRange = 7f;
+
     // --- Rotation ---
     public GameObject outerCircle;
     public GameObject innerCircle;
     public float baseRotationSpeed = 20f;
     public float fastRotationSpeed = 60f;
     private float rotationSpeed;
+
+    // --- Player Reference ---
+    private GameObject player;
 
     /* Start
      * 
@@ -39,6 +44,7 @@ public class Whistle : MonoBehaviour
         slgManager = GameObject.FindObjectOfType<SLGManager>();
         currentWhistleRadius = whistleRadiusStart;
         rotationSpeed = baseRotationSpeed;
+        player = GameObject.Find("Player");
     }
 
     /* Update
@@ -71,7 +77,15 @@ public class Whistle : MonoBehaviour
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
-        transform.position = mousePosition;
+        if (Vector3.Distance(mousePosition, player.transform.position) <= maxCursorRange)
+        {
+            transform.position = mousePosition;
+        }
+        else
+        {
+            transform.position = player.transform.position + (mousePosition - player.transform.position).normalized * maxCursorRange;
+        }
+        
         
     }
 

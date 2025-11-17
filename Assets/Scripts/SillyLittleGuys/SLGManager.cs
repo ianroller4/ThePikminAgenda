@@ -27,6 +27,9 @@ public class SLGManager : MonoBehaviour
     // --- Player ---
     private GameObject player;
 
+    // --- Grab Distance ---
+    public float grabDistance = 3f;
+
     /* Awake
      * 
      * Called once when script is loaded in
@@ -254,12 +257,16 @@ public class SLGManager : MonoBehaviour
     {
         SillyLittleGuys slg = null;
 
-        // Check if following list is not empty
-        if (followingSLG.Count != 0)
+        // Grab SLG
+        for (int i = 0; i < followingSLG.Count; i++)
         {
-            // Grab SLG
-            slg = followingSLG[0];
-        } 
+            if (Vector3.Distance(followingSLG[i].transform.position, player.transform.position) <= grabDistance)
+            {
+                slg = followingSLG[i];
+                break;
+            }
+        }
+        
 
         return slg;
     }
