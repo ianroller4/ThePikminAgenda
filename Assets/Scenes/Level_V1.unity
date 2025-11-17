@@ -31960,6 +31960,7 @@ GameObject:
   - component: {fileID: 1713560341}
   - component: {fileID: 1713560340}
   - component: {fileID: 1713560343}
+  - component: {fileID: 1713560344}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -32055,6 +32056,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followThisObject: {fileID: 291280951}
   cameraMoveSpeed: 100
+--- !u!114 &1713560344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713560339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c2902ed3d1ca8f4483899bd371ae66e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minZoom: 5
+  maxZoom: 20
+  zoomSpeed: 3
+  useCurrentZoomAsMin: 1
 --- !u!1 &1738568925 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5824939480045407070, guid: a6e6d49bc0021004c9d7fe4db1760659, type: 3}
