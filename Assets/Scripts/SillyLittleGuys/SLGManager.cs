@@ -295,4 +295,14 @@ public class SLGManager : MonoBehaviour
         // Clear list of following
         followingSLG.Clear();
     }
+
+    public int SLGCount()
+    {
+        return SLGList.Count;
+    }
+
+    public int followingCount()
+    {
+        return followingSLG.Count;
+    }
 }

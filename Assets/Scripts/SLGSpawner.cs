@@ -17,20 +17,15 @@ public class SLGSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (canSpawn)
+
+        if (playerNear)
         {
-            if (playerNear)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    SpawnSLG();
-                }
+                SpawnSLG();
             }
         }
-        else
-        {
-            UpdateTimer();
-        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
