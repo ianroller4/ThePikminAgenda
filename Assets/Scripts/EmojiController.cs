@@ -15,6 +15,10 @@ public class EmojiController : MonoBehaviour
     private Sprite angry;
     [SerializeField]
     private Sprite gross;
+    [SerializeField]
+    private Sprite excited;
+    [SerializeField]
+    private Sprite devil;
 
     public void ShowAngry()
     {
@@ -34,5 +38,15 @@ public class EmojiController : MonoBehaviour
     public void ShowGross()
     {
         sr.sprite = gross;
+    }
+
+    public void ShowExcited()
+    {
+        sr.sprite = excited;
+    }
+
+    public void ShowDevil()
+    {
+        sr.sprite = devil;
     }
 }

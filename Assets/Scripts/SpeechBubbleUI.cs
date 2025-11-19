@@ -22,4 +22,6 @@ public class SpeechBubbleUI : MonoBehaviour
     public void Show1() => ShowLine(1);
     public void Show2() => ShowLine(2);
     public void Show3() => ShowLine(3);
+    public void Show4() => ShowLine(4);
+    public void Show5() => ShowLine(5);
 }

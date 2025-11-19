@@ -7,9 +7,21 @@ public class Intro : MonoBehaviour
 {
     private PlayableDirector director;
     private int wiggleCount = 0;
-    private bool isPaused = false;
+    private bool isWiggled = false;
+    private bool isHold = false;
+    private bool isThrew = false;
+    private bool isCallback = false;
     [SerializeField]
     private PlayerMovement player;
+    [SerializeField]
+    private SillyLittleGuys SLG;
+    [SerializeField]
+    private SillyLittleGuys SLGIntroDummy;
+    [SerializeField]
+    private Sprite playerSpinning;
+    [SerializeField]
+    private Transform throwPoint;
+
 
     // Start is called before the first frame update
     void Start()
@@ -21,17 +33,53 @@ public class Intro : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isPaused && Input.GetKeyDown(KeyCode.Space))
+        if (isWiggled && Input.GetKeyDown(KeyCode.Space))
         {
             OnWiggleInput();
         }
+
+        if (isHold && Input.GetMouseButton(0))
+        {
+            OnHoldInput();
+        }
+
+        if (isThrew && Input.GetMouseButtonUp(0))
+        {
+            OnThrowInput();
+        }
+
+        if (isCallback && Input.GetMouseButton(1))
+        {
+            OnCallbackInput();
+        }
     }
 
-    public void PauseTimeline()
+    public void WigglePauseTimeline()
     {
         director.Pause();
-        isPaused = true;
-        Debug.Log("Timeline Paused");
+        isWiggled = true;
+        Debug.Log("Wiggle Timeline Paused");
+    }
+
+    public void HoldPauseTimeline()
+    {
+        director.playableGraph.GetRootPlayable(0).SetSpeed(0);
+        isHold = true;
+        Debug.Log("Hold Timeline Paused");
+    }
+
+    public void ThrowPauseTimeline()
+    {
+        director.playableGraph.GetRootPlayable(0).SetSpeed(0);
+        isThrew = true;
+        Debug.Log("Throw Timeline Paused");
+    }
+
+    public void CallbackPauseTimeline()
+    {
+        director.playableGraph.GetRootPlayable(0).SetSpeed(0);
+        isCallback = true;
+        Debug.Log("Throw Timeline Paused");
     }
 
     public void OnWiggleInput()
@@ -41,7 +89,8 @@ public class Intro : MonoBehaviour
 
         if (wiggleCount >= 10)
         {
-            isPaused = false;
+            isWiggled = false;
+            player.GetComponent<SpriteRenderer>().sprite = playerSpinning;
             StartCoroutine(PopUpAndResume());
             Debug.Log("Timeline Resumed");
         }
@@ -94,5 +143,34 @@ public class Intro : MonoBehaviour
         player.transform.localPosition = new Vector3(0f,2f,0f);
         player.transform.localRotation = startRot;
         player.GetComponent<Animator>().enabled = true;
+    }
+
+    public void OnHoldInput()
+    {
+        director.playableGraph.GetRootPlayable(0).SetSpeed(1);
+        isHold = false;
+    }
+
+    public void OnThrowInput()
+    {
+        SLG.GetComponent<SpriteRenderer>().enabled = false;
+        SLGIntroDummy.transform.position = SLG.transform.position;
+        SLGIntroDummy.EnterThrownState(throwPoint.position);
+        StartCoroutine(ThrowAndResume());
+        isThrew = false;
+    }
+
+    IEnumerator ThrowAndResume()
+    {
+        yield return new WaitForSeconds(0.5f);
+        director.playableGraph.GetRootPlayable(0).SetSpeed(1);
+        Destroy(SLGIntroDummy.gameObject);
+        SLG.GetComponent<SpriteRenderer>().enabled = true;
+    }
+
+    public void OnCallbackInput()
+    {
+        director.playableGraph.GetRootPlayable(0).SetSpeed(1);
+        isCallback = false;
     }
 }
