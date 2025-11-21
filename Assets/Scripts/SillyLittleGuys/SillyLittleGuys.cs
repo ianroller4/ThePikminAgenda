@@ -590,6 +590,10 @@ public class SillyLittleGuys : MonoBehaviour
             carryObject.RemoveCarrier(this);
             carryObject = null;
         }
+        if (state == States.THROWN)
+        {
+            return;
+        }
         EnterFollowState();
     }
     
