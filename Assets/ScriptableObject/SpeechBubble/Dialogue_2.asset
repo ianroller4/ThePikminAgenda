@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5bd4951f071ba4abf93e48ecf78285, type: 3}
   m_Name: Dialogue_2
   m_EditorClassIdentifier: 
-  line: "Ew! I don\u2019t like\nhow it looks."
+  line: 'I''m not sure
+
+    you are friendly..'

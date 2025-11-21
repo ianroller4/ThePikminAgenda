@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5bd4951f071ba4abf93e48ecf78285, type: 3}
   m_Name: Dialogue_0
   m_EditorClassIdentifier: 
-  line: 'Those idiots..
+  line: 'Why did
 
-    They really
+    they leave
 
-    left me here.'
+    me here?'

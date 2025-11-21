@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2a5bd4951f071ba4abf93e48ecf78285, type: 3}
-  m_Name: Dialogue_1
+  m_Name: Dialogue_6
   m_EditorClassIdentifier: 
-  line: 'Who are you,
+  line: 'Well, maybe
 
-    little fella?'
+    you aren''t scary.'

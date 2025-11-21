@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using Cinemachine;
 
 public class Intro : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class Intro : MonoBehaviour
     private bool isHold = false;
     private bool isThrew = false;
     private bool isCallback = false;
+    [Header("---------Intro Skip---------")]
+    [SerializeField]
+    private bool introSkip = false;
+    [Header("--------References--------")]
     [SerializeField]
     private PlayerMovement player;
     [SerializeField]
@@ -21,11 +26,21 @@ public class Intro : MonoBehaviour
     private Sprite playerSpinning;
     [SerializeField]
     private Transform throwPoint;
+    [SerializeField]
+    private GameObject mainCamera;
+    [SerializeField]
+    private SLGManager slgManager;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        if (introSkip)
+        {
+            IntroSkip();
+            return;
+        }
+
         director = GetComponent<PlayableDirector>();
         player.GetComponent<Animator>().enabled = false;
     }
@@ -65,6 +80,7 @@ public class Intro : MonoBehaviour
     {
         director.playableGraph.GetRootPlayable(0).SetSpeed(0);
         isHold = true;
+        player.transform.Find("Cursor").gameObject.SetActive(true);
         Debug.Log("Hold Timeline Paused");
     }
 
@@ -79,6 +95,7 @@ public class Intro : MonoBehaviour
     {
         director.playableGraph.GetRootPlayable(0).SetSpeed(0);
         isCallback = true;
+        player.transform.Find("Cursor").gameObject.SetActive(true);
         Debug.Log("Throw Timeline Paused");
     }
 
@@ -140,7 +157,7 @@ public class Intro : MonoBehaviour
             yield return null;
         }
 
-        player.transform.localPosition = new Vector3(0f,2f,0f);
+        player.transform.localPosition = new Vector3(0f, 2f, 0f);
         player.transform.localRotation = startRot;
         player.GetComponent<Animator>().enabled = true;
     }
@@ -164,6 +181,9 @@ public class Intro : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         director.playableGraph.GetRootPlayable(0).SetSpeed(1);
+        player.transform.Find("Cursor").gameObject.SetActive(false);
+        slgManager.RemoveSLG(SLGIntroDummy);
+        slgManager.RemoveFollowingSLG(SLGIntroDummy);
         Destroy(SLGIntroDummy.gameObject);
         SLG.GetComponent<SpriteRenderer>().enabled = true;
     }
@@ -171,6 +191,41 @@ public class Intro : MonoBehaviour
     public void OnCallbackInput()
     {
         director.playableGraph.GetRootPlayable(0).SetSpeed(1);
+        player.transform.Find("Cursor").gameObject.SetActive(false);
         isCallback = false;
+    }
+
+    public void GameStart()
+    {
+        mainCamera.GetComponent<SimpleCameraFollow>().enabled = true;
+        mainCamera.GetComponent<CameraUpgrade>().enabled = true;
+        mainCamera.GetComponent<CinemachineBrain>().enabled = false;
+        player.GetComponent<PlayerMovement>().enabled = true;
+        player.transform.Find("Cursor").gameObject.SetActive(true);
+        player.GetComponent<Animator>().Play("Idle_BlendTree");
+        SLG.GetComponent<Animator>().Play("Idle");
+        StartCoroutine(EndIntro());
+    }
+
+    IEnumerator EndIntro()
+    {
+        yield return new WaitForSeconds(2.1f);
+        this.gameObject.SetActive(false);
+    }
+
+    public void IntroSkip()
+    {
+        player.transform.Find("Canvas/IntroUI/BlackScreen").gameObject.SetActive(false);
+        slgManager.RemoveSLG(SLG);
+        slgManager.RemoveFollowingSLG(SLG);
+        Destroy(SLG.gameObject);
+        mainCamera.GetComponent<SimpleCameraFollow>().enabled = true;
+        mainCamera.GetComponent<CameraUpgrade>().enabled = true;
+        mainCamera.GetComponent<CinemachineBrain>().enabled = false;
+        player.GetComponent<PlayerMovement>().enabled = true;
+        player.transform.Find("Cursor").gameObject.SetActive(true);
+        player.GetComponent<Animator>().Play("Idle_BlendTree");
+        SLG.GetComponent<Animator>().Play("Idle");
+        this.gameObject.SetActive(false);
     }
 }
