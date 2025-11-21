@@ -171,6 +171,7 @@ public class Intro : MonoBehaviour
     public void OnThrowInput()
     {
         SLG.GetComponent<SpriteRenderer>().enabled = false;
+        player.GetComponent<Animator>().Play("PlayerThrowRight");
         SLGIntroDummy.transform.position = SLG.transform.position;
         SLGIntroDummy.EnterThrownState(throwPoint.position);
         StartCoroutine(ThrowAndResume());
@@ -179,6 +180,7 @@ public class Intro : MonoBehaviour
 
     IEnumerator ThrowAndResume()
     {
+
         yield return new WaitForSeconds(0.5f);
         director.playableGraph.GetRootPlayable(0).SetSpeed(1);
         player.transform.Find("Cursor").gameObject.SetActive(false);

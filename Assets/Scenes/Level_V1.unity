@@ -11830,7 +11830,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 20, y: 128}
-  m_SizeDelta: {x: 0, y: -43.75}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &768543222
 MonoBehaviour:
@@ -34152,6 +34152,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 25a84499f40a6ba4bbf600d65d174eec, type: 2}
     - {fileID: 11400000, guid: 80d7eac98379a86479000e2a4b6e02aa, type: 2}
     - {fileID: 11400000, guid: 3ad557f3556967d4580f1cad03d78dce, type: 2}
+    - {fileID: 11400000, guid: 57546d1f662b62a43a447c43a9a1d090, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -34249,6 +34250,20 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: IntroIdleBack
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1138858349}
+          m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+          m_MethodName: Play
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: PlayerThrowRight
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!1 &1694112489
@@ -34935,9 +34950,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 768543221}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -18.125}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1921871831
@@ -35133,6 +35148,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8006131881593797963, guid: c2ddee446faac57459a79e14c8bb8ebc, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6628918249699067214, guid: c2ddee446faac57459a79e14c8bb8ebc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.98
