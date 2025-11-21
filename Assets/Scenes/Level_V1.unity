@@ -10197,7 +10197,7 @@ GameObject:
   - component: {fileID: 365272222}
   - component: {fileID: 365272224}
   m_Layer: 0
-  m_Name: IntroCutscene
+  m_Name: IntroCutscene[Intro Skip Feature in here]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10385,7 +10385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86973497035a4a74bade22a49aa807c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  introSkip: 1
+  introSkip: 0
   player: {fileID: 1138858364}
   SLG: {fileID: 1446319788}
   SLGIntroDummy: {fileID: 419305392}

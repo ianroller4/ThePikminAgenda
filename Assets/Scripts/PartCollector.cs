@@ -19,7 +19,7 @@ public class PartCollector : MonoBehaviour
     {
         if (partCount >= partsToWin)
         {
-            sceneLoader.LoadNextScene(2);
+            sceneLoader.LoadNextScene(3);
         }
     }
 
