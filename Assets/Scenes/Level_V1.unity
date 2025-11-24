@@ -35177,6 +35177,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SillyLittleGuy
       objectReference: {fileID: 0}
+    - target: {fileID: 7658478146284457526, guid: c2ddee446faac57459a79e14c8bb8ebc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9121214928536914980, guid: c2ddee446faac57459a79e14c8bb8ebc, type: 3}
       propertyPath: state
       value: 1

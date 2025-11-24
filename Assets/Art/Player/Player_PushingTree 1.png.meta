@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9ff78a807e2a62b429ffeca8bb5a4c79
+guid: 6f7788198180cc9459e42e05819eccef
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_Push_0
+      name: Player_PushingTree 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7279aa65bb1f53a45a1cdf44c36a958e
-      internalID: -1971762019
+      spriteID: e6930011d22ba20448d51e7906e33438
+      internalID: -221296673
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_1
+      name: Player_PushingTree 1_1
       rect:
         serializedVersion: 2
         x: 16
@@ -132,14 +132,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e2d7c94b0b2afb489da80cc395e9423
-      internalID: -1843358297
+      spriteID: 7abf33df0a4036647ad9c5b8e1ecfb07
+      internalID: -218604986
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_2
+      name: Player_PushingTree 1_2
       rect:
         serializedVersion: 2
         x: 32
@@ -153,14 +153,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f34aedd57ff105468fc6fd5e0673274
-      internalID: -875632321
+      spriteID: 21d6c23f0ddb47a449e3ce21197b7757
+      internalID: -1030682177
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_3
+      name: Player_PushingTree 1_3
       rect:
         serializedVersion: 2
         x: 48
@@ -174,14 +174,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 623540148aaf6764f88b9c1ae9686909
-      internalID: -1317081581
+      spriteID: d3a1185255e7a5b47b2baca27bc754f0
+      internalID: -1605168936
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_4
+      name: Player_PushingTree 1_4
       rect:
         serializedVersion: 2
         x: 64
@@ -195,14 +195,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 832bc731bbfb40e4891d4d774a5acd22
-      internalID: -2008290121
+      spriteID: 89a999ecdd4da5e4bb55477522cdd184
+      internalID: 29171824
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_5
+      name: Player_PushingTree 1_5
       rect:
         serializedVersion: 2
         x: 80
@@ -216,14 +216,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 651dfc5c771efb74ab5fb9c9275904f5
-      internalID: 1508305553
+      spriteID: dcd6e5ec294965b448668949ea1a6f25
+      internalID: -2027638575
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_6
+      name: Player_PushingTree 1_6
       rect:
         serializedVersion: 2
         x: 96
@@ -237,14 +237,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac4bb4f472cd1f44cb99438d73ae046f
-      internalID: 1043625678
+      spriteID: 49cf47e98d8d5964b85bc56f804dcf47
+      internalID: -1469985165
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_7
+      name: Player_PushingTree 1_7
       rect:
         serializedVersion: 2
         x: 112
@@ -258,14 +258,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69a2f3141f7d10240a2e263763ac00b8
-      internalID: -1906840559
+      spriteID: def3386880cf6b14d84733219c424384
+      internalID: -1305486263
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_8
+      name: Player_PushingTree 1_8
       rect:
         serializedVersion: 2
         x: 128
@@ -279,14 +279,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 067d2fd4ed5228a43874522bff811b83
-      internalID: -1781520354
+      spriteID: c38fc9f69244573408af4f068b347859
+      internalID: 2067364693
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_9
+      name: Player_PushingTree 1_9
       rect:
         serializedVersion: 2
         x: 0
@@ -300,14 +300,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7cb26868d67c2cd479968d564bd1f3c6
-      internalID: -1881187103
+      spriteID: 9c1931d0640442e4cb9e7be3341f3a66
+      internalID: -2024765524
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_10
+      name: Player_PushingTree 1_10
       rect:
         serializedVersion: 2
         x: 16
@@ -321,14 +321,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f816350ccba04b44da7781876a5d39b0
-      internalID: -1527038624
+      spriteID: a1e3df621d09e474ca9f39d19f717105
+      internalID: 811894902
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_11
+      name: Player_PushingTree 1_11
       rect:
         serializedVersion: 2
         x: 32
@@ -342,14 +342,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 841167ac19b59c74089d096ed0d52e3e
-      internalID: -262821844
+      spriteID: 6aa6b74b7389e854dac5a3649e6e3f93
+      internalID: 1154675553
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_12
+      name: Player_PushingTree 1_12
       rect:
         serializedVersion: 2
         x: 48
@@ -363,14 +363,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f68b52054064e54b84c324f1c1cd6ec
-      internalID: -154729495
+      spriteID: 6ae3036d5b61f0c4e9c69294cb3e1fcd
+      internalID: 1564405297
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_13
+      name: Player_PushingTree 1_13
       rect:
         serializedVersion: 2
         x: 64
@@ -384,14 +384,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fcfc7d80858c23449880b945304538c7
-      internalID: 1837547933
+      spriteID: 1d0cab3f9d515bb409f873b2368bd260
+      internalID: 52755063
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_14
+      name: Player_PushingTree 1_14
       rect:
         serializedVersion: 2
         x: 80
@@ -405,14 +405,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6ab9eeb5ce45bca4b95b4f724fe3ff89
-      internalID: -810760327
+      spriteID: 2349bad8726f5d046bdd89bccf3805c2
+      internalID: -47735153
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_15
+      name: Player_PushingTree 1_15
       rect:
         serializedVersion: 2
         x: 96
@@ -426,14 +426,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5910825d18df40048a49dbe4c3f2677a
-      internalID: -1734381660
+      spriteID: d5fa447d9c2bed640b00e54e5e2da713
+      internalID: -2084028059
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_16
+      name: Player_PushingTree 1_16
       rect:
         serializedVersion: 2
         x: 112
@@ -447,14 +447,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec05029d33b05b14580edc5d5fbee6e0
-      internalID: 1174443073
+      spriteID: e5f2e1468e5fb99498167ca5eebc2853
+      internalID: 1453343037
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_17
+      name: Player_PushingTree 1_17
       rect:
         serializedVersion: 2
         x: 128
@@ -468,14 +468,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 56d14a9d06c55c74db4f69062e546f08
-      internalID: 14958034
+      spriteID: d88a56ec657ba2c438795b083ed75f70
+      internalID: -1997881645
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_18
+      name: Player_PushingTree 1_18
       rect:
         serializedVersion: 2
         x: 0
@@ -489,14 +489,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 65a6d8a0c908f5f4fb27508925cb4c9f
-      internalID: 493752819
+      spriteID: 48c37ea441390454f885e129192056a2
+      internalID: -554884878
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_19
+      name: Player_PushingTree 1_19
       rect:
         serializedVersion: 2
         x: 16
@@ -510,14 +510,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69548bc4857f3144fb124629d3bdacea
-      internalID: -1488907968
+      spriteID: adb8a45477fdb34468f55db5036af5f0
+      internalID: 1135874891
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_20
+      name: Player_PushingTree 1_20
       rect:
         serializedVersion: 2
         x: 32
@@ -531,14 +531,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 777553160c424b74b87162f0ff133471
-      internalID: -556001781
+      spriteID: 420d533c711706e46ac8df206c7468cd
+      internalID: -235287413
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_21
+      name: Player_PushingTree 1_21
       rect:
         serializedVersion: 2
         x: 48
@@ -552,14 +552,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 28b7fc0c7d256c8498fbee2b54004783
-      internalID: -269936347
+      spriteID: b6b65c14a14683c4c96a60d0819bce24
+      internalID: 531000081
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_22
+      name: Player_PushingTree 1_22
       rect:
         serializedVersion: 2
         x: 64
@@ -573,14 +573,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 36082f6d74b39564d9a6b9ad5a677f25
-      internalID: -594250852
+      spriteID: f4c609947050d3740a49c04cdc7a26d9
+      internalID: -800928311
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_23
+      name: Player_PushingTree 1_23
       rect:
         serializedVersion: 2
         x: 80
@@ -594,14 +594,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd519184dc846f343bd38664ba99fd4e
-      internalID: 1435810458
+      spriteID: 026af5a65b4c58d44adb8c5549294d01
+      internalID: -1508409691
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_24
+      name: Player_PushingTree 1_24
       rect:
         serializedVersion: 2
         x: 96
@@ -615,14 +615,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9840094107a3f1c47b17974eb5245cdd
-      internalID: 1170035877
+      spriteID: a8f33cdefc129c04d83ef196a44335e1
+      internalID: -673268386
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_25
+      name: Player_PushingTree 1_25
       rect:
         serializedVersion: 2
         x: 112
@@ -636,14 +636,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 75eb61a1dc60d8644a84c8f719fc682d
-      internalID: 1069988179
+      spriteID: 31eddac1c96715749bbcaa2e8cadf178
+      internalID: 445371158
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_Push_26
+      name: Player_PushingTree 1_26
       rect:
         serializedVersion: 2
         x: 128
@@ -657,8 +657,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6c93198c87b3ca47920a456c858a01a
-      internalID: -1668785279
+      spriteID: f52b3b6a11ad99844b19421932b408c8
+      internalID: -1580856779
       vertices: []
       indices: 
       edges: []
@@ -674,33 +674,33 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player_Push_0: -1971762019
-      Player_Push_1: -1843358297
-      Player_Push_10: -1527038624
-      Player_Push_11: -262821844
-      Player_Push_12: -154729495
-      Player_Push_13: 1837547933
-      Player_Push_14: -810760327
-      Player_Push_15: -1734381660
-      Player_Push_16: 1174443073
-      Player_Push_17: 14958034
-      Player_Push_18: 493752819
-      Player_Push_19: -1488907968
-      Player_Push_2: -875632321
-      Player_Push_20: -556001781
-      Player_Push_21: -269936347
-      Player_Push_22: -594250852
-      Player_Push_23: 1435810458
-      Player_Push_24: 1170035877
-      Player_Push_25: 1069988179
-      Player_Push_26: -1668785279
-      Player_Push_3: -1317081581
-      Player_Push_4: -2008290121
-      Player_Push_5: 1508305553
-      Player_Push_6: 1043625678
-      Player_Push_7: -1906840559
-      Player_Push_8: -1781520354
-      Player_Push_9: -1881187103
+      Player_PushingTree 1_0: -221296673
+      Player_PushingTree 1_1: -218604986
+      Player_PushingTree 1_10: 811894902
+      Player_PushingTree 1_11: 1154675553
+      Player_PushingTree 1_12: 1564405297
+      Player_PushingTree 1_13: 52755063
+      Player_PushingTree 1_14: -47735153
+      Player_PushingTree 1_15: -2084028059
+      Player_PushingTree 1_16: 1453343037
+      Player_PushingTree 1_17: -1997881645
+      Player_PushingTree 1_18: -554884878
+      Player_PushingTree 1_19: 1135874891
+      Player_PushingTree 1_2: -1030682177
+      Player_PushingTree 1_20: -235287413
+      Player_PushingTree 1_21: 531000081
+      Player_PushingTree 1_22: -800928311
+      Player_PushingTree 1_23: -1508409691
+      Player_PushingTree 1_24: -673268386
+      Player_PushingTree 1_25: 445371158
+      Player_PushingTree 1_26: -1580856779
+      Player_PushingTree 1_3: -1605168936
+      Player_PushingTree 1_4: 29171824
+      Player_PushingTree 1_5: -2027638575
+      Player_PushingTree 1_6: -1469985165
+      Player_PushingTree 1_7: -1305486263
+      Player_PushingTree 1_8: 2067364693
+      Player_PushingTree 1_9: -2024765524
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
