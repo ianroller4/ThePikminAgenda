@@ -9,7 +9,8 @@ using UnityEngine;
  */
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
-{
+{ 
+
     // --- Component References ---
     private Rigidbody2D rb;
 
@@ -20,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
     // --- Animator ---
     private Animator animator;
     private Vector2 lastDir = Vector2.zero;
+    private bool isPushing = false;
+    private bool isHolding = false;
 
     /* Start
      * 
@@ -47,8 +50,11 @@ public class PlayerMovement : MonoBehaviour
      */
     void Update()
     {
-        ListenForInput();
-        Move();
+        if (!isPushing)
+        {
+            ListenForInput();
+            Move();
+        }
     }
 
     /* ListenForInput
@@ -66,19 +72,64 @@ public class PlayerMovement : MonoBehaviour
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
         input = input.normalized;
-        // Player moving so move animation
-        if (input != Vector2.zero)
+
+        if (!isHolding)
         {
-            animator.SetBool("idle", false);
+            // Player moving so move animation
+            if (input != Vector2.zero)
+            {
+                animator.SetBool("idle", false);
+                lastDir = input;
+                animator.SetFloat("x", input.x);
+                animator.SetFloat("y", input.y);
+            }
+            else // Player not moving so idle animation
+            {
+                animator.SetBool("idle", true);
+                animator.SetFloat("x", lastDir.x);
+                animator.SetFloat("y", lastDir.y);
+            }
+
+            // pushing animation
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                input = Vector2.zero;
+                isPushing = true;
+                animator.SetTrigger("push");
+                animator.SetFloat("x", lastDir.x);
+                animator.SetFloat("y", lastDir.y);
+            }
+        }
+
+        // Player moving so holdmove animation
+        if (Input.GetMouseButton(0))
+        {
+            isHolding = true;
+        }
+        else
+        {
+            isHolding = false;
+        }
+
+        if (isHolding && input != Vector2.zero) 
+        { 
             lastDir = input;
+            animator.SetBool("holdwalk", true);
+            animator.SetBool("holdidle", false);
             animator.SetFloat("x", input.x);
             animator.SetFloat("y", input.y);
         }
-        else // Player not moving so idle animation
+        else if(isHolding) // Player not moving so holdidle animation
         {
-            animator.SetBool("idle", true);
+            animator.SetBool("holdwalk", false);
+            animator.SetBool("holdidle", true);
             animator.SetFloat("x", lastDir.x);
             animator.SetFloat("y", lastDir.y);
+        }
+        else
+        {
+            animator.SetBool("holdwalk", false);
+            animator.SetBool("holdidle", false);
         }
     }
 
@@ -94,5 +145,10 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         rb.velocity = input * speed;
+    }
+
+    public void PushingEnd()
+    {
+        isPushing = false;
     }
 }
