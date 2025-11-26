@@ -31,7 +31,7 @@ public class Whistle : MonoBehaviour
     private GameObject player;
 
     // --- Audio ---
-    [SerializeField] private AudioSource audioSource;
+    private AudioSource audioSource;
 
     /* Start
      * 
