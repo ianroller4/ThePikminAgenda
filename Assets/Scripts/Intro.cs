@@ -20,7 +20,7 @@ public class Intro : MonoBehaviour
     private PlayerMovement player;
     [SerializeField]
     private SillyLittleGuys SLG;
-    [SerializeField]
+    [SerializeField] 
     private SillyLittleGuys SLGIntroDummy;
     [SerializeField]
     private Sprite playerSpinning;
@@ -165,6 +165,7 @@ public class Intro : MonoBehaviour
     public void OnHoldInput()
     {
         director.playableGraph.GetRootPlayable(0).SetSpeed(1);
+        SLG.GetComponent<SpriteRenderer>().sortingLayerName = "UI";
         isHold = false;
     }
 
@@ -172,6 +173,7 @@ public class Intro : MonoBehaviour
     {
         SLG.GetComponent<SpriteRenderer>().enabled = false;
         SLGIntroDummy.transform.position = SLG.transform.position;
+        player.GetComponent<Animator>().Play("PlayerIdleThrowRight");
         SLGIntroDummy.EnterThrownState(throwPoint.position);
         StartCoroutine(ThrowAndResume());
         isThrew = false;
@@ -186,6 +188,7 @@ public class Intro : MonoBehaviour
         slgManager.RemoveFollowingSLG(SLGIntroDummy);
         Destroy(SLGIntroDummy.gameObject);
         SLG.GetComponent<SpriteRenderer>().enabled = true;
+        SLG.GetComponent<SpriteRenderer>().sortingLayerName = "Default";
     }
 
     public void OnCallbackInput()
@@ -200,7 +203,6 @@ public class Intro : MonoBehaviour
         mainCamera.GetComponent<SimpleCameraFollow>().enabled = true;
         mainCamera.GetComponent<CameraUpgrade>().enabled = true;
         mainCamera.GetComponent<CinemachineBrain>().enabled = false;
-        player.GetComponent<PlayerMovement>().enabled = true;
         player.transform.Find("Cursor").gameObject.SetActive(true);
         player.GetComponent<Animator>().Play("Idle_BlendTree");
         SLG.GetComponent<Animator>().Play("Idle");
@@ -211,6 +213,8 @@ public class Intro : MonoBehaviour
     {
         yield return new WaitForSeconds(2.1f);
         this.gameObject.SetActive(false);
+        SLG.EnterFollowState();
+        player.GetComponent<PlayerMovement>().enabled = true;
     }
 
     public void IntroSkip()
