@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -42,15 +41,6 @@ public class SillyLittleGuys : MonoBehaviour
     
     // --- Misc Variables --- 
     public float idleSearchRange = 2;
-
-    // --- Sound ---
-    private AudioSource audioSource;
-    [SerializeField] private AudioClip[] idleSounds;
-    [SerializeField] private AudioClip throwSound;
-    [SerializeField] private AudioClip deathSound;
-    [SerializeField] private float soundTimeMax = 3f;
-    [SerializeField] private float soundChance = 0.1f;
-    private float soundTimer = 0f;
 
     public enum States
     {
@@ -105,8 +95,6 @@ public class SillyLittleGuys : MonoBehaviour
         player = GameObject.Find("Player");
 
         prevPosition = transform.position;
-
-        audioSource = GetComponent<AudioSource>();
     }
 
     /* Update
@@ -124,11 +112,9 @@ public class SillyLittleGuys : MonoBehaviour
         {
             case States.IDLE:
                 UpdateIdleState();
-                PlayRandomSound();
                 break;
             case States.FOLLOW:
                 UpdateFollowState();
-                PlayRandomSound();
                 break;
             case States.HELD:
                 UpdateHeldState();
@@ -138,14 +124,12 @@ public class SillyLittleGuys : MonoBehaviour
                 break;
             case States.DISMISS:
                 UpdateDismissState();
-                PlayRandomSound();
                 break;
             case States.ATTACK:
                 UpdateAttackState();
                 break;
             case States.CARRY:
                 UpdateCarryState();
-                PlayRandomSound();
                 break;
         }
     }
@@ -323,7 +307,6 @@ public class SillyLittleGuys : MonoBehaviour
         thrownTarget = target;
         direction = (thrownTarget - transform.position).normalized;
         throwLerp = 0;
-        PlayAudio(throwSound);
     }
 
     /* UpdateThrownState
@@ -666,24 +649,5 @@ public class SillyLittleGuys : MonoBehaviour
 
         // Create attack hitbox prefab on enemy position
         Instantiate(AttackHitboxPrefab, targetEnemy.transform.position, Quaternion.identity);
-    }
-
-    private void PlayAudio(AudioClip sound)
-    {
-        audioSource.clip = sound;
-        audioSource.Play();
-    }
-
-    private void PlayRandomSound()
-    {
-        soundTimer += Time.deltaTime;
-        if (soundTimer >= soundTimeMax)
-        {
-            soundTimer -= soundTimeMax;
-            if (Random.Range(0f, 1f) < soundChance)
-            {
-                audioSource.clip = idleSounds[Random.Range(0, idleSounds.Length - 1)];
-            }
-        }
     }
 }
