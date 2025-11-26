@@ -10,14 +10,9 @@ public class SLGSpawner : MonoBehaviour
     public float maxSpawnDistance = 3f;
 
     private bool playerNear = false;
-    private bool canSpawn = false;
-
-    private float timer = 0f;
-    public float spawnCooldown = 1f;
 
     private void Update()
     {
-
         if (playerNear)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -25,7 +20,6 @@ public class SLGSpawner : MonoBehaviour
                 SpawnSLG();
             }
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -34,7 +28,6 @@ public class SLGSpawner : MonoBehaviour
         if (go != null)
         {
             playerNear = true;
-            canSpawn = true;
         }
         else
         {
@@ -48,21 +41,10 @@ public class SLGSpawner : MonoBehaviour
         if (go != null)
         {
             playerNear = false;
-            canSpawn = false;
         }
         else
         {
             Debug.LogWarning("No game object with collider..... somehow");
-        }
-    }
-
-    private void UpdateTimer()
-    {
-        timer += Time.deltaTime;
-        if (timer > spawnCooldown)
-        {
-            timer = 0f;
-            canSpawn = true;
         }
     }
 
@@ -73,7 +55,6 @@ public class SLGSpawner : MonoBehaviour
         Vector3 spawnPosition = transform.position + dir * Random.Range(minSpawnDistance, maxSpawnDistance);
         GameObject slg = Instantiate(slgPrefab);
         slg.transform.position = spawnPosition;
-        canSpawn = false;
     }
 
     private Vector3 ApplyRotationToVector(Vector3 v, float angle)
