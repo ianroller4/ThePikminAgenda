@@ -28,6 +28,8 @@ public class CarryableObject : MonoBehaviour
 
     private List<Vector3> carryPositions;
 
+    [SerializeField] private Fraction fraction;
+
     /* Start
      * 
      * Called once before the first frame of update
@@ -49,6 +51,8 @@ public class CarryableObject : MonoBehaviour
 
         carriers = new List<SillyLittleGuys>();
         carryPositions = new List<Vector3>();
+
+        InitFraction();
     }
 
     /* Update
@@ -65,6 +69,7 @@ public class CarryableObject : MonoBehaviour
         BuildCarryPositions();
         AssignCarryPositions();
         HasEnoughCarriers();
+        UpdateFraction();
         if (canMove)
         {
             agent.SetDestination(target);
@@ -77,6 +82,29 @@ public class CarryableObject : MonoBehaviour
                 }
                 carriers.Clear();
             }
+        }
+    }
+
+    private void InitFraction()
+    {
+        fraction.transform.position = transform.position + Vector3.up * 2;
+        fraction.SetDenominator(slgNeededForCarry.ToString());
+        fraction.SetNumerator("0");
+        fraction.gameObject.SetActive(false);
+    }
+
+    private void UpdateFraction()
+    {
+        fraction.transform.position = transform.position + Vector3.up * 2;
+        if (carriers.Count > 0)
+        {
+            fraction.gameObject.SetActive(true);
+            fraction.SetNumerator(carriers.Count.ToString());
+        }
+        else
+        {
+            fraction.SetNumerator("0");
+            fraction.gameObject.SetActive(false);
         }
     }
 
