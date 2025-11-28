@@ -158,6 +158,7 @@ public class Whistle : MonoBehaviour
             currentWhistleRadius = whistleRadiusStart;
             transform.localScale = new Vector3(currentWhistleRadius * 2, currentWhistleRadius * 2, 1);
             rotationSpeed = baseRotationSpeed;
+            PLAY_SOUND = true;
         }
     }
 
