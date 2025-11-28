@@ -29,7 +29,7 @@ public class Boss : MonoBehaviour
     [SerializeField]
     private GameObject target;
     [SerializeField]
-    private GameObject NormalAttackPrefab;
+    private GameObject NormalMeleeAttackPrefab;
     [SerializeField]
     private GameObject RangeAttackPrefab;
     [SerializeField]
@@ -110,23 +110,6 @@ public class Boss : MonoBehaviour
         Debug.Log(currentState);
     }
 
-    /* Chase
-     * 
-     * Continuously moves toward the target SLG
-     * 
-     * When the SLG is close enough, starts an attack
-     * 
-     * Parameters: None
-     * 
-     * Return: None
-     * 
-     */
-
-    private void ChooseNormalAttack()
-    {
-
-    }
-
     private void Chase()
     {
         animator.SetBool("isChase", true);
@@ -150,10 +133,10 @@ public class Boss : MonoBehaviour
         //----------------------------------------------
 
 
-        // Choosing which normal attack proceed
         float dist = Vector2.Distance(transform.position, target.transform.position);
 
-        // if slgs are close, excute meele attack
+        // Choosing which normal attack proceed
+        // --------if slgs are close, excute meele attack-------
         if (dist < attackRange)
         {
             normalAttackTimer = 0f;
@@ -165,32 +148,25 @@ public class Boss : MonoBehaviour
             normalAttackTimer += Time.deltaTime;
             agent.isStopped = false;
         }
+        //-------------------------------------------------------
 
-        // if slgs are far for 5secs, excute range attack
+
+        //-----if slgs are far for 5secs, excute range attack----
         if(normalAttackTimer <= 5f)
         {
             animator.SetBool("isChase", false);
             currentState = BossState.RangeAttack;
         }
-
+        //--------------------------------------------------------
         UpdateMovementDirection();
     }
 
-    /* Attack
-     * 
-     * Saves the attack position and plays the attack animation
-     * 
-     * Parameters: None
-     * 
-     * Return: None
-     * 
-     */
     private void NormalMeleeAttack()
     {
         animator.SetBool("isMeleeAttack", true);
-        animator.SetBool("isIdle", false);
-        animator.SetBool("isWalk", false);
+        animator.SetBool("isChase", false);
 
+        // setting melee attack pos and dir
         if (attackTimer == 0f && target != null)
         {
             hasAttacked = false;
@@ -204,26 +180,67 @@ public class Boss : MonoBehaviour
 
         attackTimer += Time.deltaTime;
 
-        if (attackTimer >= 1.1f) // attack time 1.1secs
+        // melee attack ends, return to Chase state
+        if (attackTimer >= 2f)
         {
             attackTimer = 0f;
             target = null;
             agent.ResetPath();
-            animator.SetBool("isAttack", false);
-            currentState = EnemyState.Idle;
+            animator.SetBool("isMeleeAttack", false);
+            currentState = BossState.Chase;
         }
+    }
+
+    private void RangeAttack()
+    {
+        animator.SetBool("isRangeAttack", true);
+        animator.SetBool("isChase", false);
+
+        // setting Range attack pos and dir
+        if (attackTimer == 0f && target != null)
+        {
+            hasAttacked = false;
+            attackPos = target.transform.position; // saves the attack position
+            Vector3 dir = (target.transform.position - transform.position).normalized;
+            animator.SetFloat("x", dir.x);
+            animator.SetFloat("y", dir.y);
+
+            lastLookDir = new Vector2(dir.x, dir.y);
+        }
+
+        attackTimer += Time.deltaTime;
+
+        // Range attack ends, return to Chase state
+        if (attackTimer >= 2f)
+        {
+            attackTimer = 0f;
+            target = null;
+            agent.ResetPath();
+            animator.SetBool("isRangeAttack", false);
+            currentState = BossState.Chase;
+        }
+    }
+
+    private void RollingAttack()
+    {
 
     }
 
-    /* searchSLG
-     *
-     * Searches for SLGs within the detection radius and returns the closest one.
-     *
-     * Parameters: None
-     *
-     * Return: GameObject (closest SLG) or Null
-     * 
-     */
+    private void RockFragmentsAttack()
+    {
+
+    }
+
+    private void Groggy()
+    {
+
+    }
+
+    private void ChooseBigAttack()
+    {
+
+    }
+
     private GameObject searchSLG()
     {
         Vector2 currentPos = transform.position;
@@ -290,6 +307,53 @@ public class Boss : MonoBehaviour
         }
         hasAttacked = true;
 
-        Instantiate(NormalAttackPrefab, attackPos, Quaternion.identity);
+        Instantiate(NormalMeleeAttackPrefab, attackPos, Quaternion.identity);
+    }
+
+    public void SpawnRangeAttackHitbox()
+    {
+        // To make sure creating one hitbox prefab for one attack
+        if (hasAttacked)
+        {
+            return;
+        }
+        hasAttacked = true;
+
+        Instantiate(RangeAttackPrefab, attackPos, Quaternion.identity);
+    }
+
+    public void SpawnRocksForRollingAttack()
+    {
+        // To make sure creating one hitbox prefab for one attack
+        if (hasAttacked)
+        {
+            return;
+        }
+        hasAttacked = true;
+
+        for (int i = 0; i < 10; i++)
+        {
+            float randomPos = Random.Range();
+            Instantiate(CrumblingRockPrefab, randomPos, Quaternion.identity);
+        }
+
+        float randomPos = Random.Range();
+        Instantiate(RemaningRockPrefab, randomPos, Quaternion.identity);
+    }
+
+    public void SpawnRocksForFragmentsAttack()
+    {
+        // To make sure creating one hitbox prefab for one attack
+        if (hasAttacked)
+        {
+            return;
+        }
+        hasAttacked = true;
+
+        for (int i = 0; i < 3; i++)
+        {
+            float randomPos = Random.Range();
+            Instantiate(RemaningRockPrefab, randomPos, Quaternion.identity);
+        }
     }
 }
