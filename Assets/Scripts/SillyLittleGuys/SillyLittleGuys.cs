@@ -71,6 +71,13 @@ public class SillyLittleGuys : MonoBehaviour
     public float height = 3f;
     private float throwLerp = 0f;
 
+    // --- Audio ---
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip throwSound;
+    [SerializeField] private AudioClip[] randomSounds;
+    private float soundTimer = 0f;
+    [SerializeField] private float soundTimerMax = 3f;
+    [SerializeField] private float soundChance = 0.1f;
 
     /* Start
      * 
@@ -102,6 +109,8 @@ public class SillyLittleGuys : MonoBehaviour
 
         prevPosition = transform.position;
 
+        audioSource.GetComponent<AudioSource>();
+
     }
 
     /* Update
@@ -119,12 +128,15 @@ public class SillyLittleGuys : MonoBehaviour
         {
             case States.IDLE:
                 UpdateIdleState();
+                RandomSoundTimer();
                 break;
             case States.FOLLOW:
                 UpdateFollowState();
+                RandomSoundTimer();
                 break;
             case States.HELD:
                 UpdateHeldState();
+                RandomSoundTimer();
                 break;
             case States.THROWN:
                 UpdateThrownState();
@@ -137,7 +149,33 @@ public class SillyLittleGuys : MonoBehaviour
                 break;
             case States.CARRY:
                 UpdateCarryState();
+                RandomSoundTimer();
                 break;
+        }
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        audioSource.clip = clip;   
+        audioSource.Play();
+    }
+
+    private void PlayRandomSound()
+    {
+        audioSource.clip = randomSounds[Random.Range(0, randomSounds.Length - 1)];
+        audioSource.Play();
+    }
+
+    private void RandomSoundTimer()
+    {
+        soundTimer += Time.deltaTime;
+        if (soundTimer > soundTimerMax)
+        {
+            soundTimer -= soundTimerMax;
+            if (Random.Range(0, 1) < soundChance)
+            {
+                PlayRandomSound();
+            }
         }
     }
 
@@ -362,6 +400,7 @@ public class SillyLittleGuys : MonoBehaviour
         thrownTarget = target;
         direction = (thrownTarget - transform.position).normalized;
         throwLerp = 0;
+        PlaySound(throwSound);
     }
 
     /* UpdateThrownState
