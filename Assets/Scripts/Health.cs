@@ -14,6 +14,9 @@ public class Health : MonoBehaviour
     [SerializeField]
     private GameObject deathEffectPrefab;
 
+    [SerializeField]
+    private GameObject fireDeathPrefab;
+
     private bool isHitWithin5secs = false;
 
     // initialize references and set current HP to max
@@ -75,6 +78,24 @@ public class Health : MonoBehaviour
             fxAnim.SetFloat("y", slg.lastDir.y);
 
             Destroy(deathFX,1.5f);
+
+            slgManager.RemoveSLG(slg);
+            slgManager.RemoveFollowingSLG(slg);
+            Destroy(gameObject);
+            Debug.Log(gameObject.name + "is dead");
+
+        }
+    }
+
+    public void KillWithFire()
+    {
+        if (gameObject.layer == LayerMask.NameToLayer("SLG"))
+        {
+            SillyLittleGuys slg = gameObject.GetComponent<SillyLittleGuys>();
+
+            GameObject deathFX = Instantiate(fireDeathPrefab, transform.position, Quaternion.identity);
+
+            Destroy(deathFX, 1f);
 
             slgManager.RemoveSLG(slg);
             slgManager.RemoveFollowingSLG(slg);
