@@ -76,8 +76,8 @@ public class SillyLittleGuys : MonoBehaviour
     [SerializeField] private AudioClip throwSound;
     [SerializeField] private AudioClip[] randomSounds;
     private float soundTimer = 0f;
-    [SerializeField] private float soundTimerMax = 3f;
-    [SerializeField] private float soundChance = 0.1f;
+    [SerializeField] private float soundTimerMax = 4f;
+    [SerializeField] private float soundChance = 0.05f;
 
     /* Start
      * 
@@ -163,7 +163,10 @@ public class SillyLittleGuys : MonoBehaviour
     {
         int index = (int)Random.Range(0, randomSounds.Length - 1);
         audioSource.clip = randomSounds[index];
-        audioSource.Play();
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
     }
 
     private void RandomSoundTimer()
@@ -172,7 +175,7 @@ public class SillyLittleGuys : MonoBehaviour
         if (soundTimer > soundTimerMax)
         {
             soundTimer -= soundTimerMax;
-            if (Random.Range(0, 1) < soundChance)
+            if (Random.Range(0f, 1f) < soundChance)
             {
                 PlayRandomSound();
             }
@@ -400,6 +403,7 @@ public class SillyLittleGuys : MonoBehaviour
         thrownTarget = target;
         direction = (thrownTarget - transform.position).normalized;
         throwLerp = 0;
+        audioSource.Stop();
         PlaySound(throwSound);
     }
 
