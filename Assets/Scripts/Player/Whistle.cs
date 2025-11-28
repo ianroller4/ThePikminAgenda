@@ -30,6 +30,12 @@ public class Whistle : MonoBehaviour
     // --- Player Reference ---
     private GameObject player;
 
+    // --- Audio ---
+    private AudioSource audioSource;
+    private bool PLAY_SOUND = true;
+    private float soundTimer = 0f;
+    private float soundTimerMax = 2f;
+
     /* Start
      * 
      * Called once before the first frame of update
@@ -116,6 +122,20 @@ public class Whistle : MonoBehaviour
     {
         if (isWhistling)
         {
+            if (PLAY_SOUND)
+            {
+                PlaySound();
+            }
+            else
+            {
+                soundTimer += Time.deltaTime;
+                if (soundTimer > soundTimerMax)
+                {
+                    soundTimer -= soundTimerMax;
+                    PLAY_SOUND = true;
+                }
+            }
+
             // Increase radius
             currentWhistleRadius += whistleRadiusIncreaseSpeed * Time.deltaTime;
             if (currentWhistleRadius > whistleRadiusMax)
@@ -137,6 +157,7 @@ public class Whistle : MonoBehaviour
             currentWhistleRadius = whistleRadiusStart;
             transform.localScale = new Vector3(currentWhistleRadius * 2, currentWhistleRadius * 2, 1);
             rotationSpeed = baseRotationSpeed;
+            PLAY_SOUND = true;
         }
     }
 
@@ -145,5 +166,14 @@ public class Whistle : MonoBehaviour
         Vector3 rotate = new Vector3(0, 0, rotationSpeed * Time.deltaTime);
         outerCircle.transform.Rotate(rotate);
         innerCircle.transform.Rotate(-rotate);
+    }
+
+    private void PlaySound()
+    {
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+            PLAY_SOUND = false;
+        }
     }
 }
