@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -36,21 +35,16 @@ public class SillyLittleGuys : MonoBehaviour
 
     private GameObject player;
 
+    private Animator playerAnimator;
+
     private CarryableObject carryObject = null;
 
     private Enemy targetEnemy;
-    
+
+    private SpriteRenderer sr;
+
     // --- Misc Variables --- 
     public float idleSearchRange = 2;
-
-    // --- Sound ---
-    private AudioSource audioSource;
-    [SerializeField] private AudioClip[] idleSounds;
-    [SerializeField] private AudioClip throwSound;
-    [SerializeField] private AudioClip deathSound;
-    [SerializeField] private float soundTimeMax = 3f;
-    [SerializeField] private float soundChance = 0.1f;
-    private float soundTimer = 0f;
 
     public enum States
     {
@@ -89,6 +83,7 @@ public class SillyLittleGuys : MonoBehaviour
      */
     private void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -103,10 +98,10 @@ public class SillyLittleGuys : MonoBehaviour
         slgManager.AddSLG(this);
         moveToTarget = transform.position;
         player = GameObject.Find("Player");
+        playerAnimator = player.GetComponent<Animator>();
 
         prevPosition = transform.position;
 
-        audioSource = GetComponent<AudioSource>();
     }
 
     /* Update
@@ -124,11 +119,9 @@ public class SillyLittleGuys : MonoBehaviour
         {
             case States.IDLE:
                 UpdateIdleState();
-                PlayRandomSound();
                 break;
             case States.FOLLOW:
                 UpdateFollowState();
-                PlayRandomSound();
                 break;
             case States.HELD:
                 UpdateHeldState();
@@ -138,14 +131,12 @@ public class SillyLittleGuys : MonoBehaviour
                 break;
             case States.DISMISS:
                 UpdateDismissState();
-                PlayRandomSound();
                 break;
             case States.ATTACK:
                 UpdateAttackState();
                 break;
             case States.CARRY:
                 UpdateCarryState();
-                PlayRandomSound();
                 break;
         }
     }
@@ -171,6 +162,7 @@ public class SillyLittleGuys : MonoBehaviour
         state = States.IDLE;
         animator.SetBool("idle", true);
         animator.SetBool("attack", false);
+        animator.SetBool("held", false);
         animator.SetFloat("x", lastDir.x);
         animator.SetFloat("y", lastDir.y);
     }
@@ -271,6 +263,8 @@ public class SillyLittleGuys : MonoBehaviour
         slgManager.RemoveFollowingSLG(this);
         GetComponent<Collider2D>().enabled = false;
         agent.enabled = false;
+
+        animator.SetBool("held", true);
     }
 
     /* UpdateHeldState
@@ -284,7 +278,48 @@ public class SillyLittleGuys : MonoBehaviour
      */
     public void UpdateHeldState()
     {
-        transform.position = player.transform.position + Vector3.right;
+        float dirX = playerAnimator.GetFloat("x");
+        float dirY = playerAnimator.GetFloat("y");
+
+        Vector3 offset = Vector3.zero;
+        Vector2 animDir = Vector2.down;
+
+        if (Mathf.Abs(dirX) >= Mathf.Abs(dirY))
+        {
+            if (dirX >= 0f)
+            {
+                offset = new Vector3(-0.25f, 0.2f, 0f);
+                animDir = Vector2.right;
+                sr.sortingLayerName = "AboveDefault";
+            }
+            else
+            {
+                offset = new Vector3(0.25f, 0.2f, 0f);
+                animDir = Vector2.left;
+                sr.sortingLayerName = "AboveDefault";
+            }
+        }
+        else
+        {
+            if (dirY >= 0f)
+            {
+                offset = new Vector3(-0.26f, 0.2f, 0f);
+                animDir = Vector2.up;
+                sr.sortingLayerName = "Default";
+            }
+            else
+            {
+                offset = new Vector3(0.27f, 0.2f, 0f);
+                animDir = Vector2.down;
+                sr.sortingLayerName = "AboveDefault";
+            }
+        }
+
+        transform.position = player.transform.position + offset;
+        animator.SetFloat("x", animDir.x);
+        animator.SetFloat("y", animDir.y);
+
+        lastDir = animDir;
     }
 
     /* ExitHeldState
@@ -303,6 +338,10 @@ public class SillyLittleGuys : MonoBehaviour
         GetComponent<Collider2D>().enabled = true;
         agent.enabled = true;
         slgManager.AddFollowingSLG(this);
+
+        sr.sortingLayerName = "Default";
+
+        animator.SetBool("held", false);
     }
 
     // --- THROWN State --- 
@@ -323,7 +362,6 @@ public class SillyLittleGuys : MonoBehaviour
         thrownTarget = target;
         direction = (thrownTarget - transform.position).normalized;
         throwLerp = 0;
-        PlayAudio(throwSound);
     }
 
     /* UpdateThrownState
@@ -380,6 +418,9 @@ public class SillyLittleGuys : MonoBehaviour
         // Enable agent and collider
         agent.enabled = true;
         GetComponent<Collider2D>().enabled = true;
+
+        animator.SetBool("held", false);
+        sr.sortingLayerName = "Default";
     }
 
     // --- DISMISS State ---
@@ -668,22 +709,19 @@ public class SillyLittleGuys : MonoBehaviour
         Instantiate(AttackHitboxPrefab, targetEnemy.transform.position, Quaternion.identity);
     }
 
-    private void PlayAudio(AudioClip sound)
+    public void GravityOn()
     {
-        audioSource.clip = sound;
-        audioSource.Play();
+        //GetComponent<Rigidbody2D>().gravityScale = 1;
+
+
+        Debug.Log("GravityOn!");
     }
 
-    private void PlayRandomSound()
+    public void BornEnd()
     {
-        soundTimer += Time.deltaTime;
-        if (soundTimer >= soundTimeMax)
-        {
-            soundTimer -= soundTimeMax;
-            if (Random.Range(0f, 1f) < soundChance)
-            {
-                audioSource.clip = idleSounds[Random.Range(0, idleSounds.Length - 1)];
-            }
-        }
+        sr.sortingLayerName = "Default";
+        //GetComponent<Rigidbody2D>().gravityScale = 0;
+
+        Debug.Log("BornEND!");
     }
 }

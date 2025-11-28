@@ -10,9 +10,14 @@ public class SLGSpawner : MonoBehaviour
     public float maxSpawnDistance = 3f;
 
     private bool playerNear = false;
+    private bool canSpawn = false;
+
+    private float timer = 0f;
+    public float spawnCooldown = 1f;
 
     private void Update()
     {
+
         if (playerNear)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -20,6 +25,7 @@ public class SLGSpawner : MonoBehaviour
                 SpawnSLG();
             }
         }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -28,6 +34,7 @@ public class SLGSpawner : MonoBehaviour
         if (go != null)
         {
             playerNear = true;
+            canSpawn = true;
         }
         else
         {
@@ -41,6 +48,7 @@ public class SLGSpawner : MonoBehaviour
         if (go != null)
         {
             playerNear = false;
+            canSpawn = false;
         }
         else
         {
@@ -48,13 +56,27 @@ public class SLGSpawner : MonoBehaviour
         }
     }
 
+    private void UpdateTimer()
+    {
+        timer += Time.deltaTime;
+        if (timer > spawnCooldown)
+        {
+            timer = 0f;
+            canSpawn = true;
+        }
+    }
+
     private void SpawnSLG()
     {
         float angle = Random.Range(0, 360);
-        Vector3 dir = ApplyRotationToVector(Vector3.right, angle);
-        Vector3 spawnPosition = transform.position + dir * Random.Range(minSpawnDistance, maxSpawnDistance);
-        GameObject slg = Instantiate(slgPrefab);
-        slg.transform.position = spawnPosition;
+        float radius = Random.Range(minSpawnDistance, maxSpawnDistance);
+
+        Vector3 spawnPosition = (transform.position + new Vector3(0, -1f, 0)) + (Vector3)(Random.insideUnitCircle * radius);
+        GameObject slg = Instantiate(slgPrefab, spawnPosition, Quaternion.identity);
+        Animator anim = slg.GetComponent<Animator>();
+        anim.Play("Born", 0, 0f);
+        slg.GetComponent<SpriteRenderer>().sortingLayerName = "AboveDefault";
+        canSpawn = false;
     }
 
     private Vector3 ApplyRotationToVector(Vector3 v, float angle)

@@ -9,17 +9,20 @@ using UnityEngine;
  */
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
-{
+{ 
+
     // --- Component References ---
     private Rigidbody2D rb;
 
     // --- Variables ---
     public float speed = 5f;
     private Vector2 input;
+    public bool canGrab = true;
 
     // --- Animator ---
     private Animator animator;
     private Vector2 lastDir = Vector2.zero;
+    private bool isPushing = false;
 
     /* Start
      * 
@@ -47,8 +50,11 @@ public class PlayerMovement : MonoBehaviour
      */
     void Update()
     {
-        ListenForInput();
-        Move();
+        if (!isPushing)
+        {
+            ListenForInput();
+            Move();
+        }
     }
 
     /* ListenForInput
@@ -66,6 +72,47 @@ public class PlayerMovement : MonoBehaviour
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
         input = input.normalized;
+
+
+        // throw
+        if (Input.GetMouseButtonUp(0))
+        {
+            //canGrab = false;
+            animator.SetBool("holdwalk", false);
+            animator.SetBool("holdidle", false);
+            animator.SetBool("idle", false);
+
+            animator.SetFloat("x", lastDir.x);
+            animator.SetFloat("y", lastDir.y);
+            animator.SetTrigger("throw");
+
+            return;
+        }
+
+        // Player moving so holdmove animation
+        if (Input.GetMouseButton(0))
+        {
+            if (input != Vector2.zero)
+            {
+                lastDir = input; animator.SetBool("holdwalk", true);
+                animator.SetBool("holdidle", false);
+                animator.SetFloat("x", input.x);
+                animator.SetFloat("y", input.y);
+            }
+            else // Player not moving so holdidle animation
+            {
+                animator.SetBool("holdwalk", false);
+                animator.SetBool("holdidle", true);
+                animator.SetFloat("x", lastDir.x);
+                animator.SetFloat("y", lastDir.y);
+            }
+
+            return;
+        }
+
+        animator.SetBool("holdwalk", false);
+        animator.SetBool("holdidle", false);
+
         // Player moving so move animation
         if (input != Vector2.zero)
         {
@@ -77,6 +124,16 @@ public class PlayerMovement : MonoBehaviour
         else // Player not moving so idle animation
         {
             animator.SetBool("idle", true);
+            animator.SetFloat("x", lastDir.x);
+            animator.SetFloat("y", lastDir.y);
+        }
+
+        // pushing animation
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            input = Vector2.zero;
+            isPushing = true;
+            animator.SetTrigger("push");
             animator.SetFloat("x", lastDir.x);
             animator.SetFloat("y", lastDir.y);
         }
@@ -94,5 +151,15 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         rb.velocity = input * speed;
+    }
+
+    public void PushingEnd()
+    {
+        isPushing = false;
+    }
+
+    public void ThrowEnd()
+    {
+        canGrab = true;
     }
 }

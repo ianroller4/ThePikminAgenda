@@ -30,9 +30,6 @@ public class Whistle : MonoBehaviour
     // --- Player Reference ---
     private GameObject player;
 
-    // --- Audio ---
-    [SerializeField] private AudioSource audioSource;
-
     /* Start
      * 
      * Called once before the first frame of update
@@ -48,7 +45,6 @@ public class Whistle : MonoBehaviour
         currentWhistleRadius = whistleRadiusStart;
         rotationSpeed = baseRotationSpeed;
         player = GameObject.Find("Player");
-        audioSource = GetComponent<AudioSource>();
     }
 
     /* Update
@@ -120,8 +116,6 @@ public class Whistle : MonoBehaviour
     {
         if (isWhistling)
         {
-
-            PlaySound();
             // Increase radius
             currentWhistleRadius += whistleRadiusIncreaseSpeed * Time.deltaTime;
             if (currentWhistleRadius > whistleRadiusMax)
@@ -151,13 +145,5 @@ public class Whistle : MonoBehaviour
         Vector3 rotate = new Vector3(0, 0, rotationSpeed * Time.deltaTime);
         outerCircle.transform.Rotate(rotate);
         innerCircle.transform.Rotate(-rotate);
-    }
-
-    private void PlaySound()
-    {
-        if (!audioSource.isPlaying)
-        {
-            audioSource.Play();
-        }
     }
 }
