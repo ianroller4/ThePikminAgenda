@@ -32,6 +32,9 @@ public class Whistle : MonoBehaviour
 
     // --- Audio ---
     private AudioSource audioSource;
+    private bool PLAY_SOUND = true;
+    private float soundTimer = 0f;
+    private float soundTimerMax = 2f;
 
     /* Start
      * 
@@ -120,10 +123,22 @@ public class Whistle : MonoBehaviour
     {
         if (isWhistling)
         {
+            if (PLAY_SOUND)
+            {
+                PlaySound();
+            }
+            else
+            {
+                soundTimer += Time.deltaTime;
+                if (soundTimer > soundTimerMax)
+                {
+                    soundTimer -= soundTimerMax;
+                    PLAY_SOUND = true;
+                }
+            }
 
-            PlaySound();
-            // Increase radius
-            currentWhistleRadius += whistleRadiusIncreaseSpeed * Time.deltaTime;
+                // Increase radius
+                currentWhistleRadius += whistleRadiusIncreaseSpeed * Time.deltaTime;
             if (currentWhistleRadius > whistleRadiusMax)
             {
                 currentWhistleRadius = whistleRadiusMax;
@@ -158,6 +173,7 @@ public class Whistle : MonoBehaviour
         if (!audioSource.isPlaying)
         {
             audioSource.Play();
+            PLAY_SOUND = false;
         }
     }
 }
