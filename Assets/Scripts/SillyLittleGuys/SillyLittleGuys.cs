@@ -35,10 +35,14 @@ public class SillyLittleGuys : MonoBehaviour
 
     private GameObject player;
 
+    private Animator playerAnimator;
+
     private CarryableObject carryObject = null;
 
     private Enemy targetEnemy;
-    
+
+    private SpriteRenderer sr;
+
     // --- Misc Variables --- 
     public float idleSearchRange = 2;
 
@@ -79,6 +83,7 @@ public class SillyLittleGuys : MonoBehaviour
      */
     private void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -93,8 +98,10 @@ public class SillyLittleGuys : MonoBehaviour
         slgManager.AddSLG(this);
         moveToTarget = transform.position;
         player = GameObject.Find("Player");
+        playerAnimator = player.GetComponent<Animator>();
 
         prevPosition = transform.position;
+
     }
 
     /* Update
@@ -155,6 +162,7 @@ public class SillyLittleGuys : MonoBehaviour
         state = States.IDLE;
         animator.SetBool("idle", true);
         animator.SetBool("attack", false);
+        animator.SetBool("held", false);
         animator.SetFloat("x", lastDir.x);
         animator.SetFloat("y", lastDir.y);
     }
@@ -255,6 +263,8 @@ public class SillyLittleGuys : MonoBehaviour
         slgManager.RemoveFollowingSLG(this);
         GetComponent<Collider2D>().enabled = false;
         agent.enabled = false;
+
+        animator.SetBool("held", true);
     }
 
     /* UpdateHeldState
@@ -268,7 +278,48 @@ public class SillyLittleGuys : MonoBehaviour
      */
     public void UpdateHeldState()
     {
-        transform.position = player.transform.position + Vector3.right;
+        float dirX = playerAnimator.GetFloat("x");
+        float dirY = playerAnimator.GetFloat("y");
+
+        Vector3 offset = Vector3.zero;
+        Vector2 animDir = Vector2.down;
+
+        if (Mathf.Abs(dirX) >= Mathf.Abs(dirY))
+        {
+            if (dirX >= 0f)
+            {
+                offset = new Vector3(-0.25f, 0.2f, 0f);
+                animDir = Vector2.right;
+                sr.sortingLayerName = "AboveDefault";
+            }
+            else
+            {
+                offset = new Vector3(0.25f, 0.2f, 0f);
+                animDir = Vector2.left;
+                sr.sortingLayerName = "AboveDefault";
+            }
+        }
+        else
+        {
+            if (dirY >= 0f)
+            {
+                offset = new Vector3(-0.26f, 0.2f, 0f);
+                animDir = Vector2.up;
+                sr.sortingLayerName = "Default";
+            }
+            else
+            {
+                offset = new Vector3(0.27f, 0.2f, 0f);
+                animDir = Vector2.down;
+                sr.sortingLayerName = "AboveDefault";
+            }
+        }
+
+        transform.position = player.transform.position + offset;
+        animator.SetFloat("x", animDir.x);
+        animator.SetFloat("y", animDir.y);
+
+        lastDir = animDir;
     }
 
     /* ExitHeldState
@@ -287,6 +338,10 @@ public class SillyLittleGuys : MonoBehaviour
         GetComponent<Collider2D>().enabled = true;
         agent.enabled = true;
         slgManager.AddFollowingSLG(this);
+
+        sr.sortingLayerName = "Default";
+
+        animator.SetBool("held", false);
     }
 
     // --- THROWN State --- 
@@ -363,6 +418,9 @@ public class SillyLittleGuys : MonoBehaviour
         // Enable agent and collider
         agent.enabled = true;
         GetComponent<Collider2D>().enabled = true;
+
+        animator.SetBool("held", false);
+        sr.sortingLayerName = "Default";
     }
 
     // --- DISMISS State ---
@@ -649,5 +707,21 @@ public class SillyLittleGuys : MonoBehaviour
 
         // Create attack hitbox prefab on enemy position
         Instantiate(AttackHitboxPrefab, targetEnemy.transform.position, Quaternion.identity);
+    }
+
+    public void GravityOn()
+    {
+        //GetComponent<Rigidbody2D>().gravityScale = 1;
+
+
+        Debug.Log("GravityOn!");
+    }
+
+    public void BornEnd()
+    {
+        sr.sortingLayerName = "Default";
+        //GetComponent<Rigidbody2D>().gravityScale = 0;
+
+        Debug.Log("BornEND!");
     }
 }

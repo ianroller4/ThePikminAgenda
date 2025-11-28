@@ -19,6 +19,8 @@ public class Throw : MonoBehaviour
 
     public GameObject cursor;
 
+    private PlayerMovement player;
+
     /* Start
      * 
      * Called once before the first frame of update
@@ -31,6 +33,7 @@ public class Throw : MonoBehaviour
     private void Start()
     {
         slgManager = GameObject.FindObjectOfType<SLGManager>();
+        player = GameObject.FindObjectOfType<PlayerMovement>();
     }
 
     /* Update
