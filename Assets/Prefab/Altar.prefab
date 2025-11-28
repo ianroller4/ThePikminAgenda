@@ -291,5 +291,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingActive: 1
-  yOffset: 0
+  yOffset: -0.42
   minDistance: 0.2
