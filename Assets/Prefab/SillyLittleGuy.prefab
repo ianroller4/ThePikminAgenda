@@ -65,6 +65,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c23fd7e6f6525014a9898f599dbcee22, type: 3}
   - {fileID: 8300000, guid: 1bb60336eb383ed4c8175792153d27d8, type: 3}
   - {fileID: 8300000, guid: e101a8f11869a9e4797f64d5f2261ccc, type: 3}
+  soundTimerMax: 4
+  soundChance: 0.05
 --- !u!114 &-9155858503195892301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,6 +82,7 @@ MonoBehaviour:
   currentHP: 0
   maxHP: 10
   deathEffectPrefab: {fileID: 8844045522599308070, guid: 421c5ed117b9f4b4db3ebc19d863b3dc, type: 3}
+  fireDeathPrefab: {fileID: 8844045522599308070, guid: 5cfc063423e14184384ad12388dc8ce3, type: 3}
 --- !u!114 &-8006131881593797963
 MonoBehaviour:
   m_ObjectHideFlags: 0
