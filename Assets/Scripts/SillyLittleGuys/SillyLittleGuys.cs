@@ -109,8 +109,7 @@ public class SillyLittleGuys : MonoBehaviour
 
         prevPosition = transform.position;
 
-        audioSource.GetComponent<AudioSource>();
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     /* Update
@@ -162,7 +161,8 @@ public class SillyLittleGuys : MonoBehaviour
 
     private void PlayRandomSound()
     {
-        audioSource.clip = randomSounds[Random.Range(0, randomSounds.Length - 1)];
+        int index = (int)Random.Range(0, randomSounds.Length - 1);
+        audioSource.clip = randomSounds[index];
         audioSource.Play();
     }
 

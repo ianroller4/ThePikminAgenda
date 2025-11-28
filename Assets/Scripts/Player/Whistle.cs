@@ -51,6 +51,7 @@ public class Whistle : MonoBehaviour
         currentWhistleRadius = whistleRadiusStart;
         rotationSpeed = baseRotationSpeed;
         player = GameObject.Find("Player");
+        audioSource = GetComponent<AudioSource>();
     }
 
     /* Update
