@@ -71,16 +71,11 @@ public class SLGSpawner : MonoBehaviour
         float angle = Random.Range(0, 360);
         float radius = Random.Range(minSpawnDistance, maxSpawnDistance);
 
-        Vector3 spawnPosition = (transform.position + new Vector3(0, -1f, 0)) + (Vector3)(Random.insideUnitCircle * radius);
+        Vector3 spawnPosition = (transform.position + new Vector3(0, -3f, 0)) + (Vector3)(Random.insideUnitCircle * radius);
         GameObject slg = Instantiate(slgPrefab, spawnPosition, Quaternion.identity);
         Animator anim = slg.GetComponent<Animator>();
         anim.Play("Born", 0, 0f);
         slg.GetComponent<SpriteRenderer>().sortingLayerName = "AboveDefault";
         canSpawn = false;
-    }
-
-    private Vector3 ApplyRotationToVector(Vector3 v, float angle)
-    {
-        return Quaternion.Euler(0, 0, angle) * v;
     }
 }
