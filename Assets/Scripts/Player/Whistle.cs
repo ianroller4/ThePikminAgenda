@@ -51,7 +51,6 @@ public class Whistle : MonoBehaviour
         currentWhistleRadius = whistleRadiusStart;
         rotationSpeed = baseRotationSpeed;
         player = GameObject.Find("Player");
-        audioSource = GetComponent<AudioSource>();
     }
 
     /* Update
@@ -137,8 +136,8 @@ public class Whistle : MonoBehaviour
                 }
             }
 
-                // Increase radius
-                currentWhistleRadius += whistleRadiusIncreaseSpeed * Time.deltaTime;
+            // Increase radius
+            currentWhistleRadius += whistleRadiusIncreaseSpeed * Time.deltaTime;
             if (currentWhistleRadius > whistleRadiusMax)
             {
                 currentWhistleRadius = whistleRadiusMax;
