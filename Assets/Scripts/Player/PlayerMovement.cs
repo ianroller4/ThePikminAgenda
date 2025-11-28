@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour
     // --- Variables ---
     public float speed = 5f;
     private Vector2 input;
-    public bool canGrab = true;
 
     // --- Animator ---
     private Animator animator;
@@ -158,8 +157,4 @@ public class PlayerMovement : MonoBehaviour
         isPushing = false;
     }
 
-    public void ThrowEnd()
-    {
-        canGrab = true;
-    }
 }
