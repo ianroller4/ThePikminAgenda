@@ -19,6 +19,21 @@ public class Boss : MonoBehaviour
     }
     private BossState currentState;
 
+    // --- rolling related --- 
+    private enum RollingPhase
+    {
+        None,
+        Slam,
+        Charging,
+        Rolling,
+    }
+    private RollingPhase rollingPhase;
+    private Vector3 rollDirection;
+    [SerializeField]
+    private float rollingSpeed = 20f;
+    private bool isHitRock = false;
+    private int rollCount = 0;
+
     // --- Components ---
     private Rigidbody2D rigid;
     private NavMeshAgent agent;
@@ -28,6 +43,8 @@ public class Boss : MonoBehaviour
     // --- References ---
     [SerializeField]
     private GameObject target;
+    [SerializeField]
+    private PlayerMovement player;
     [SerializeField]
     private GameObject NormalMeleeAttackPrefab;
     [SerializeField]
@@ -69,6 +86,7 @@ public class Boss : MonoBehaviour
         agent.updateUpAxis = false;
 
         currentState = BossState.Chase;
+        rollingPhase = RollingPhase.None;
 
         lastPos = transform.position;
     }
@@ -152,7 +170,7 @@ public class Boss : MonoBehaviour
 
 
         //-----if slgs are far for 5secs, excute range attack----
-        if(normalAttackTimer <= 5f)
+        if(normalAttackTimer >= 5f)
         {
             animator.SetBool("isChase", false);
             currentState = BossState.RangeAttack;
@@ -223,7 +241,108 @@ public class Boss : MonoBehaviour
 
     private void RollingAttack()
     {
+        switch (rollingPhase)
+        {
+            case RollingPhase.Slam:
+                DoRolling_Slam();
+                break;
 
+            case RollingPhase.Charging:
+                DoRolling_Charging();
+                break;
+
+            case RollingPhase.Rolling:
+                DoRolling_Roll();
+                break;
+        }
+    }
+
+    private void DoRolling_Slam()
+    {
+        if (stateTimer == 0f)
+        {
+            animator.SetTrigger("Slam");
+
+            agent.isStopped = true;
+            rigid.velocity = Vector2.zero;
+
+            hasAttacked = false;
+        }
+
+        stateTimer += Time.deltaTime;
+
+        // Will create falling rocks in animation clips . don't forget! --->>> SpawnRocksForRollingAttack()
+
+        if (stateTimer >= 2f) // this time(2f) needs to change maching with the animation time! don't forget!
+        {
+            stateTimer = 0f;
+            rollingPhase = RollingPhase.Charging;
+        }
+    }
+
+    private void DoRolling_Charging()
+    {
+        if (stateTimer == 0f)
+        {
+            animator.SetBool("isCharging", true);
+
+            GameObject slg = searchSLG();
+            if (slg != null)
+            {
+                rollDirection = (slg.transform.position - transform.position).normalized;
+            }
+            else
+            {
+                rollDirection = player.transform.right;
+            }
+        }
+
+        stateTimer += Time.deltaTime;
+
+        if (stateTimer >= 3f)
+        {
+            animator.SetBool("isCharging", false);
+            stateTimer = 0f;
+            rollingPhase = RollingPhase.Rolling;
+        }
+    }
+
+    private void DoRolling_Roll()
+    {
+        if (stateTimer == 0f)
+        {
+            animator.SetBool("isRolling", true);
+
+            agent.enabled = false;
+
+            rigid.velocity = rollDirection * rollingSpeed;
+        }
+
+        stateTimer += Time.deltaTime;
+
+        if (stateTimer >= 4f)
+        {
+            animator.SetBool("isRolling", false);
+
+            rigid.velocity = Vector2.zero;
+            rigid.angularVelocity = 0f;
+
+            agent.enabled = true;
+            agent.isStopped = false;
+
+            rollingPhase = RollingPhase.None;
+            stateTimer = 0f;
+
+            if (isHitRock)
+            {
+                rollingPhase = RollingPhase.None;
+                currentState = BossState.Groggy;
+            }
+            else
+            {
+                currentState = BossState.Chase;
+            }
+        }
     }
 
     private void RockFragmentsAttack()
@@ -233,7 +352,28 @@ public class Boss : MonoBehaviour
 
     private void Groggy()
     {
+        if (stateTimer == 0f)
+        {
+            agent.isStopped = true;
 
+            rigid.velocity = Vector2.zero;
+
+            animator.SetBool("isGroggy", true);
+
+            hasAttacked = false;
+        }
+
+        stateTimer += Time.deltaTime;
+
+        if (stateTimer >= 5f)
+        {
+            animator.SetBool("isGroggy", false);
+            stateTimer = 0f;
+
+            agent.isStopped = false;
+
+            currentState = BossState.Chase;
+        }
     }
 
     private void ChooseBigAttack()
@@ -333,11 +473,11 @@ public class Boss : MonoBehaviour
 
         for (int i = 0; i < 10; i++)
         {
-            float randomPos = Random.Range();
+            float randomPos = Random.Range(); // don't forget to put range
             Instantiate(CrumblingRockPrefab, randomPos, Quaternion.identity);
         }
 
-        float randomPos = Random.Range();
+        float randomPos = Random.Range();// don't forget to put range
         Instantiate(RemaningRockPrefab, randomPos, Quaternion.identity);
     }
 
@@ -352,8 +492,21 @@ public class Boss : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            float randomPos = Random.Range();
+            float randomPos = Random.Range();// don't forget to put range
             Instantiate(RemaningRockPrefab, randomPos, Quaternion.identity);
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (currentState == BossState.RollingAttack &&
+            rollingPhase == RollingPhase.Rolling)
+        {
+            if (col.collider.gameObject.layer == LayerMask.NameToLayer("BossRock"))
+            {
+                isHitRock = true;
+            }
+        }
+    }
+
 }
