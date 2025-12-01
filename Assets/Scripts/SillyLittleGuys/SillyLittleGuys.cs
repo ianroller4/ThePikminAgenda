@@ -165,6 +165,7 @@ public class SillyLittleGuys : MonoBehaviour
         audioSource.clip = randomSounds[index];
         if (!audioSource.isPlaying)
         {
+            audioSource.volume = 0.5f;
             audioSource.Play();
         }
     }
@@ -404,6 +405,7 @@ public class SillyLittleGuys : MonoBehaviour
         direction = (thrownTarget - transform.position).normalized;
         throwLerp = 0;
         audioSource.Stop();
+        audioSource.volume = 1;
         PlaySound(throwSound);
     }
 
