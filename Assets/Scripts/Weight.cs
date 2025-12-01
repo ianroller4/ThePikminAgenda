@@ -11,9 +11,14 @@ public class Weight : MonoBehaviour
 
     [SerializeField] private Fraction fraction;
 
+    private Animator animator;
+
+    private bool breaking;
+
     private void Start()
     {
         InitFraction();
+        animator = GetComponent<Animator>();
     }
 
     private void InitFraction()
@@ -26,7 +31,7 @@ public class Weight : MonoBehaviour
 
     private void UpdateFraction()
     {
-        fraction.transform.position = transform.position + Vector3.up * 2;
+        fraction.transform.position = transform.position + Vector3.up * 2.5f;
         if (currentWeight > 0)
         {
             fraction.gameObject.SetActive(true);
@@ -49,6 +54,7 @@ public class Weight : MonoBehaviour
                 UpdateFraction();
                 if (currentWeight >= weightNeeded)
                 {
+                    animator.SetBool("break", true);
                     ClearObject();
                 }
             }
@@ -73,7 +79,6 @@ public class Weight : MonoBehaviour
 
     private void ClearObject()
     {
-        Destroy(gameObject);
-        Destroy(fraction.gameObject);
+        Destroy(gameObject, 1.5f);
     }
 }

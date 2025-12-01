@@ -79,6 +79,13 @@ public class SillyLittleGuys : MonoBehaviour
     [SerializeField] private float soundTimerMax = 4f;
     [SerializeField] private float soundChance = 0.05f;
 
+    // --- Shadow ---
+    [SerializeField] private GameObject shadow;
+
+    // --- Particles ---
+    [SerializeField] private GameObject throwParticles;
+    [SerializeField] private GameObject idleParticles;
+
     /* Start
      * 
      * Called once before the first frame of update
@@ -110,6 +117,9 @@ public class SillyLittleGuys : MonoBehaviour
         prevPosition = transform.position;
 
         audioSource = GetComponent<AudioSource>();
+
+        throwParticles.SetActive(false);
+        idleParticles.SetActive(true);
     }
 
     /* Update
@@ -150,6 +160,14 @@ public class SillyLittleGuys : MonoBehaviour
                 UpdateCarryState();
                 RandomSoundTimer();
                 break;
+        }
+        if (state == States.IDLE)
+        {
+            idleParticles.SetActive(true);
+        } 
+        else
+        {
+            idleParticles.SetActive(false);
         }
     }
 
@@ -405,6 +423,7 @@ public class SillyLittleGuys : MonoBehaviour
         throwLerp = 0;
         audioSource.Stop();
         PlaySound(throwSound);
+        throwParticles.SetActive(true);
     }
 
     /* UpdateThrownState
@@ -422,20 +441,15 @@ public class SillyLittleGuys : MonoBehaviour
         if (throwLerp < 1)
         {
             transform.position = CalculateTrajectory();
+            shadow.transform.position = Vector3.Lerp(throwStart, thrownTarget, throwLerp); 
             throwLerp += speed * Time.deltaTime;
         }
         else
         {
             transform.position = thrownTarget;
+            shadow.transform.position = transform.position + new Vector3(0, -0.3f, 0);
             ExitThrownState();
         }
-
-        ////transform.position = thrownTarget;
-        //if (Vector3.Distance(transform.position, thrownTarget) < 0.3)
-        //{
-        //    transform.position = thrownTarget;
-        //    ExitThrownState();
-        //}
     }
 
     private Vector3 CalculateTrajectory()
@@ -461,7 +475,7 @@ public class SillyLittleGuys : MonoBehaviour
         // Enable agent and collider
         agent.enabled = true;
         GetComponent<Collider2D>().enabled = true;
-
+        throwParticles.SetActive(false);
         animator.SetBool("held", false);
         sr.sortingLayerName = "Default";
     }

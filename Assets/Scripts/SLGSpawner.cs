@@ -10,7 +10,6 @@ public class SLGSpawner : MonoBehaviour
     public float maxSpawnDistance = 3f;
 
     private bool playerNear = false;
-    private bool canSpawn = false;
 
     private float timer = 0f;
     public float spawnCooldown = 1f;
@@ -34,7 +33,6 @@ public class SLGSpawner : MonoBehaviour
         if (go != null)
         {
             playerNear = true;
-            canSpawn = true;
         }
         else
         {
@@ -48,7 +46,6 @@ public class SLGSpawner : MonoBehaviour
         if (go != null)
         {
             playerNear = false;
-            canSpawn = false;
         }
         else
         {
@@ -62,7 +59,6 @@ public class SLGSpawner : MonoBehaviour
         if (timer > spawnCooldown)
         {
             timer = 0f;
-            canSpawn = true;
         }
     }
 
@@ -76,6 +72,5 @@ public class SLGSpawner : MonoBehaviour
         Animator anim = slg.GetComponent<Animator>();
         anim.Play("Born", 0, 0f);
         slg.GetComponent<SpriteRenderer>().sortingLayerName = "AboveDefault";
-        canSpawn = false;
     }
 }
