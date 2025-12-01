@@ -53,6 +53,8 @@ public class Boss : MonoBehaviour
     private GameObject CrumblingRockPrefab;
     [SerializeField]
     private GameObject RemaningRockPrefab;
+    [SerializeField]
+    private Transform rockCenter;
 
     // --- Variables ---
     private Vector3 startPos;
@@ -64,6 +66,10 @@ public class Boss : MonoBehaviour
     // --- Settings ---
     [SerializeField]
     private float attackRange = 1f;
+    [SerializeField]
+    private float chaseSpeed = 3f;
+    [SerializeField]
+    private float returnSpeed = 6f;
 
     // --- Timers ---
     private float targetUpdateTimer = 0f;
@@ -88,6 +94,7 @@ public class Boss : MonoBehaviour
         currentState = BossState.Chase;
         rollingPhase = RollingPhase.None;
 
+        startPos = transform.position;
         lastPos = transform.position;
     }
 
@@ -147,8 +154,22 @@ public class Boss : MonoBehaviour
                 target = SLG;
             }
         }
-        agent.SetDestination(target.transform.position);
+        
+        // ------------------Return---------------------
+        if(target == null)
+        {
+            agent.isStopped = false;
+            agent.speed = returnSpeed;
+
+            agent.SetDestination(startPos);
+
+            return;
+        }
         //----------------------------------------------
+
+        agent.isStopped = false;
+        agent.speed = chaseSpeed;
+        agent.SetDestination(target.transform.position);
 
 
         float dist = Vector2.Distance(transform.position, target.transform.position);
@@ -172,6 +193,7 @@ public class Boss : MonoBehaviour
         //-----if slgs are far for 5secs, excute range attack----
         if(normalAttackTimer >= 5f)
         {
+            normalAttackTimer = 0f;
             animator.SetBool("isChase", false);
             currentState = BossState.RangeAttack;
         }
@@ -187,8 +209,10 @@ public class Boss : MonoBehaviour
         // setting melee attack pos and dir
         if (attackTimer == 0f && target != null)
         {
+            agent.isStopped = true;
+            rigid.velocity = Vector2.zero;
+
             hasAttacked = false;
-            attackPos = target.transform.position; // saves the attack position
             Vector3 dir = (target.transform.position - transform.position).normalized;
             animator.SetFloat("x", dir.x);
             animator.SetFloat("y", dir.y);
@@ -201,8 +225,17 @@ public class Boss : MonoBehaviour
         // melee attack ends, return to Chase state
         if (attackTimer >= 2f)
         {
+            SpawnNormalMeeleAttackHitbox();
+
+            GameObject SLG = searchSLG();
+
+            if (SLG != null)
+            {
+                Debug.Log("Closest SLG: " + SLG.name);
+                target = SLG;
+            }
+
             attackTimer = 0f;
-            target = null;
             agent.ResetPath();
             animator.SetBool("isMeleeAttack", false);
             currentState = BossState.Chase;
@@ -217,6 +250,9 @@ public class Boss : MonoBehaviour
         // setting Range attack pos and dir
         if (attackTimer == 0f && target != null)
         {
+            agent.isStopped = true;
+            rigid.velocity = Vector2.zero;
+
             hasAttacked = false;
             attackPos = target.transform.position; // saves the attack position
             Vector3 dir = (target.transform.position - transform.position).normalized;
@@ -231,8 +267,17 @@ public class Boss : MonoBehaviour
         // Range attack ends, return to Chase state
         if (attackTimer >= 2f)
         {
+            SpawnRangeAttackHitbox();
+
+            GameObject SLG = searchSLG();
+
+            if (SLG != null)
+            {
+                Debug.Log("Closest SLG: " + SLG.name);
+                target = SLG;
+            }
+
             attackTimer = 0f;
-            target = null;
             agent.ResetPath();
             animator.SetBool("isRangeAttack", false);
             currentState = BossState.Chase;
@@ -293,7 +338,7 @@ public class Boss : MonoBehaviour
             }
             else
             {
-                rollDirection = player.transform.right;
+                rollDirection =(player.transform.position - transform.position).normalized;
             }
         }
 
@@ -316,6 +361,7 @@ public class Boss : MonoBehaviour
             agent.enabled = false;
 
             rigid.velocity = rollDirection * rollingSpeed;
+            rollCount++;
         }
 
         stateTimer += Time.deltaTime;
@@ -330,18 +376,26 @@ public class Boss : MonoBehaviour
             agent.enabled = true;
             agent.isStopped = false;
 
-            rollingPhase = RollingPhase.None;
             stateTimer = 0f;
 
             if (isHitRock)
             {
+                isHitRock = false;
                 rollingPhase = RollingPhase.None;
                 currentState = BossState.Groggy;
+
+                return;
             }
-            else
+
+            if (rollCount >= 3)
             {
+                rollCount = 0;
+                rollingPhase = RollingPhase.None;
                 currentState = BossState.Chase;
+                return;
             }
+
+            rollingPhase = RollingPhase.Charging;
         }
     }
 
@@ -378,6 +432,23 @@ public class Boss : MonoBehaviour
 
     private void ChooseBigAttack()
     {
+        int choosePattern = Random.Range(0, 2);
+
+        // rolling attack
+        if (choosePattern == 0)
+        {
+            currentState = BossState.RollingAttack;
+            rollingPhase = RollingPhase.Slam;
+            stateTimer = 0f;
+            rollCount = 0;
+            isHitRock = false;
+            hasAttacked = false;
+        }
+        // stone fragments attack
+        else if (choosePattern == 1)
+        {
+
+        }
 
     }
 
@@ -386,7 +457,7 @@ public class Boss : MonoBehaviour
         Vector2 currentPos = transform.position;
         int layerMask = 1 << LayerMask.NameToLayer("SLG");
 
-        Collider2D[] cols = Physics2D.OverlapCircleAll(currentPos, 5f, layerMask);
+        Collider2D[] cols = Physics2D.OverlapCircleAll(currentPos, 10f, layerMask);
 
         GameObject closest = null;
         float minDist = 999f;
@@ -447,7 +518,7 @@ public class Boss : MonoBehaviour
         }
         hasAttacked = true;
 
-        Instantiate(NormalMeleeAttackPrefab, attackPos, Quaternion.identity);
+        Instantiate(NormalMeleeAttackPrefab, transform.position, Quaternion.identity);
     }
 
     public void SpawnRangeAttackHitbox()
@@ -459,7 +530,12 @@ public class Boss : MonoBehaviour
         }
         hasAttacked = true;
 
-        Instantiate(RangeAttackPrefab, attackPos, Quaternion.identity);
+        Vector3 spawnPos = transform.position;
+        GameObject proj = Instantiate(RangeAttackPrefab, spawnPos, Quaternion.identity);
+
+        RangeAttackHitbox range = proj.GetComponent<RangeAttackHitbox>();
+ 
+        range.Init(lastLookDir);
     }
 
     public void SpawnRocksForRollingAttack()
@@ -473,12 +549,14 @@ public class Boss : MonoBehaviour
 
         for (int i = 0; i < 10; i++)
         {
-            float randomPos = Random.Range(); // don't forget to put range
-            Instantiate(CrumblingRockPrefab, randomPos, Quaternion.identity);
+            Vector2 CrumblingOffset = Random.insideUnitCircle * 10f; // radius 10
+            Vector3 CrumblingSpawnPos = rockCenter.position + new Vector3(CrumblingOffset.x, CrumblingOffset.y, 0f);
+            Instantiate(CrumblingRockPrefab, CrumblingSpawnPos, Quaternion.identity);
         }
 
-        float randomPos = Random.Range();// don't forget to put range
-        Instantiate(RemaningRockPrefab, randomPos, Quaternion.identity);
+        Vector2 offset = Random.insideUnitCircle * 10f; // radius 10
+        Vector3 spawnPos = rockCenter.position + new Vector3(offset.x, offset.y, 0f);
+        Instantiate(RemaningRockPrefab, spawnPos, Quaternion.identity);
     }
 
     public void SpawnRocksForFragmentsAttack()
@@ -492,8 +570,9 @@ public class Boss : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            float randomPos = Random.Range();// don't forget to put range
-            Instantiate(RemaningRockPrefab, randomPos, Quaternion.identity);
+            Vector2 offset = Random.insideUnitCircle * 10f; // radius 5
+            Vector3 spawnPos = rockCenter.position + new Vector3(offset.x, offset.y, 0f);
+            Instantiate(RemaningRockPrefab, spawnPos, Quaternion.identity);
         }
     }
 
@@ -508,5 +587,4 @@ public class Boss : MonoBehaviour
             }
         }
     }
-
 }
