@@ -23,6 +23,7 @@ public class Boss : MonoBehaviour
     private enum RollingPhase
     {
         None,
+        Jump,
         Slam,
         Charging,
         Rolling,
@@ -33,6 +34,24 @@ public class Boss : MonoBehaviour
     private float rollingSpeed = 20f;
     private bool isHitRock = false;
     private int rollCount = 0;
+    private Vector3 jumpStartPos;
+    private Vector3 jumpTarget;
+    private Vector3 jumpDir;
+    [SerializeField]
+    private Vector3[] jumpTargetPosArray = new Vector3[4];
+    private float jumpLerp = 0f;
+
+
+    // --- fragments related ---
+    private enum FragmentsPhase
+    {
+        None,
+        Jump,
+        Slam,
+        Charging,
+        Rolling,
+    }
+    private FragmentsPhase fragmentsPhase;
 
     // --- Components ---
     private Rigidbody2D rigid;
@@ -288,6 +307,10 @@ public class Boss : MonoBehaviour
     {
         switch (rollingPhase)
         {
+            case RollingPhase.Jump:
+                DoRolling_Jump();
+                break;
+
             case RollingPhase.Slam:
                 DoRolling_Slam();
                 break;
@@ -300,6 +323,37 @@ public class Boss : MonoBehaviour
                 DoRolling_Roll();
                 break;
         }
+    }
+
+    private void DoRolling_Jump()
+    {
+        int randomIndex = Random.Range(0, 2);
+        jumpTarget = jumpTargetPosArray[randomIndex];
+
+        jumpStartPos = transform.position;
+
+        jumpDir = (jumpTarget - jumpStartPos).normalized;
+
+        jumpLerp = 0;
+
+        if (jumpLerp < 1)
+        {
+            transform.position = CalculateTrajectory();
+            jumpLerp += 3f * Time.deltaTime;
+        }
+        else
+        {
+            transform.position = jumpTarget;
+            rollingPhase = RollingPhase.Slam;
+        }
+
+    }
+    private Vector3 CalculateTrajectory()
+    {
+        Vector3 linearProgress = Vector3.Lerp(jumpStartPos, jumpTarget, jumpLerp);
+        float offset = Mathf.Sin(jumpLerp * Mathf.PI) * 5f;
+
+        return linearProgress + (Vector3.up * offset);
     }
 
     private void DoRolling_Slam()
@@ -338,7 +392,7 @@ public class Boss : MonoBehaviour
             }
             else
             {
-                rollDirection =(player.transform.position - transform.position).normalized;
+                rollDirection = (player.transform.position - transform.position).normalized;
             }
         }
 
@@ -401,6 +455,80 @@ public class Boss : MonoBehaviour
 
     private void RockFragmentsAttack()
     {
+        switch (fragmentsPhase)
+        {
+            case FragmentsPhase.Jump:
+                DoFragments_Jump();
+                break;
+
+            case FragmentsPhase.Slam:
+                DoFragments_Slam();
+                break;
+
+            case FragmentsPhase.Charging:
+                DoFragments_Charging();
+                break;
+
+            case FragmentsPhase.Rolling:
+                DoFragments_Shooting();
+                break;
+        }
+    }
+    private void DoFragments_Jump()
+    {
+        int randomIndex = Random.Range(0, 4);
+        jumpTarget = jumpTargetPosArray[randomIndex];
+
+        jumpStartPos = transform.position;
+
+        jumpDir = (jumpTarget - jumpStartPos).normalized;
+
+        jumpLerp = 0;
+
+        if (jumpLerp < 1)
+        {
+            transform.position = CalculateTrajectory();
+            jumpLerp += 3f * Time.deltaTime;
+        }
+        else
+        {
+            transform.position = jumpTarget;
+            fragmentsPhase = FragmentsPhase.Slam;
+        }
+    }
+
+    private void DoFragments_Slam()
+    {
+        if (stateTimer == 0f)
+        {
+            animator.SetTrigger("Slam");
+
+            agent.isStopped = true;
+            rigid.velocity = Vector2.zero;
+
+            hasAttacked = false;
+        }
+
+        stateTimer += Time.deltaTime;
+
+        // Will create falling rocks in animation clips . don't forget! --->>> SpawnRocksForFragmentsAttack()
+
+        if (stateTimer >= 2f) // this time(2f) needs to change maching with the animation time! don't forget!
+        {
+            stateTimer = 0f;
+            fragmentsPhase = FragmentsPhase.Charging;
+        }
+    }
+
+    private void DoFragments_Charging()
+    {
+
+
+    }
+
+    private void DoFragments_Shooting()
+    {
+
 
     }
 
