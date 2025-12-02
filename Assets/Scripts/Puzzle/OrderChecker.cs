@@ -11,35 +11,47 @@ public class OrderChecker : MonoBehaviour
 
     [SerializeField] private GameObject doorToOpen;
 
+    private void Start()
+    {
+        pressedOrder = new List<WeightButton>();
+    }
+
     private void Update()
     {
         if (doorToOpen != null)
         {
-            if (CheckOrder())
+            if (pressedOrder.Count == correctOrder.Count)
             {
-                OpenDoor();
-            }
-            else
-            {
-                ResetWeightButtons();
+                if (CheckOrder())
+                {
+                    OpenDoor();
+                }
+                else
+                {
+                    ResetWeightButtons();
+                }
             }
         }
     }
 
     private bool CheckOrder()
     {
+        int sameCount = 0;
         for (int i = 0; i < pressedOrder.Count; i++)
         {
-            // Loop through and compare
-            // return false
+            if (pressedOrder[i].Equals(correctOrder[i]))
+            {
+                sameCount++;
+            }
         }
 
-        return true;
+        return sameCount == correctOrder.Count;
     }
 
     private void OpenDoor()
     {
         // open the door
+        doorToOpen.SetActive(false);
     }
 
     private void ResetWeightButtons()
@@ -47,8 +59,9 @@ public class OrderChecker : MonoBehaviour
         for (int i = 0; i < pressedOrder.Count; i++)
         {
             // Reset each button
+            pressedOrder[i].GetComponent<Animator>().SetBool("pressed", false);
         }
-        // Clear list
+        pressedOrder.Clear();
     }
 
     public void AddWeightButton(WeightButton wb)
