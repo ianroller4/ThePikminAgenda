@@ -26,6 +26,7 @@ public class RangeAttackHitbox : MonoBehaviour
     private void Update()
     {
         transform.position += (Vector3)(moveDir * speed * Time.deltaTime);
+        transform.Rotate(0f, 0f, 300f * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D col)
