@@ -31,6 +31,10 @@ public class OrderChecker : MonoBehaviour
                     ResetWeightButtons();
                 }
             }
+            else
+            {
+                CloseDoor();
+            }
         }
     }
 
@@ -48,10 +52,15 @@ public class OrderChecker : MonoBehaviour
         return sameCount == correctOrder.Count;
     }
 
+    private void CloseDoor()
+    {
+        doorToOpen.GetComponent<Animator>().SetBool("crumble", false);
+    }
+
     private void OpenDoor()
     {
         // open the door
-        doorToOpen.SetActive(false);
+        doorToOpen.GetComponent<Animator>().SetBool("crumble", true);
     }
 
     private void ResetWeightButtons()
