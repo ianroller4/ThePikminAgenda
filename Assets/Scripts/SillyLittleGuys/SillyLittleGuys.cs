@@ -43,9 +43,12 @@ public class SillyLittleGuys : MonoBehaviour
 
     private SpriteRenderer sr;
 
+    private Boss boss;
+
     // --- Misc Variables --- 
     public float idleSearchRange = 2;
     private bool isFalling = false;
+    private bool bossAttackState = false;
 
     public enum States
     {
@@ -109,6 +112,7 @@ public class SillyLittleGuys : MonoBehaviour
         slgManager = GameObject.FindObjectOfType<SLGManager>();
         coManager = GameObject.FindObjectOfType<CarryObjectManager>();
         enemyManager = GameObject.FindObjectOfType<EnemyManager>();
+        boss = GameObject.FindObjectOfType<Boss>();
 
         slgManager.AddSLG(this);
         moveToTarget = transform.position;
@@ -259,6 +263,13 @@ public class SillyLittleGuys : MonoBehaviour
                 break;
             }
         }
+
+        if (Vector3.Distance(transform.position, boss.transform.position) < idleSearchRange)
+        {
+            bossAttackState = true;
+            EnterAttackState();
+        }
+
     }
 
     // --- FOLLOW State --- 
@@ -573,6 +584,50 @@ public class SillyLittleGuys : MonoBehaviour
      */
     public void UpdateAttackState()
     {
+        if(bossAttackState)
+        {
+            if (Vector3.Distance(transform.position, boss.transform.position) <= 3)
+            {
+                // Animation update
+                animator.SetBool("attack", true);
+                Vector3 attackDir = boss.transform.position - transform.position;
+                animator.SetFloat("x", attackDir.x);
+                animator.SetFloat("y", attackDir.y);
+
+                // Process attack
+                agent.isStopped = true; // Stop moving
+                attackTimer += Time.deltaTime;
+                if (attackTimer >= 1f)
+                {
+                    attackTimer = 0f;
+                    hasAttacked = false;
+                }
+            }
+            else // If an enemy is not close enough
+            {
+                animator.SetBool("attack", false);
+                UpdateDirVector();
+                animator.SetFloat("x", currentDir.x);
+                animator.SetFloat("y", currentDir.y);
+
+                // Keep chashing
+                agent.isStopped = false;
+                agent.SetDestination(boss.transform.position);
+                attackTimer = 0f;
+                hasAttacked = false;
+            }
+        }
+        else
+        {
+            agent.SetDestination(transform.position);
+            agent.isStopped = false;
+            attackTimer = 0f;
+            hasAttacked = false;
+            EnterIdleState();
+            bossAttackState = false;
+            Debug.Log("Exiting Attack");
+        }
+
         // If there's a target
         if (targetEnemy != null)
         {
@@ -609,14 +664,15 @@ public class SillyLittleGuys : MonoBehaviour
             }
             
         }
-        else // If there's no target, switch to IdleState
+        // If there's no target, switch to IdleState
+        else
         {
-            agent.SetDestination(transform.position);
-            agent.isStopped = false;
-            attackTimer = 0f;
-            hasAttacked = false;
-            EnterIdleState();
-            Debug.Log("Exiting Attack");
+        agent.SetDestination(transform.position);
+        agent.isStopped = false;
+        attackTimer = 0f;
+        hasAttacked = false;
+        EnterIdleState();
+        Debug.Log("Exiting Attack");
         }
     }
 
