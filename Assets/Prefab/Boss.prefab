@@ -53,8 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rollingSpeed: 20
   jumpTargetPosArray:
-  - {x: 9.5, y: 103, z: 0}
-  - {x: -19, y: 103, z: 0}
+  - {x: 1, y: 86, z: 0}
+  - {x: -39.71, y: 86, z: 0}
   - {x: -2.8, y: 109, z: 0}
   - {x: -2.8, y: 95, z: 0}
   target: {fileID: 0}
