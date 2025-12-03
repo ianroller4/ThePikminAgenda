@@ -5636,7 +5636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86973497035a4a74bade22a49aa807c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  introSkip: 0
+  introSkip: 1
   player: {fileID: 1138858364}
   SLG: {fileID: 1446319788}
   SLGIntroDummy: {fileID: 419305392}
@@ -24805,12 +24805,16 @@ PrefabInstance:
       value: Boss
       objectReference: {fileID: 0}
     - target: {fileID: 6617661809252481760, guid: ccb0deba5fd069e4b8b46244ec55bb59, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1138858364}
+    - target: {fileID: 6617661809252481760, guid: ccb0deba5fd069e4b8b46244ec55bb59, type: 3}
       propertyPath: rockCenter
       value: 
       objectReference: {fileID: 472353320}
     - target: {fileID: 6617661809252481760, guid: ccb0deba5fd069e4b8b46244ec55bb59, type: 3}
       propertyPath: jumpTargetPosArray.Array.data[0].x
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6617661809252481760, guid: ccb0deba5fd069e4b8b46244ec55bb59, type: 3}
       propertyPath: jumpTargetPosArray.Array.data[0].y
