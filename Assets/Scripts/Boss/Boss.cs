@@ -173,7 +173,7 @@ public class Boss : MonoBehaviour
 
         targetUpdateTimer += Time.deltaTime;
 
-        if (normalAttackCount >= 1)
+        if (normalAttackCount >= 3)
         {
             currentState = BossState.ChooseBigAttack;
             normalAttackCount = 0;
