@@ -45,6 +45,7 @@ public class SillyLittleGuys : MonoBehaviour
 
     // --- Misc Variables --- 
     public float idleSearchRange = 2;
+    private bool isFalling = false;
 
     public enum States
     {
@@ -119,7 +120,7 @@ public class SillyLittleGuys : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         throwParticles.SetActive(false);
-        idleParticles.SetActive(true);
+        idleParticles.SetActive(false);
     }
 
     /* Update
@@ -161,7 +162,7 @@ public class SillyLittleGuys : MonoBehaviour
                 RandomSoundTimer();
                 break;
         }
-        if (state == States.IDLE)
+        if (state == States.IDLE && !isFalling)
         {
             idleParticles.SetActive(true);
         } 
@@ -705,7 +706,7 @@ public class SillyLittleGuys : MonoBehaviour
             carryObject.RemoveCarrier(this);
             carryObject = null;
         }
-        if (state == States.THROWN)
+        if (state == States.THROWN || isFalling)
         {
             return;
         }
@@ -766,18 +767,16 @@ public class SillyLittleGuys : MonoBehaviour
         Instantiate(AttackHitboxPrefab, targetEnemy.transform.position, Quaternion.identity);
     }
 
-    public void GravityOn()
+    public void BornStart()
     {
-        //GetComponent<Rigidbody2D>().gravityScale = 1;
-
-
-        Debug.Log("GravityOn!");
+        isFalling = true;
+        Debug.Log("BornStart!");
     }
 
     public void BornEnd()
     {
         sr.sortingLayerName = "Default";
-        //GetComponent<Rigidbody2D>().gravityScale = 0;
+        isFalling = false;
 
         Debug.Log("BornEND!");
     }
