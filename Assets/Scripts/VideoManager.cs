@@ -6,6 +6,8 @@ public class VideoManager : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
 
+    public int sceneToLoad = 2;
+
     void Start()
     {
         videoPlayer.loopPointReached += OnVideoEnd;
@@ -13,6 +15,6 @@ public class VideoManager : MonoBehaviour
 
     void OnVideoEnd(VideoPlayer vp)
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(sceneToLoad);
     }
 }

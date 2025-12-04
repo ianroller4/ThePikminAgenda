@@ -64,6 +64,18 @@ public class Enemy : MonoBehaviour
     private Vector3 moveDir;
     private Vector2 lastLookDir;
 
+    // --- Sound ---
+    private AudioSource audioSource;
+
+    [SerializeField] private AudioClip attackSound;
+    [SerializeField] private AudioClip idleSound;
+    [SerializeField] private AudioClip moveSound;
+
+    private float soundTimer = 0f;
+    [SerializeField] private float soundTimerMax = 3f;
+    [SerializeField] private float soundChance = 0.25f;
+
+
     // initialize references
     void Start()
     {
@@ -82,6 +94,7 @@ public class Enemy : MonoBehaviour
         currentState = EnemyState.Idle;
 
         lastPos = transform.position;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // update enemy state
@@ -134,9 +147,33 @@ public class Enemy : MonoBehaviour
             animator.SetBool("isIdle", false);
             currentState = EnemyState.Chase;
         }
+        IdleSoundTimer();
 
         animator.SetFloat("x", lastLookDir.x);
         animator.SetFloat("y", lastLookDir.y);
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        audioSource.clip = clip;    
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+    }
+
+    private void IdleSoundTimer()
+    {
+        soundTimer += Time.deltaTime;
+
+        if (soundTimer >= soundTimerMax)
+        {
+            soundTimer = 0;
+            if (Random.Range(0f, 1f) < soundChance)
+            {
+                PlaySound(idleSound);
+            }
+        }
     }
 
     private void Return()
@@ -144,6 +181,8 @@ public class Enemy : MonoBehaviour
         animator.SetBool("isAttack", false);
         animator.SetBool("isIdle", false);
         animator.SetBool("isWalk", true);
+
+        PlaySound(moveSound);
 
         GameObject SLG = searchSLG();
         if (SLG != null)
@@ -194,6 +233,8 @@ public class Enemy : MonoBehaviour
             agent.ResetPath();
             return;
         }
+
+        PlaySound(moveSound);
 
         animator.SetBool("isAttack", false);
         animator.SetBool("isIdle", false);
@@ -271,6 +312,8 @@ public class Enemy : MonoBehaviour
             Vector3 dir = (target.transform.position - transform.position).normalized;
             animator.SetFloat("x", dir.x);
             animator.SetFloat("y", dir.y);
+
+            PlaySound(attackSound);
 
             lastLookDir = new Vector2(dir.x, dir.y);
         }

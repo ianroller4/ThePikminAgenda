@@ -10415,6 +10415,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossWall
       objectReference: {fileID: 0}
+    - target: {fileID: 462983836407562448, guid: c7c2a0d8036c1fb4b9d03453e4b2ae78, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1168253824027674355, guid: c7c2a0d8036c1fb4b9d03453e4b2ae78, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.924641
@@ -21810,7 +21814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0482778bb398684f8e41952d61dc7d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partsToWin: 3
+  partsToWin: 6
 --- !u!114 &821545119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120155,7 +120159,7 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 1
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -122825,7 +122829,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 803b45101c8bbce4899358e6e541041f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
