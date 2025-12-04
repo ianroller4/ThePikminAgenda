@@ -114,6 +114,12 @@ public class Boss : MonoBehaviour
     private Vector3 moveDir;
     private Vector2 lastLookDir;
 
+    // --- Sounds ---
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip roll;
+    [SerializeField] private AudioClip thud;
+    [SerializeField] private AudioClip move;
+
     // initialize references
     void Start()
     {
@@ -129,6 +135,8 @@ public class Boss : MonoBehaviour
 
         startPos = transform.position;
         lastPos = transform.position;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // update enemy state
@@ -171,10 +179,19 @@ public class Boss : MonoBehaviour
         }
     }
 
+    private void PlaySound(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+    }
+
     private void Chase()
     {
         animator.SetBool("isChase", true);
-
+        PlaySound(move);
         targetUpdateTimer += Time.deltaTime;
 
         if (normalAttackCount >= 3)
@@ -298,6 +315,7 @@ public class Boss : MonoBehaviour
             attackTimer = 0f;
             agent.ResetPath();
             animator.SetBool("isMeleeAttack", false);
+            PlaySound(thud);
             currentState = BossState.Chase;
         }
     }
@@ -526,7 +544,7 @@ public class Boss : MonoBehaviour
         }
 
         stateTimer += Time.deltaTime;
-
+        PlaySound(roll);
         if (isStop)
         {
             isStop = false;
@@ -539,6 +557,7 @@ public class Boss : MonoBehaviour
                 BossCollider.isTrigger = false;
                 isHitRock = false;
                 rollCount = 0;
+                PlaySound(thud);
                 rollingPhase = RollingPhase.None;
                 currentState = BossState.Groggy;
 

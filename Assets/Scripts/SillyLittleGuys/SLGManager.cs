@@ -321,6 +321,7 @@ public class SLGManager : MonoBehaviour
     public void IncreaseMaxCapacity(int amount)
     {
         maxCapacity += amount;
+        GetComponent<AudioSource>().Play();
         Debug.Log("SLG MaxCapacity now: " + maxCapacity);
     }
 

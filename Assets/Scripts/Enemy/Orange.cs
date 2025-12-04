@@ -19,7 +19,6 @@ public class Orange : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             slgManager.IncreaseMaxCapacity(capacity);
-
             Destroy(gameObject);
         }
     }
