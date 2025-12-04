@@ -11,10 +11,13 @@ public class WeightButton : MonoBehaviour
 
     [SerializeField] private OrderChecker orderChecker;
 
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -38,6 +41,8 @@ public class WeightButton : MonoBehaviour
             {
                 pressed = true;
                 orderChecker.AddWeightButton(this);
+                audioSource.Stop();
+                audioSource.Play();
             }
         }
     }
@@ -50,6 +55,8 @@ public class WeightButton : MonoBehaviour
             {
                 pressed = false;
                 orderChecker.RemoveWeightButton(this);
+                audioSource.Stop();
+                audioSource.Play();
             }
         }
     }
