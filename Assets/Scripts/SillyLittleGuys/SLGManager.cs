@@ -313,6 +313,11 @@ public class SLGManager : MonoBehaviour
         return followingSLG.Count;
     }
 
+    public int maxCount()
+    {
+        return maxCapacity;
+    }
+
     public bool CanAddSLG()
     {
         return SLGList.Count < maxCapacity;
