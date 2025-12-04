@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5bd4951f071ba4abf93e48ecf78285, type: 3}
   m_Name: 6_TakeOrange
   m_EditorClassIdentifier: 
-  line: 'A shiny orange?
+  line: 'I feel like I can
 
-    What is this?'
+    control my friends more!'
