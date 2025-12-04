@@ -13,6 +13,8 @@ public class HUD : MonoBehaviour
     private GameObject totalSLG;
     [SerializeField]
     private GameObject followingSLG;
+    [SerializeField]
+    private GameObject maxSLG;
 
     // Start is called before the first frame update
     void Start()
@@ -25,5 +27,6 @@ public class HUD : MonoBehaviour
     {
         totalSLG.GetComponent<Text>().text = slgManager.SLGCount().ToString();
         followingSLG.GetComponent<Text>().text = slgManager.followingCount().ToString();
+        maxSLG.GetComponent<Text>().text = slgManager.maxCount().ToString();
     }
 }
