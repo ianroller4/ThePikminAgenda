@@ -93,6 +93,7 @@ public class Boss : MonoBehaviour
     private bool isGroggyEnd = false;
     public bool isRollingFailed = false;
     private GameObject rollingWarningInstance;
+    private bool isFighting = false;
 
     // --- Settings ---
     [SerializeField]
@@ -133,38 +134,41 @@ public class Boss : MonoBehaviour
     // update enemy state
     void Update()
     {
-        switch (currentState)
+        if (isFighting)
         {
-            case BossState.ChooseBigAttack:
-                ChooseBigAttack();
-                break;
+            switch (currentState)
+            {
+                case BossState.ChooseBigAttack:
+                    ChooseBigAttack();
+                    break;
 
-            case BossState.Chase:
-                Chase();
-                break;
+                case BossState.Chase:
+                    Chase();
+                    break;
 
-            case BossState.Groggy:
-                Groggy();
-                break;
+                case BossState.Groggy:
+                    Groggy();
+                    break;
 
-            case BossState.NormalMeleeAttack:
-                NormalMeleeAttack();
-                break;
+                case BossState.NormalMeleeAttack:
+                    NormalMeleeAttack();
+                    break;
 
-            case BossState.RangeAttack:
-                RangeAttack();
-                break;
+                case BossState.RangeAttack:
+                    RangeAttack();
+                    break;
 
-            case BossState.RollingAttack:
-                RollingAttack();
-                break;
+                case BossState.RollingAttack:
+                    RollingAttack();
+                    break;
 
-            case BossState.RockFragmentsAttack:
-                RockFragmentsAttack();
-                break;
+                case BossState.RockFragmentsAttack:
+                    RockFragmentsAttack();
+                    break;
+            }
+
+            Debug.Log(currentState);
         }
-
-        Debug.Log(currentState);
     }
 
     private void Chase()
@@ -869,5 +873,15 @@ public class Boss : MonoBehaviour
         agent.isStopped = false;
         isGroggyEnd = false;
         stateTimer = 0f;
+    }
+
+    public void BossFightStart()
+    {
+        isFighting = true;
+    }
+
+    public bool IsGroggy()
+    {
+        return currentState == BossState.Groggy;
     }
 }

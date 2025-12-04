@@ -249,6 +249,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3d0ce70f30ed8b04fb3a27f6d0d3be93, type: 2}
   - {fileID: 11400000, guid: 819b6cf820d3fc6478501532b597ec54, type: 2}
   - {fileID: 11400000, guid: 3993fe00564fbb445acad28a3946d91c, type: 2}
+  - {fileID: 11400000, guid: ffe01183d9c3d3e4eac9369700c2237e, type: 2}
 --- !u!114 &6614445612913604093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,9 +589,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 2124557809
+  m_SortingLayer: -1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 7be5bb46c175d5d49bf947b62257215e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

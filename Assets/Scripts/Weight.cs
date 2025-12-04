@@ -6,14 +6,16 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Weight : MonoBehaviour
 {
-    private int currentWeight = 0;
     public int weightNeeded = 5;
 
-    [SerializeField] private Fraction fraction;
+    [SerializeField]
+    private Fraction fraction;
 
     private Animator animator;
 
     private AudioSource audioSource;
+
+    private List<SillyLittleGuys> attackers = new List<SillyLittleGuys>();
 
     private void Start()
     {
@@ -32,11 +34,12 @@ public class Weight : MonoBehaviour
 
     private void UpdateFraction()
     {
+        int count = attackers.Count;
         fraction.transform.position = transform.position + Vector3.up * 2.5f;
-        if (currentWeight > 0)
+        if (count > 0)
         {
             fraction.gameObject.SetActive(true);
-            fraction.SetNumerator(currentWeight.ToString());
+            fraction.SetNumerator(count.ToString());
         }
         else
         {
@@ -45,42 +48,39 @@ public class Weight : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision != null)
-        {
-            if (collision.gameObject.GetComponent<SillyLittleGuys>() != null)
-            {
-                currentWeight++;
-                UpdateFraction();
-                if (currentWeight >= weightNeeded)
-                {
-                    animator.SetBool("break", true);
-                    ClearObject();
-                }
-            }
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision != null)
-        {
-            if (collision.gameObject.GetComponent<SillyLittleGuys>() != null)
-            {
-                currentWeight--;
-                UpdateFraction();
-                if (currentWeight < 0)
-                {
-                    currentWeight = 0;
-                }
-            }
-        }
-    }
-
     private void ClearObject()
     {
         audioSource.Play();
         Destroy(gameObject, 1.5f);
     }
+
+    public void RegisterAttacker(SillyLittleGuys slg)
+    {
+        if (!attackers.Contains(slg))
+        {
+            attackers.Add(slg);
+            UpdateFraction();
+        }
+
+        if (attackers.Count >= weightNeeded)
+        {
+            BreakWall();
+        }
+    }
+
+    public void UnregisterAttacker(SillyLittleGuys slg)
+    {
+        if (attackers.Contains(slg))
+        {
+            attackers.Remove(slg);
+            UpdateFraction();
+        }
+    }
+
+    private void BreakWall()
+    {
+        animator.SetBool("break", true);
+        ClearObject();
+    }
+
 }

@@ -17,6 +17,12 @@ public class Health : MonoBehaviour
     [SerializeField]
     private GameObject fireDeathPrefab;
 
+    [SerializeField]
+    private GameObject removeBossEntrace;
+
+    [SerializeField]
+    private GameObject removePartWall;
+
     private bool isHitWithin5secs = false;
 
     // initialize references and set current HP to max
@@ -26,6 +32,11 @@ public class Health : MonoBehaviour
 
         enemyManager = GameObject.FindObjectOfType<EnemyManager>();
         slgManager = GameObject.FindObjectOfType<SLGManager>();
+
+        if (slgManager == null)
+            Debug.LogError("SLGMANAGER IS NULL");
+        else
+            Debug.Log("SLGManager FOUND: " + slgManager.name);
     }
 
     public float GetCurrentHP()
@@ -40,6 +51,19 @@ public class Health : MonoBehaviour
 
     public bool TakeDamage(float damage)
     {
+        if (gameObject.layer == LayerMask.NameToLayer("Boss"))
+        {
+            Boss boss = GetComponent<Boss>();
+
+            if (boss != null)
+            {
+                if (!boss.IsGroggy())
+                {
+                    damage *= 0.1f;
+                }
+            }
+        }
+
         currentHP -= damage;
         isHitWithin5secs = true;
         StartCoroutine(Hit());
@@ -63,6 +87,7 @@ public class Health : MonoBehaviour
             Enemy enemy = gameObject.GetComponent<Enemy>();
             GameObject deathFX = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
             Destroy(deathFX, 2.3f);
+            slgManager.StartCoroutine(slgManager.SpawnOrange(transform.position, 2.3f));
             enemyManager.RemoveEnemy(enemy);
             Destroy(gameObject);
             Debug.Log(gameObject.name + "is dead");
@@ -87,6 +112,8 @@ public class Health : MonoBehaviour
         }
         else if(gameObject.layer == LayerMask.NameToLayer("Boss"))
         {
+            removeBossEntrace.gameObject.SetActive(false);
+            removePartWall.gameObject.SetActive(false);
             Boss boss = gameObject.GetComponent<Boss>();
             GameObject deathFX = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
             Destroy(deathFX, 3.03f);
@@ -119,5 +146,4 @@ public class Health : MonoBehaviour
 
         isHitWithin5secs = false;
     }
-
 }

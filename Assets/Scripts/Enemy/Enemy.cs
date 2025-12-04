@@ -145,6 +145,23 @@ public class Enemy : MonoBehaviour
         animator.SetBool("isIdle", false);
         animator.SetBool("isWalk", true);
 
+        GameObject SLG = searchSLG();
+        if (SLG != null)
+        {
+            float distToSLG = Vector2.Distance(transform.position, SLG.transform.position);
+
+            if (distToSLG < attackRange)
+            {
+                if (SLG == null)
+                {
+                    return;
+                }
+                target = SLG;
+                currentState = EnemyState.Attack;
+                return;
+            }
+        }
+
         agent.SetDestination(startPos);
 
         float dist = Vector2.Distance(transform.position, startPos);
@@ -171,6 +188,13 @@ public class Enemy : MonoBehaviour
      */
     private void Chase()
     {
+        if (target == null)
+        {
+            currentState = EnemyState.Idle;
+            agent.ResetPath();
+            return;
+        }
+
         animator.SetBool("isAttack", false);
         animator.SetBool("isIdle", false);
         animator.SetBool("isWalk", true);
@@ -229,6 +253,13 @@ public class Enemy : MonoBehaviour
      */
     private void Attack()
     {
+        if (target == null)
+        {
+            attackTimer = 0f;
+            currentState = EnemyState.Idle;
+            return;
+        }
+
         animator.SetBool("isAttack", true);
         animator.SetBool("isIdle", false);
         animator.SetBool("isWalk", false);

@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 lastDir = Vector2.zero;
     private bool isPushing = false;
 
+    private SLGSpawner spawner;
+
     /* Start
      * 
      * Called once before the first frame of update
@@ -36,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        spawner = FindObjectOfType<SLGSpawner>();
     }
 
     /* Update

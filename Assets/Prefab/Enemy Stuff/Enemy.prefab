@@ -167,9 +167,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 2124557809
+  m_SortingLayer: -1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 6097ff99b6a290341be1a17a20e988aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -355,6 +355,8 @@ MonoBehaviour:
   maxHP: 100
   deathEffectPrefab: {fileID: 7114705447371042515, guid: dddbfb514e7bc974caa9c7f0bf718269, type: 3}
   fireDeathPrefab: {fileID: 0}
+  removeBossEntrace: {fileID: 0}
+  removePartWall: {fileID: 0}
 --- !u!114 &5050499213982288751
 MonoBehaviour:
   m_ObjectHideFlags: 0

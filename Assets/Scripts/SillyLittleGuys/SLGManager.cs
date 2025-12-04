@@ -30,6 +30,13 @@ public class SLGManager : MonoBehaviour
     // --- Grab Distance ---
     public float grabDistance = 3f;
 
+    // --- capacity ---
+    public int maxCapacity = 10;
+
+    // ----- orange -----
+    [SerializeField]
+    private GameObject orangePrefab;
+
     /* Awake
      * 
      * Called once when script is loaded in
@@ -304,5 +311,23 @@ public class SLGManager : MonoBehaviour
     public int followingCount()
     {
         return followingSLG.Count;
+    }
+
+    public bool CanAddSLG()
+    {
+        return SLGList.Count < maxCapacity;
+    }
+
+    public void IncreaseMaxCapacity(int amount)
+    {
+        maxCapacity += amount;
+        Debug.Log("SLG MaxCapacity now: " + maxCapacity);
+    }
+
+    public IEnumerator SpawnOrange(Vector3 pos, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Debug.Log("Spawning Orange now!");
+        Instantiate(orangePrefab, pos, Quaternion.identity);
     }
 }

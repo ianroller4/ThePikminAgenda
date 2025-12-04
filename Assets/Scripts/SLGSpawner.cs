@@ -14,42 +14,34 @@ public class SLGSpawner : MonoBehaviour
     private float timer = 0f;
     public float spawnCooldown = 1f;
 
+    private SLGManager slgManager;
+
+    private void Start()
+    {
+        slgManager = FindObjectOfType<SLGManager>();
+    }
+
     private void Update()
     {
-
-        if (playerNear)
+        if (playerNear && Input.GetKeyDown(KeyCode.Space))
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SpawnSLG();
-            }
+            SpawnSLG();
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameObject go = collision.gameObject;
-        if (go != null)
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             playerNear = true;
-        }
-        else
-        {
-            Debug.LogWarning("No game object with collider..... somehow");
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        GameObject go = collision.gameObject;
-        if (go != null)
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             playerNear = false;
-        }
-        else
-        {
-            Debug.LogWarning("No game object with collider..... somehow");
         }
     }
 
@@ -64,6 +56,12 @@ public class SLGSpawner : MonoBehaviour
 
     private void SpawnSLG()
     {
+        if (!slgManager.CanAddSLG())
+        {
+            Debug.Log("Cannot spawn more SLG. already MAX CAPACITY YOU GREEDY!!");
+            return;
+        }
+
         float angle = Random.Range(0, 360);
         float radius = Random.Range(minSpawnDistance, maxSpawnDistance);
 

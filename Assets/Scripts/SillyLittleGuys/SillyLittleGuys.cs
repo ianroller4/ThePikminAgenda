@@ -48,6 +48,7 @@ public class SillyLittleGuys : MonoBehaviour
     // --- Misc Variables --- 
     public float idleSearchRange = 2;
     private bool isFalling = false;
+    private Weight targetWeight;
 
     public enum States
     {
@@ -58,6 +59,7 @@ public class SillyLittleGuys : MonoBehaviour
         DISMISS,
         ATTACK,
         ATTACK_BOSS,
+        ATTACK_WEIGHT,
         CARRY
     }
     public States state;
@@ -164,6 +166,9 @@ public class SillyLittleGuys : MonoBehaviour
             case States.ATTACK_BOSS:
                 UpdateBossAttackState();
                 break;
+            case States.ATTACK_WEIGHT:
+                UpdateAttackWeightState();
+                break;
             case States.CARRY:
                 UpdateCarryState();
                 RandomSoundTimer();
@@ -177,6 +182,8 @@ public class SillyLittleGuys : MonoBehaviour
         {
             idleParticles.SetActive(false);
         }
+
+        Debug.Log("SLG State : " + state);
     }
 
     private void PlaySound(AudioClip clip)
@@ -488,13 +495,85 @@ public class SillyLittleGuys : MonoBehaviour
      */
     public void ExitThrownState()
     {
-        EnterIdleState();
         // Enable agent and collider
         agent.enabled = true;
         GetComponent<Collider2D>().enabled = true;
         throwParticles.SetActive(false);
         animator.SetBool("held", false);
         sr.sortingLayerName = "Default";
+
+        Collider2D myCol = GetComponent<Collider2D>();
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 2f, LayerMask.GetMask("Weight"));
+
+        foreach (var h in hits)
+        {
+            var weight = h.GetComponent<Weight>();
+            if (weight != null)
+            {
+                float surfaceDist = myCol.Distance(h).distance;
+
+                if (surfaceDist <= 2f)
+                {
+                    EnterAttackWeightState(weight);
+                    return;
+                }
+            }
+        }
+
+        EnterIdleState();
+    }
+
+    public void EnterAttackWeightState(Weight weight)
+    {
+        targetWeight = weight;
+        state = States.ATTACK_WEIGHT;
+        agent.isStopped = false;
+        animator.SetBool("attack", false);
+    }
+
+    private void UpdateAttackWeightState()
+    {
+        if (targetWeight == null)
+        {
+            agent.isStopped = false;
+            agent.ResetPath();
+            animator.SetBool("attack", false);
+            state = States.IDLE;
+            return;
+        }
+
+        Collider2D myCol = GetComponent<Collider2D>();
+        Collider2D weightCol = targetWeight.GetComponent<Collider2D>();
+
+        float surfaceDist = myCol.Distance(weightCol).distance;
+
+        Vector3 dirToWeight = (targetWeight.transform.position - transform.position).normalized;
+        animator.SetFloat("x", dirToWeight.x);
+        animator.SetFloat("y", dirToWeight.y);
+
+        if (surfaceDist > 2f)
+        {
+            targetWeight.UnregisterAttacker(this);
+            agent.isStopped = false;
+            animator.SetBool("attack", false);
+            state = States.IDLE;
+            return;
+        }
+
+        if (surfaceDist <= 1f)
+        {
+            agent.isStopped = true;
+            animator.SetBool("attack", true);
+            targetWeight.RegisterAttacker(this);
+        }
+        else
+        {
+            agent.isStopped = false;
+            agent.SetDestination(targetWeight.transform.position);
+
+            targetWeight.UnregisterAttacker(this);
+            animator.SetBool("attack", false);
+        }
     }
 
     // --- DISMISS State ---
@@ -769,8 +848,14 @@ public class SillyLittleGuys : MonoBehaviour
      */
     public void OnWhistleCall()
     {
+        if (targetWeight != null)
+        {
+            targetWeight.UnregisterAttacker(this);
+            targetWeight = null;
+        }
+
         // Clean up attack if SLG was attacking
-        if(state == States.ATTACK || state == States.ATTACK_BOSS)
+        if (state == States.ATTACK || state == States.ATTACK_BOSS || state == States.ATTACK_WEIGHT)
         {
             agent.isStopped = false;
         }

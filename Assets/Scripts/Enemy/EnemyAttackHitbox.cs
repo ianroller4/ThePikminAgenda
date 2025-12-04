@@ -19,8 +19,6 @@ public class EnemyAttackHitbox : MonoBehaviour
         {
             col.gameObject.GetComponent<Health>().TakeDamage(damage);
             Debug.Log(col.name + " hit!");
-            Destroy(gameObject);
-
         }
     }
 }
