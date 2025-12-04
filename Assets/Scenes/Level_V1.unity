@@ -6035,7 +6035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86973497035a4a74bade22a49aa807c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  introSkip: 1
+  introSkip: 0
   player: {fileID: 6910786642416022737}
   SLG: {fileID: 1446319788}
   SLGIntroDummy: {fileID: 419305392}
