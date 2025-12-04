@@ -85,6 +85,14 @@ public class Health : MonoBehaviour
             Debug.Log(gameObject.name + "is dead");
 
         }
+        else if(gameObject.layer == LayerMask.NameToLayer("Boss"))
+        {
+            Boss boss = gameObject.GetComponent<Boss>();
+            GameObject deathFX = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(deathFX, 3.03f);
+            Destroy(gameObject);
+            Debug.Log(gameObject.name + "is dead");
+        }
     }
 
     public void KillWithFire()

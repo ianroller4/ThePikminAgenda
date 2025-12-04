@@ -47,7 +47,7 @@ public class RemaningRock : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (boss != null && boss.isRollingFailed)
+        if (boss == null || boss.isRollingFailed)
         {
             Destroy(gameObject);
         }

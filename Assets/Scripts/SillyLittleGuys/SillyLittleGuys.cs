@@ -48,7 +48,6 @@ public class SillyLittleGuys : MonoBehaviour
     // --- Misc Variables --- 
     public float idleSearchRange = 2;
     private bool isFalling = false;
-    private bool bossAttackState = false;
 
     public enum States
     {
@@ -58,6 +57,7 @@ public class SillyLittleGuys : MonoBehaviour
         THROWN,
         DISMISS,
         ATTACK,
+        ATTACK_BOSS,
         CARRY
     }
     public States state;
@@ -160,6 +160,9 @@ public class SillyLittleGuys : MonoBehaviour
                 break;
             case States.ATTACK:
                 UpdateAttackState();
+                break;
+            case States.ATTACK_BOSS:
+                UpdateBossAttackState();
                 break;
             case States.CARRY:
                 UpdateCarryState();
@@ -264,10 +267,12 @@ public class SillyLittleGuys : MonoBehaviour
             }
         }
 
-        if (Vector3.Distance(transform.position, boss.transform.position) < idleSearchRange)
+        if (boss != null)
         {
-            bossAttackState = true;
-            EnterAttackState();
+            if (Vector3.Distance(transform.position, boss.transform.position) < 6f)
+            {
+                EnterBossAttackState();
+            }
         }
 
     }
@@ -584,50 +589,6 @@ public class SillyLittleGuys : MonoBehaviour
      */
     public void UpdateAttackState()
     {
-        if(bossAttackState)
-        {
-            if (Vector3.Distance(transform.position, boss.transform.position) <= 3)
-            {
-                // Animation update
-                animator.SetBool("attack", true);
-                Vector3 attackDir = boss.transform.position - transform.position;
-                animator.SetFloat("x", attackDir.x);
-                animator.SetFloat("y", attackDir.y);
-
-                // Process attack
-                agent.isStopped = true; // Stop moving
-                attackTimer += Time.deltaTime;
-                if (attackTimer >= 1f)
-                {
-                    attackTimer = 0f;
-                    hasAttacked = false;
-                }
-            }
-            else // If an enemy is not close enough
-            {
-                animator.SetBool("attack", false);
-                UpdateDirVector();
-                animator.SetFloat("x", currentDir.x);
-                animator.SetFloat("y", currentDir.y);
-
-                // Keep chashing
-                agent.isStopped = false;
-                agent.SetDestination(boss.transform.position);
-                attackTimer = 0f;
-                hasAttacked = false;
-            }
-        }
-        else
-        {
-            agent.SetDestination(transform.position);
-            agent.isStopped = false;
-            attackTimer = 0f;
-            hasAttacked = false;
-            EnterIdleState();
-            bossAttackState = false;
-            Debug.Log("Exiting Attack");
-        }
-
         // If there's a target
         if (targetEnemy != null)
         {
@@ -667,12 +628,12 @@ public class SillyLittleGuys : MonoBehaviour
         // If there's no target, switch to IdleState
         else
         {
-        agent.SetDestination(transform.position);
-        agent.isStopped = false;
-        attackTimer = 0f;
-        hasAttacked = false;
-        EnterIdleState();
-        Debug.Log("Exiting Attack");
+            agent.SetDestination(transform.position);
+            agent.isStopped = false;
+            attackTimer = 0f;
+            hasAttacked = false;
+            ExitAttackState();
+            Debug.Log("Exiting Attack");
         }
     }
 
@@ -688,6 +649,64 @@ public class SillyLittleGuys : MonoBehaviour
     public void ExitAttackState()
     {
         state = States.IDLE;
+    }
+
+    public void EnterBossAttackState()
+    {
+        state = States.ATTACK_BOSS;
+        slgManager.RemoveFollowingSLG(this);
+        animator.SetBool("idle", false);
+        hasAttacked = false;
+        attackTimer = 0f;
+    }
+
+    public void UpdateBossAttackState()
+    {
+        if (boss != null)
+        {
+            // If there a enemy within SLG's attack range
+            if (Vector3.Distance(transform.position, boss.transform.position) <= 2.3f)
+            {
+                // Animation update
+                animator.SetBool("attack", true);
+                Vector3 attackDir = boss.transform.position - transform.position;
+                animator.SetFloat("x", attackDir.x);
+                animator.SetFloat("y", attackDir.y);
+
+                // Process attack
+                agent.isStopped = true; // Stop moving
+                attackTimer += Time.deltaTime;
+                if (attackTimer >= 1f)
+                {
+                    attackTimer = 0f;
+                    hasAttacked = false;
+                }
+            }
+            else // If an enemy is not close enough
+            {
+                animator.SetBool("attack", false);
+                UpdateDirVector();
+                animator.SetFloat("x", currentDir.x);
+                animator.SetFloat("y", currentDir.y);
+
+                // Keep chashing
+                agent.isStopped = false;
+                agent.SetDestination(boss.transform.position);
+                attackTimer = 0f;
+                hasAttacked = false;
+            }
+
+        }
+        // If there's no target, switch to IdleState
+        else
+        {
+            agent.SetDestination(transform.position);
+            agent.isStopped = false;
+            attackTimer = 0f;
+            hasAttacked = false;
+            ExitAttackState();
+            Debug.Log("Exiting Attack");
+        }
     }
 
     // --- CARRY State --- 
@@ -751,7 +770,7 @@ public class SillyLittleGuys : MonoBehaviour
     public void OnWhistleCall()
     {
         // Clean up attack if SLG was attacking
-        if(state == States.ATTACK)
+        if(state == States.ATTACK || state == States.ATTACK_BOSS)
         {
             agent.isStopped = false;
         }
@@ -808,7 +827,7 @@ public class SillyLittleGuys : MonoBehaviour
      */
     public void SpawnAttackHitbox()
     {
-        if (targetEnemy == null)
+        if (targetEnemy == null && boss == null)
             return;
 
         // To make sure creating one hitbox prefab for one attack
@@ -819,8 +838,15 @@ public class SillyLittleGuys : MonoBehaviour
 
         hasAttacked = true;
 
-        // Create attack hitbox prefab on enemy position
-        Instantiate(AttackHitboxPrefab, targetEnemy.transform.position, Quaternion.identity);
+        if (state == States.ATTACK)
+        {
+            // Create attack hitbox prefab on enemy position
+            Instantiate(AttackHitboxPrefab, targetEnemy.transform.position, Quaternion.identity);
+        }
+        else if(state == States.ATTACK_BOSS)
+        {
+            Instantiate(AttackHitboxPrefab, boss.transform.position, Quaternion.identity);
+        }
     }
 
     public void BornStart()

@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 5142430385105721729}
   - component: {fileID: 1843596254383299678}
   - component: {fileID: 2350364449421939520}
-  - component: {fileID: 2524840587671900720}
   - component: {fileID: 8611969708592171825}
   - component: {fileID: 1351032758809684183}
-  m_Layer: 8
+  - component: {fileID: 8077988309584381317}
+  m_Layer: 11
   m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rollingSpeed: 20
   jumpTargetPosArray:
-  - {x: 1, y: 86, z: 0}
+  - {x: -1, y: 86, z: 0}
   - {x: -39.71, y: 86, z: 0}
   - {x: -2.8, y: 109, z: 0}
   - {x: -2.8, y: 95, z: 0}
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHP: 0
   maxHP: 500
-  deathEffectPrefab: {fileID: 0}
+  deathEffectPrefab: {fileID: 8353486205309501237, guid: 880210949e7ca69418cf94079e8e817c, type: 3}
   fireDeathPrefab: {fileID: 0}
 --- !u!114 &5142430385105721729
 MonoBehaviour:
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingActive: 1
-  yOffset: 0
+  yOffset: -1.2
   minDistance: 0.2
 --- !u!212 &1843596254383299678
 SpriteRenderer:
@@ -175,7 +175,56 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!58 &2524840587671900720
+--- !u!195 &8611969708592171825
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6510326216724548965}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1.6
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.5
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!50 &1351032758809684183
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6510326216724548965}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 999
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!58 &8077988309584381317
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -207,55 +256,6 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.7}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
---- !u!195 &8611969708592171825
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6510326216724548965}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 1
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 2
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!50 &1351032758809684183
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6510326216724548965}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 999
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Radius: 1.6
