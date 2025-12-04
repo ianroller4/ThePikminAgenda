@@ -180,7 +180,7 @@ public class CarryableObject : MonoBehaviour
             canMove = true;
             agent.enabled = true;
             // Update speed based on number of carriers
-            agent.speed = Mathf.Lerp(1, 2, (carriers.Count - slgNeededForCarry) / (slgCarriersMax - slgNeededForCarry));
+            agent.speed = Mathf.Lerp(3, 5, (carriers.Count - slgNeededForCarry) / (slgCarriersMax - slgNeededForCarry));
         }
         else
         {
