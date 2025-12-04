@@ -11,9 +11,14 @@ public class OrderChecker : MonoBehaviour
 
     [SerializeField] private GameObject doorToOpen;
 
+    private AudioSource audioSource;
+
+    private bool wasJustOpen = false;
+
     private void Start()
     {
         pressedOrder = new List<WeightButton>();
+        audioSource = doorToOpen.GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -24,7 +29,10 @@ public class OrderChecker : MonoBehaviour
             {
                 if (CheckOrder())
                 {
-                    OpenDoor();
+                    if (!wasJustOpen)
+                    {
+                        OpenDoor();
+                    }
                 }
                 else
                 {
@@ -33,7 +41,10 @@ public class OrderChecker : MonoBehaviour
             }
             else
             {
-                CloseDoor();
+                if (wasJustOpen)
+                {
+                    CloseDoor();
+                }
             }
         }
     }
@@ -54,12 +65,24 @@ public class OrderChecker : MonoBehaviour
 
     private void CloseDoor()
     {
+        Debug.Log("Door Rebuild");
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+        wasJustOpen = false;
         doorToOpen.GetComponent<Animator>().SetBool("crumble", false);
     }
 
     private void OpenDoor()
     {
         // open the door
+        Debug.Log("Door Crumble");
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+        wasJustOpen = true;
         doorToOpen.GetComponent<Animator>().SetBool("crumble", true);
     }
 

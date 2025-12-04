@@ -13,12 +13,13 @@ public class Weight : MonoBehaviour
 
     private Animator animator;
 
-    private bool breaking;
+    private AudioSource audioSource;
 
     private void Start()
     {
         InitFraction();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void InitFraction()
@@ -79,6 +80,7 @@ public class Weight : MonoBehaviour
 
     private void ClearObject()
     {
+        audioSource.Play();
         Destroy(gameObject, 1.5f);
     }
 }
