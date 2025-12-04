@@ -21,5 +21,11 @@ public class SLGAttackHitbox : MonoBehaviour
             Debug.Log(col.name + " hit!");
             Destroy(gameObject);
         }
+        else if (col.gameObject.layer == LayerMask.NameToLayer("Boss"))
+        {
+            col.gameObject.GetComponent<Health>().TakeDamage(damage);
+            Debug.Log(col.name + " hit!");
+            Destroy(gameObject);
+        }
     }
 }

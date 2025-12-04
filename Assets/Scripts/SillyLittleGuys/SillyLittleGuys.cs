@@ -43,6 +43,8 @@ public class SillyLittleGuys : MonoBehaviour
 
     private SpriteRenderer sr;
 
+    private Boss boss;
+
     // --- Misc Variables --- 
     public float idleSearchRange = 2;
     private bool isFalling = false;
@@ -55,6 +57,7 @@ public class SillyLittleGuys : MonoBehaviour
         THROWN,
         DISMISS,
         ATTACK,
+        ATTACK_BOSS,
         CARRY
     }
     public States state;
@@ -109,6 +112,7 @@ public class SillyLittleGuys : MonoBehaviour
         slgManager = GameObject.FindObjectOfType<SLGManager>();
         coManager = GameObject.FindObjectOfType<CarryObjectManager>();
         enemyManager = GameObject.FindObjectOfType<EnemyManager>();
+        boss = GameObject.FindObjectOfType<Boss>();
 
         slgManager.AddSLG(this);
         moveToTarget = transform.position;
@@ -156,6 +160,9 @@ public class SillyLittleGuys : MonoBehaviour
                 break;
             case States.ATTACK:
                 UpdateAttackState();
+                break;
+            case States.ATTACK_BOSS:
+                UpdateBossAttackState();
                 break;
             case States.CARRY:
                 UpdateCarryState();
@@ -259,6 +266,15 @@ public class SillyLittleGuys : MonoBehaviour
                 break;
             }
         }
+
+        if (boss != null)
+        {
+            if (Vector3.Distance(transform.position, boss.transform.position) < 6f)
+            {
+                EnterBossAttackState();
+            }
+        }
+
     }
 
     // --- FOLLOW State --- 
@@ -609,13 +625,14 @@ public class SillyLittleGuys : MonoBehaviour
             }
             
         }
-        else // If there's no target, switch to IdleState
+        // If there's no target, switch to IdleState
+        else
         {
             agent.SetDestination(transform.position);
             agent.isStopped = false;
             attackTimer = 0f;
             hasAttacked = false;
-            EnterIdleState();
+            ExitAttackState();
             Debug.Log("Exiting Attack");
         }
     }
@@ -632,6 +649,64 @@ public class SillyLittleGuys : MonoBehaviour
     public void ExitAttackState()
     {
         state = States.IDLE;
+    }
+
+    public void EnterBossAttackState()
+    {
+        state = States.ATTACK_BOSS;
+        slgManager.RemoveFollowingSLG(this);
+        animator.SetBool("idle", false);
+        hasAttacked = false;
+        attackTimer = 0f;
+    }
+
+    public void UpdateBossAttackState()
+    {
+        if (boss != null)
+        {
+            // If there a enemy within SLG's attack range
+            if (Vector3.Distance(transform.position, boss.transform.position) <= 2.3f)
+            {
+                // Animation update
+                animator.SetBool("attack", true);
+                Vector3 attackDir = boss.transform.position - transform.position;
+                animator.SetFloat("x", attackDir.x);
+                animator.SetFloat("y", attackDir.y);
+
+                // Process attack
+                agent.isStopped = true; // Stop moving
+                attackTimer += Time.deltaTime;
+                if (attackTimer >= 1f)
+                {
+                    attackTimer = 0f;
+                    hasAttacked = false;
+                }
+            }
+            else // If an enemy is not close enough
+            {
+                animator.SetBool("attack", false);
+                UpdateDirVector();
+                animator.SetFloat("x", currentDir.x);
+                animator.SetFloat("y", currentDir.y);
+
+                // Keep chashing
+                agent.isStopped = false;
+                agent.SetDestination(boss.transform.position);
+                attackTimer = 0f;
+                hasAttacked = false;
+            }
+
+        }
+        // If there's no target, switch to IdleState
+        else
+        {
+            agent.SetDestination(transform.position);
+            agent.isStopped = false;
+            attackTimer = 0f;
+            hasAttacked = false;
+            ExitAttackState();
+            Debug.Log("Exiting Attack");
+        }
     }
 
     // --- CARRY State --- 
@@ -695,7 +770,7 @@ public class SillyLittleGuys : MonoBehaviour
     public void OnWhistleCall()
     {
         // Clean up attack if SLG was attacking
-        if(state == States.ATTACK)
+        if(state == States.ATTACK || state == States.ATTACK_BOSS)
         {
             agent.isStopped = false;
         }
@@ -752,7 +827,7 @@ public class SillyLittleGuys : MonoBehaviour
      */
     public void SpawnAttackHitbox()
     {
-        if (targetEnemy == null)
+        if (targetEnemy == null && boss == null)
             return;
 
         // To make sure creating one hitbox prefab for one attack
@@ -763,8 +838,15 @@ public class SillyLittleGuys : MonoBehaviour
 
         hasAttacked = true;
 
-        // Create attack hitbox prefab on enemy position
-        Instantiate(AttackHitboxPrefab, targetEnemy.transform.position, Quaternion.identity);
+        if (state == States.ATTACK)
+        {
+            // Create attack hitbox prefab on enemy position
+            Instantiate(AttackHitboxPrefab, targetEnemy.transform.position, Quaternion.identity);
+        }
+        else if(state == States.ATTACK_BOSS)
+        {
+            Instantiate(AttackHitboxPrefab, boss.transform.position, Quaternion.identity);
+        }
     }
 
     public void BornStart()

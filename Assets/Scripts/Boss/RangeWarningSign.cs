@@ -18,6 +18,12 @@ public class RangeWarningSign : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (boss == null || target == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         transform.position = boss.position;
 
         Vector2 dir = (target.position - boss.position).normalized;
