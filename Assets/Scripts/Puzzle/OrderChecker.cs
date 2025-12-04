@@ -43,7 +43,7 @@ public class OrderChecker : MonoBehaviour
             {
                 if (wasJustOpen)
                 {
-                    CloseDoor();
+                    //CloseDoor();
                 }
             }
         }
