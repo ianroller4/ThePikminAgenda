@@ -10,29 +10,20 @@ public class MusicController : MonoBehaviour
 
     private AudioSource audioSource;
 
-    private bool wasPlayingNormal = true;
-
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void BossFight()
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            if (!wasPlayingNormal)
-            {
-                audioSource.clip = musicMusic;
-                audioSource.Play();
-                wasPlayingNormal = true;
-            }
-            else
-            {
-                audioSource.clip = bossMusic;
-                audioSource.Play();
-                wasPlayingNormal = false;
-            }
-        }
+        audioSource.clip = bossMusic;
+        audioSource.Play();
+    }
+
+    public void NormalPlay()
+    {
+        audioSource.clip = musicMusic;
+        audioSource.Play();
     }
 }

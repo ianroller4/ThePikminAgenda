@@ -23,6 +23,9 @@ public class Health : MonoBehaviour
     [SerializeField]
     private GameObject removePartWall;
 
+    [SerializeField]
+    private MusicController musicController;
+
     private bool isHitWithin5secs = false;
 
     // initialize references and set current HP to max
@@ -117,6 +120,7 @@ public class Health : MonoBehaviour
             Boss boss = gameObject.GetComponent<Boss>();
             GameObject deathFX = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
             Destroy(deathFX, 3.03f);
+            musicController.NormalPlay();
             Destroy(gameObject);
             Debug.Log(gameObject.name + "is dead");
         }

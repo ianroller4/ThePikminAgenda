@@ -137,6 +137,7 @@ public class Boss : MonoBehaviour
         lastPos = transform.position;
 
         audioSource = GetComponent<AudioSource>();
+
     }
 
     // update enemy state
@@ -177,6 +178,18 @@ public class Boss : MonoBehaviour
 
             Debug.Log(currentState);
         }
+
+        if (agent.enabled && rockCenter != null)
+        {
+            float distFromCenter = Vector3.Distance(transform.position, rockCenter.position);
+
+            if (distFromCenter > 20f)
+            {
+                Debug.LogWarning("Boss warped back to start");
+                agent.Warp(startPos);
+            }
+        }
+
     }
 
     private void PlaySound(AudioClip clip)
@@ -289,6 +302,7 @@ public class Boss : MonoBehaviour
         {
             agent.isStopped = true;
             agent.ResetPath();
+            agent.enabled = false;
             rigid.velocity = Vector2.zero;
 
             hasAttacked = false;
@@ -311,7 +325,8 @@ public class Boss : MonoBehaviour
                 Debug.Log("Closest SLG: " + SLG.name);
                 target = SLG;
             }
-
+            agent.enabled = true;
+            agent.isStopped = false;
             attackTimer = 0f;
             agent.ResetPath();
             animator.SetBool("isMeleeAttack", false);
@@ -682,6 +697,7 @@ public class Boss : MonoBehaviour
         if (stateTimer == 0f)
         {
             agent.isStopped = true;
+            agent.enabled = false;
 
             rigid.velocity = Vector2.zero;
 
@@ -695,6 +711,7 @@ public class Boss : MonoBehaviour
         if (stateTimer >= 5f && !isGroggyEnd)
         {
             isGroggyEnd = true;
+            agent.enabled = true;
             animator.SetTrigger("RollingGroggyEnd");
 
         }

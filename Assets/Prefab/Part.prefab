@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8367146817721239966}
   - component: {fileID: 8713641377617134642}
   - component: {fileID: 939462465071573913}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: Part
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4859000776154820455}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -235,7 +235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 78266824088680517, guid: 4edb011478608c34abc3599dfb272b05, type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6831087179241468618, guid: 4edb011478608c34abc3599dfb272b05, type: 3}
       propertyPath: m_LocalPosition.x
@@ -297,7 +297,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 842426930565742936, guid: 6f9767b6c832e5549aea2f41b7f5d4f4, type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1715814411602655321, guid: 6f9767b6c832e5549aea2f41b7f5d4f4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -341,11 +341,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4360048469027866683, guid: 6f9767b6c832e5549aea2f41b7f5d4f4, type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4719375105662483368, guid: 6f9767b6c832e5549aea2f41b7f5d4f4, type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8161129079496884480, guid: 6f9767b6c832e5549aea2f41b7f5d4f4, type: 3}
       propertyPath: m_Name
@@ -353,7 +353,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8161129079496884480, guid: 6f9767b6c832e5549aea2f41b7f5d4f4, type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
