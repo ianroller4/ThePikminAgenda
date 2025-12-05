@@ -1275,6 +1275,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2909760922092488897, guid: 4ab5fbc4d95adb84caf9d31f6ec54a5e, type: 3}
   m_PrefabInstance: {fileID: 248169152}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &256217606
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 256217607}
+  m_Layer: 0
+  m_Name: BossFightTriggerReset
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &256217607
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256217606}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &262694229 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3838767752815051526, guid: 9334481d597f545408f0e04a1e8e40ab, type: 3}
@@ -11435,7 +11466,7 @@ PrefabInstance:
       objectReference: {fileID: 1713560341}
     - target: {fileID: 4737641979482737534, guid: 9334481d597f545408f0e04a1e8e40ab, type: 3}
       propertyPath: m_SortingOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4737641979482737534, guid: 9334481d597f545408f0e04a1e8e40ab, type: 3}
       propertyPath: m_SortingLayerID
@@ -28936,6 +28967,10 @@ PrefabInstance:
       propertyPath: removeWall2
       value: 
       objectReference: {fileID: 2115763065}
+    - target: {fileID: 6617661809252481760, guid: ccb0deba5fd069e4b8b46244ec55bb59, type: 3}
+      propertyPath: bossObstacle
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6617661809252481760, guid: ccb0deba5fd069e4b8b46244ec55bb59, type: 3}
       propertyPath: jumpTargetPosArray.Array.data[0].x
       value: -1
@@ -235824,18 +235859,6 @@ MonoBehaviour:
   OnTriggerEnter_Event:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1484174221}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 1443465031}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -261530,3 +261553,4 @@ SceneRoots:
   - {fileID: 906209186}
   - {fileID: 922725775}
   - {fileID: 169848750}
+  - {fileID: 256217607}
