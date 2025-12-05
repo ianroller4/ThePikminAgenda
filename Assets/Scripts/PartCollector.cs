@@ -27,12 +27,14 @@ public class PartCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Game Object Name: " + collision.gameObject.name);
         GameObject go = collision.gameObject;
         if (go != null)
         {
             if (go.GetComponent<CarryableObject>() != null)
             {
                 partCount++;
+                Debug.Log("Part Collected");
             }
         }
     }
