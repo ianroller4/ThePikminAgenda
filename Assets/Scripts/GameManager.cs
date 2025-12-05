@@ -31,33 +31,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isOpen)
-            {
-                isOpen = !isOpen;
-                controlsPanel.SetActive(false);
-            }
-            else
-            {
-                if (currentState == GameState.Playing)
-                {
-                    PauseGame();
-                }
-                else if (currentState == GameState.Paused)
-                {
-                    ResumeGame();
-                }
-            }
-        }
-
-        if (!isDone)
-        {
-            timer += Time.deltaTime;
-
-            if (timer >= 3f)
-            {
-                escForControls.SetActive(false);
-                isDone = true;
-            }
+            ResumeGame();
         }
     }
 
