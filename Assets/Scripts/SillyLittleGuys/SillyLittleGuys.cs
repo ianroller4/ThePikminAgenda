@@ -736,6 +736,7 @@ public class SillyLittleGuys : MonoBehaviour
     public void ExitAttackState()
     {
         state = States.IDLE;
+        EnterIdleState();
     }
 
     public void EnterBossAttackState()

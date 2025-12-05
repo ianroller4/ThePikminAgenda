@@ -30,6 +30,8 @@ public class Intro : MonoBehaviour
     private GameObject mainCamera;
     [SerializeField]
     private SLGManager slgManager;
+    [SerializeField]
+    private GameObject hud;
 
 
     // Start is called before the first frame update
@@ -215,10 +217,12 @@ public class Intro : MonoBehaviour
         this.gameObject.SetActive(false);
         SLG.EnterFollowState();
         player.GetComponent<PlayerMovement>().enabled = true;
+        hud.SetActive(true);
     }
 
     public void IntroSkip()
     {
+        hud.SetActive(true);
         player.transform.Find("Canvas/IntroUI/BlackScreen").gameObject.SetActive(false);
         slgManager.RemoveSLG(SLG);
         slgManager.RemoveFollowingSLG(SLG);
