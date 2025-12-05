@@ -7,7 +7,6 @@ using UnityEngine;
  * It updates the sprite's sorting order based on its Y-position
  * It also uses a small threshold to avoid unnecessary updates.
  */
-[RequireComponent(typeof(SpriteRenderer))]
 public class Sorting : MonoBehaviour
 {
     // --- References ---

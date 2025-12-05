@@ -12,6 +12,10 @@ public class EnemyManager : MonoBehaviour
     // --- List of Enemies ---
     public List<Enemy> enemies;
 
+    public bool hasEnemyDied = false;
+
+    public GameObject orangeDialogue; 
+
     /* Awake
      * 
      * Called once when script is loaded in
@@ -54,9 +58,24 @@ public class EnemyManager : MonoBehaviour
      */
     public void RemoveEnemy(Enemy enemy)
     {
+        if(!hasEnemyDied)
+        {
+            hasEnemyDied = true;
+            StartCoroutine(SpawnOrangeDialogue());
+
+        }
+
         if (enemies.Contains(enemy))
         {
             enemies.Remove(enemy);
         }
     }
+
+    IEnumerator SpawnOrangeDialogue()
+    {
+        yield return new WaitForSeconds(2.3f);
+
+        orangeDialogue.SetActive(true);
+    }
 }
+

@@ -36,6 +36,10 @@ public class SLGManager : MonoBehaviour
     // ----- orange -----
     [SerializeField]
     private GameObject orangePrefab;
+    [SerializeField]
+    private GameObject takingOrangeDialogue;
+
+    private bool hasTookOrange = false;
 
     /* Awake
      * 
@@ -325,6 +329,12 @@ public class SLGManager : MonoBehaviour
 
     public void IncreaseMaxCapacity(int amount)
     {
+        if (!hasTookOrange)
+        {
+            hasTookOrange = true;
+            takingOrangeDialogue.SetActive(true);
+        }
+
         maxCapacity += amount;
         GetComponent<AudioSource>().Play();
         Debug.Log("SLG MaxCapacity now: " + maxCapacity);

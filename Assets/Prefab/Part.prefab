@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 1652194430806269809}
   - component: {fileID: 8565800837359884492}
   - component: {fileID: 8367146817721239966}
-  m_Layer: 0
+  - component: {fileID: 8713641377617134642}
+  m_Layer: 14
   m_Name: Part
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,6 +178,21 @@ MonoBehaviour:
   slgCarriersMax: 10
   target: {x: 0, y: 0, z: 0}
   fraction: {fileID: 3820517920540390799}
+--- !u!114 &8713641377617134642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4859000776154820455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eab92b23d646a94580fcb8c747c4be5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingActive: 1
+  yOffset: 0
+  minDistance: 0.2
 --- !u!1001 &7175515772512063168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -188,6 +204,10 @@ PrefabInstance:
     - target: {fileID: 78266824088680517, guid: 4edb011478608c34abc3599dfb272b05, type: 3}
       propertyPath: m_Name
       value: Part_Particle
+      objectReference: {fileID: 0}
+    - target: {fileID: 78266824088680517, guid: 4edb011478608c34abc3599dfb272b05, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6831087179241468618, guid: 4edb011478608c34abc3599dfb272b05, type: 3}
       propertyPath: m_LocalPosition.x
@@ -247,6 +267,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6939938306324875287}
     m_Modifications:
+    - target: {fileID: 842426930565742936, guid: 6f9767b6c832e5549aea2f41b7f5d4f4, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 1715814411602655321, guid: 6f9767b6c832e5549aea2f41b7f5d4f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -287,9 +311,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4360048469027866683, guid: 6f9767b6c832e5549aea2f41b7f5d4f4, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4719375105662483368, guid: 6f9767b6c832e5549aea2f41b7f5d4f4, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 8161129079496884480, guid: 6f9767b6c832e5549aea2f41b7f5d4f4, type: 3}
       propertyPath: m_Name
       value: Fraction
+      objectReference: {fileID: 0}
+    - target: {fileID: 8161129079496884480, guid: 6f9767b6c832e5549aea2f41b7f5d4f4, type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

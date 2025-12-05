@@ -21,6 +21,8 @@ public class PartCollector : MonoBehaviour
         {
             sceneLoader.LoadNextScene(3);
         }
+
+        Debug.Log(partCount);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
