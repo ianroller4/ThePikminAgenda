@@ -80,6 +80,8 @@ public class Boss : MonoBehaviour
     private GameObject smallRockWarningPrefab;
     [SerializeField]
     private GameObject bigRockWarningPrefab;
+    [SerializeField]
+    private Transform footPos;
 
     // --- Variables ---
     private Vector3 startPos;
@@ -179,16 +181,8 @@ public class Boss : MonoBehaviour
             Debug.Log(currentState);
         }
 
-        if (agent.enabled && rockCenter != null)
-        {
-            float distFromCenter = Vector3.Distance(transform.position, rockCenter.position);
 
-            if (distFromCenter > 20f)
-            {
-                Debug.LogWarning("Boss warped back to start");
-                agent.Warp(startPos);
-            }
-        }
+        KeepBossOnNavMesh();
 
     }
 
@@ -260,7 +254,7 @@ public class Boss : MonoBehaviour
         agent.SetDestination(target.transform.position);
 
 
-        float dist = Vector2.Distance(transform.position, target.transform.position);
+        float dist = Vector2.Distance(footPos.position, target.transform.position);
 
         // Choosing which normal attack proceed
         // --------if slgs are close, excute meele attack-------
@@ -919,5 +913,24 @@ public class Boss : MonoBehaviour
     public bool IsGroggy()
     {
         return currentState == BossState.Groggy;
+    }
+
+    private void KeepBossOnNavMesh()
+    {
+        if (!agent.enabled)
+        {
+            return;
+        }
+
+        NavMeshHit hit;
+
+        if (!NavMesh.SamplePosition(transform.position, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            if (NavMesh.SamplePosition(transform.position, out hit, 5.0f, NavMesh.AllAreas))
+            {
+                agent.Warp(hit.position);
+                Debug.Log("Boss snapped back to NavMesh");
+            }
+        }
     }
 }

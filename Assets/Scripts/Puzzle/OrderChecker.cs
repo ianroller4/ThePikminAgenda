@@ -10,6 +10,7 @@ public class OrderChecker : MonoBehaviour
     private List<WeightButton> pressedOrder;
 
     [SerializeField] private GameObject doorToOpen;
+    [SerializeField] private GameObject navMesh;
 
     private AudioSource audioSource;
 
@@ -76,6 +77,7 @@ public class OrderChecker : MonoBehaviour
 
     private void OpenDoor()
     {
+        navMesh.SetActive(false);
         // open the door
         Debug.Log("Door Crumble");
         if (!audioSource.isPlaying)

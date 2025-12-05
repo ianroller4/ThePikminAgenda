@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5bd4951f071ba4abf93e48ecf78285, type: 3}
   m_Name: 3_Puzzle2
   m_EditorClassIdentifier: 
-  line: "There must be \nanother way!"
+  line: "The flowers by the buttons..\nThey don\u2019t seem ordinary."

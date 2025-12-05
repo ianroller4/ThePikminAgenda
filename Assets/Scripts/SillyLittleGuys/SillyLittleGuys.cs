@@ -440,6 +440,12 @@ public class SillyLittleGuys : MonoBehaviour
      */
     public void EnterThrownState(Vector3 target)
     {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(target, out hit, 10f, NavMesh.AllAreas))
+        {
+            target = hit.position;
+        }
+
         state = States.THROWN;
         throwStart = transform.position;
         thrownTarget = target;
@@ -495,9 +501,9 @@ public class SillyLittleGuys : MonoBehaviour
      */
     public void ExitThrownState()
     {
-        // Enable agent and collider
-        agent.enabled = true;
         GetComponent<Collider2D>().enabled = true;
+        agent.enabled = true;
+
         throwParticles.SetActive(false);
         animator.SetBool("held", false);
         sr.sortingLayerName = "Default";
@@ -519,6 +525,8 @@ public class SillyLittleGuys : MonoBehaviour
                 }
             }
         }
+
+
 
         EnterIdleState();
     }

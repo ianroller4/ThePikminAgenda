@@ -26,6 +26,9 @@ public class Health : MonoBehaviour
     [SerializeField]
     private MusicController musicController;
 
+    [SerializeField]
+    private GameObject navMeshOff;
+
     private bool isHitWithin5secs = false;
 
     // initialize references and set current HP to max
@@ -115,6 +118,7 @@ public class Health : MonoBehaviour
         }
         else if(gameObject.layer == LayerMask.NameToLayer("Boss"))
         {
+            navMeshOff.SetActive(false);
             removeBossEntrace.gameObject.SetActive(false);
             removePartWall.gameObject.SetActive(false);
             Boss boss = gameObject.GetComponent<Boss>();
