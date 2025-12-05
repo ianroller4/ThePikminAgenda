@@ -32,6 +32,10 @@ public class Intro : MonoBehaviour
     private SLGManager slgManager;
     [SerializeField]
     private GameObject hud;
+    [SerializeField]
+    private GameObject escForcontrols;
+    [SerializeField]
+    private GameObject gameManager;
 
 
     // Start is called before the first frame update
@@ -218,6 +222,8 @@ public class Intro : MonoBehaviour
         SLG.EnterFollowState();
         player.GetComponent<PlayerMovement>().enabled = true;
         hud.SetActive(true);
+        escForcontrols.SetActive(true);
+        gameManager.SetActive(true);
     }
 
     public void IntroSkip()

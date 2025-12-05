@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -31,12 +32,31 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ResumeGame();
+
+            if (!isOpen)
+            {
+                PauseGame();
+            }
+            else if (isOpen)
+            {
+                ResumeGame();
+            }
+        }
+
+        if(!isDone)
+        {
+            timer += Time.deltaTime;
+            if(timer >=3f)
+            {
+                escForControls.SetActive(false);
+                isDone = true;
+            }
         }
     }
 
     public void PauseGame()
     {
+        isOpen = true;
         currentState = GameState.Paused;
         Time.timeScale = 0f;
         if (controlsPanel != null)
@@ -48,6 +68,7 @@ public class GameManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        isOpen = false;
         currentState = GameState.Playing;
         Time.timeScale = 1f;
         controlsPanel.SetActive(false);

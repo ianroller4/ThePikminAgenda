@@ -346,4 +346,15 @@ public class SLGManager : MonoBehaviour
         Debug.Log("Spawning Orange now!");
         Instantiate(orangePrefab, pos, Quaternion.identity);
     }
+
+    public void ExecuteFunctionOnAllSLGs()
+    {
+        foreach (SillyLittleGuys slg in SLGList)
+        {
+            if (slg != null)
+            {
+                slg.warpToFollowPoint();
+            }
+        }
+    }
 }

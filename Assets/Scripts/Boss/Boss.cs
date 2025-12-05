@@ -415,7 +415,6 @@ public class Boss : MonoBehaviour
 
         if (jumpLerp == 0f)
         {
-            BossCollider.isTrigger = true;
             int randomIndex = Random.Range(0, 2);
             jumpTarget = jumpTargetPosArray[randomIndex];
 
@@ -563,7 +562,6 @@ public class Boss : MonoBehaviour
                 agent.enabled = true;
                 agent.isStopped = false;
                 stateTimer = 0f;
-                BossCollider.isTrigger = false;
                 isHitRock = false;
                 rollCount = 0;
                 PlaySound(thud);
@@ -582,7 +580,6 @@ public class Boss : MonoBehaviour
                 agent.enabled = true;
                 agent.isStopped = false;
                 stateTimer = 0f;
-                BossCollider.isTrigger = false;
                 rollCount = 0;
                 rollingPhase = RollingPhase.None;
                 currentState = BossState.Chase;

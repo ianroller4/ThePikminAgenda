@@ -45,10 +45,13 @@ public class SillyLittleGuys : MonoBehaviour
 
     private Boss boss;
 
+    private FixedFollow followPoint;
+
     // --- Misc Variables --- 
     public float idleSearchRange = 2;
     private bool isFalling = false;
     private Weight targetWeight;
+
 
     public enum States
     {
@@ -115,6 +118,7 @@ public class SillyLittleGuys : MonoBehaviour
         coManager = GameObject.FindObjectOfType<CarryObjectManager>();
         enemyManager = GameObject.FindObjectOfType<EnemyManager>();
         boss = GameObject.FindObjectOfType<Boss>();
+        followPoint = GameObject.FindObjectOfType<FixedFollow>();
 
         slgManager.AddSLG(this);
         moveToTarget = transform.position;
@@ -955,5 +959,10 @@ public class SillyLittleGuys : MonoBehaviour
         isFalling = false;
 
         Debug.Log("BornEND!");
+    }
+
+    public void warpToFollowPoint()
+    {
+        agent.Warp(followPoint.transform.position);
     }
 }
